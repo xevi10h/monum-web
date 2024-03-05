@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { montserrat } from '../fonts';
+import { montserrat } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
 import {
   CustomersTableType,

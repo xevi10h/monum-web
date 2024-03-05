@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
-import { montserrat } from '../fonts';
+import { montserrat } from '@/app/ui/fonts';
 
 interface Breadcrumb {
   label: string;

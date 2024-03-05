@@ -1,5 +1,5 @@
-import { montserrat } from './ui/fonts';
-import './ui/global.css';
+import { montserrat } from '@/app/ui/fonts';
+import '@/app/ui/global.css';
 
 export default function RootLayout({
   children,
