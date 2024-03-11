@@ -10,7 +10,7 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/app/ui/button';
 import { useMutation } from '@apollo/client';
 import { VariablesOf, graphql } from '@/graphql';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const LoginMutation = graphql(`
   mutation Mutation($loginInput: LoginInput!) {
@@ -22,14 +22,15 @@ const LoginMutation = graphql(`
 
 export default function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [login, { loading, error }] = useMutation(LoginMutation, {
     onError: (error) => console.error('Login error:', error),
     onCompleted: (data) => {
       if (data.loginUser?.token) {
         localStorage.setItem('monum_token', data.loginUser.token);
         console.log('Login successful', data);
-        // redirect to dashboard
-        router.push('/dashboard')
+        const redirect = searchParams.get('redirect') || '/dashboard';
+        router.push(redirect);
       } else {
         console.log('Login failed', data);
       }
@@ -98,7 +99,7 @@ export default function LoginForm() {
           </div>
         </div>
         <Button className="mt-4 w-full" disabled={loading} aria-disabled={loading}>
-          Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+          Accedir <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         <div
           className="flex h-8 items-end space-x-1"

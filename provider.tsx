@@ -1,9 +1,26 @@
 "use client";
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
+
+const httpLink = createHttpLink({
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('monum_token');
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `${token}` : '',
+    }
+  };
+});;
 
 const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
-  cache: new InMemoryCache(),
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
 });
 
 export default function Providers({children}: {children: React.ReactNode}) {
