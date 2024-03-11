@@ -34,7 +34,7 @@ export default function LoginForm() {
       } else {
         console.log('Login failed', data);
       }
-    }
+    },
   });
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -98,21 +98,25 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <Button className="mt-4 w-full" disabled={loading} aria-disabled={loading}>
+        <Button
+          className="mt-4 w-full"
+          disabled={loading}
+          aria-disabled={loading}
+        >
           Accedir <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
-        <div
-          className="flex h-8 items-end space-x-1"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          {error && (
+        {error && (
+          <div
+            className="flex h-8 items-end space-x-1"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             <>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
               <p className="text-sm text-red-500">{error.message}</p>
             </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </form>
   );
