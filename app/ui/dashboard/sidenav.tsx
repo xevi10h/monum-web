@@ -1,10 +1,18 @@
+"use client";
+
 import Link from 'next/link';
 import NavLinks from '@/app/ui/dashboard/nav-links';
 import MonumLetters from '@/app/ui/monum-letters';
 import { PowerIcon } from '@heroicons/react/24/outline';
-import { signOut } from '@/auth';
+import { useRouter } from 'next/navigation';
 
 export default function SideNav() {
+  const router = useRouter();
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    localStorage.removeItem('monum_token');
+    router.push('/login');
+  };
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
       <Link
@@ -19,10 +27,7 @@ export default function SideNav() {
         <NavLinks />
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
         <form
-          action={async () => {
-            'use server';
-            await signOut();
-          }}
+          onSubmit={handleSubmit}
         >
           <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-green-200 hover:text-green-600 md:flex-none md:justify-start md:p-2 md:px-3">
             <PowerIcon className="w-6" />

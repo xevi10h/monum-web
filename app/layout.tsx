@@ -1,5 +1,6 @@
 import { montserrat } from '@/app/ui/fonts';
 import '@/app/ui/global.css';
+import Providers from '@/provider';
 
 import { Metadata } from 'next';
 
@@ -21,7 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} antialiased`}>{children}</body>
+      <body className={`${montserrat.className} antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
