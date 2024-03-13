@@ -64,6 +64,22 @@ export type introspection = {
               "name": "String",
               "ofType": null
             }
+          },
+          {
+            "name": "roleId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "organizationId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
           }
         ]
       },
@@ -287,6 +303,120 @@ export type introspection = {
       },
       {
         "kind": "OBJECT",
+        "name": "Permission",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "description",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "action",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "entity",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "max",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "min",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "createdAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "updatedAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "SCALAR",
+        "name": "ID"
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Int"
+      },
+      {
+        "kind": "OBJECT",
         "name": "User",
         "fields": [
           {
@@ -396,13 +526,42 @@ export type introspection = {
               "ofType": null
             },
             "args": []
+          },
+          {
+            "name": "roleId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "organizationId",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "permissions",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Permission",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
           }
         ],
         "interfaces": []
-      },
-      {
-        "kind": "SCALAR",
-        "name": "ID"
       },
       {
         "kind": "OBJECT",
@@ -588,6 +747,27 @@ export type introspection = {
             ]
           },
           {
+            "name": "createNonExpiringToken",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "loginInput",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "LoginInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "translateMedia",
             "type": {
               "kind": "OBJECT",
@@ -666,6 +846,27 @@ export type introspection = {
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "ID",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "createPlace",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Place",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "place",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "CreatePlaceInput",
                     "ofType": null
                   }
                 }
@@ -755,12 +956,36 @@ export type introspection = {
             },
             "args": [
               {
-                "name": "CreatePermissionInput",
+                "name": "createPermissionInput",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {
                     "kind": "INPUT_OBJECT",
                     "name": "CreatePermissionInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "deletePermission",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
                     "ofType": null
                   }
                 }
@@ -792,6 +1017,88 @@ export type introspection = {
             ]
           },
           {
+            "name": "addPermissionsToPlan",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Plan",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "planId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "permissionsIds",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "removePermissionsFromPlan",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Plan",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "planId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "permissionsIds",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "createOrganization",
             "type": {
               "kind": "NON_NULL",
@@ -810,6 +1117,112 @@ export type introspection = {
                     "kind": "INPUT_OBJECT",
                     "name": "CreateOrganizationInput",
                     "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "createRole",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Role",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "createRoleInput",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "CreateRoleInput",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "addPermissionsToRole",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Role",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "roleId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "permissionsIds",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "removePermissionsFromRole",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Role",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "roleId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "permissionsIds",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
                   }
                 }
               }
@@ -838,7 +1251,34 @@ export type introspection = {
               "name": "Boolean",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "token",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "getTouristUserOfOrganization",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "organizationId",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            ]
           },
           {
             "name": "media",
@@ -857,6 +1297,14 @@ export type introspection = {
                     "name": "ID",
                     "ofType": null
                   }
+                }
+              },
+              {
+                "name": "language",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "Language",
+                  "ofType": null
                 }
               }
             ]
@@ -879,6 +1327,14 @@ export type introspection = {
                   "name": "ID",
                   "ofType": null
                 }
+              },
+              {
+                "name": "language",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "Language",
+                  "ofType": null
+                }
               }
             ]
           },
@@ -899,6 +1355,14 @@ export type introspection = {
                     "name": "ID",
                     "ofType": null
                   }
+                }
+              },
+              {
+                "name": "language",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "Language",
+                  "ofType": null
                 }
               }
             ]
@@ -932,6 +1396,14 @@ export type introspection = {
                   "name": "String",
                   "ofType": null
                 }
+              },
+              {
+                "name": "language",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "Language",
+                  "ofType": null
+                }
               }
             ]
           },
@@ -959,6 +1431,14 @@ export type introspection = {
                 "type": {
                   "kind": "ENUM",
                   "name": "ImageSize",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "language",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "Language",
                   "ofType": null
                 }
               }
@@ -1017,6 +1497,14 @@ export type introspection = {
                   "name": "ImageSize",
                   "ofType": null
                 }
+              },
+              {
+                "name": "language",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "Language",
+                  "ofType": null
+                }
               }
             ]
           },
@@ -1045,6 +1533,39 @@ export type introspection = {
             ]
           },
           {
+            "name": "getOrganizationIdOfAPlace",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "placeId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "getAllPlaces",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Place",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
             "name": "cities",
             "type": {
               "kind": "LIST",
@@ -1060,6 +1581,14 @@ export type introspection = {
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "language",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "Language",
                   "ofType": null
                 }
               }
@@ -1231,10 +1760,6 @@ export type introspection = {
           }
         ],
         "interfaces": []
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Int"
       },
       {
         "kind": "OBJECT",
@@ -1779,6 +2304,44 @@ export type introspection = {
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "NameTranslationsInput",
+        "inputFields": [
+          {
+            "name": "en_US",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "es_ES",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "fr_FR",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "ca_ES",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "AddressInput",
         "inputFields": [
           {
@@ -1896,20 +2459,11 @@ export type introspection = {
         ]
       },
       {
-        "kind": "OBJECT",
-        "name": "Translations",
-        "fields": [
+        "kind": "INPUT_OBJECT",
+        "name": "CreatePlaceInput",
+        "inputFields": [
           {
-            "name": "es_ES",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "en_US",
+            "name": "name",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -1917,29 +2471,42 @@ export type introspection = {
                 "name": "String",
                 "ofType": null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "ca_ES",
+            "name": "address",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "AddressInput",
+                "ofType": null
+              }
+            }
           },
           {
-            "name": "fr_FR",
+            "name": "description",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "importance",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            }
           }
-        ],
-        "interfaces": []
+        ]
       },
       {
         "kind": "OBJECT",
@@ -2013,12 +2580,12 @@ export type introspection = {
             "args": []
           },
           {
-            "name": "translations",
+            "name": "name",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Translations",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -2099,17 +2666,6 @@ export type introspection = {
               "name": "Int",
               "ofType": null
             }
-          },
-          {
-            "name": "allowed",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
-            }
           }
         ]
       },
@@ -2129,124 +2685,6 @@ export type introspection = {
             }
           }
         ]
-      },
-      {
-        "kind": "OBJECT",
-        "name": "Permission",
-        "fields": [
-          {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "name",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "description",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "action",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "entity",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "max",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "min",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "allowed",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "createdAt",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "updatedAt",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "args": []
-          }
-        ],
-        "interfaces": []
       },
       {
         "kind": "INPUT_OBJECT",
@@ -2538,6 +2976,34 @@ export type introspection = {
                 }
               }
             }
+          },
+          {
+            "name": "availableLanguages",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "Language",
+                    "ofType": null
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "defaultLanguage",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "Language",
+                "ofType": null
+              }
+            }
           }
         ]
       },
@@ -2662,6 +3128,183 @@ export type introspection = {
                 "kind": "OBJECT",
                 "name": "Plan",
                 "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "createdAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "updatedAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "availableLanguages",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "Language",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "defaultLanguage",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "Language",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "RoleInput",
+        "inputFields": [
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "description",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CreateRoleInput",
+        "inputFields": [
+          {
+            "name": "role",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "RoleInput",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "permissionsIds",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Role",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "description",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "permissions",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Permission",
+                    "ofType": null
+                  }
+                }
               }
             },
             "args": []

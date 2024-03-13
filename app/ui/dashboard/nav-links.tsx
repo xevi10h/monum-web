@@ -1,6 +1,6 @@
 'use client';
 
-import { HomeIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -10,9 +10,9 @@ import { usePathname } from 'next/navigation';
 const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   {
-    name: 'Invoices',
-    href: '/dashboard/invoices',
-    icon: DocumentDuplicateIcon,
+    name: 'Llocs',
+    href: '/dashboard/places',
+    icon: MapPinIcon,
   },
 ];
 
