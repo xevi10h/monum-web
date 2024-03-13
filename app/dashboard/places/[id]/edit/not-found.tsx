@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
+import { requireAuth } from '@/atuh';
 
-export default function NotFound() {
+function NotFound() {
   return (
     <main className="flex h-full flex-col items-center justify-center gap-2">
       <FaceFrownIcon className="w-10 text-gray-400" />
@@ -16,3 +17,5 @@ export default function NotFound() {
     </main>
   );
 }
+
+export default requireAuth(NotFound);

@@ -1,14 +1,13 @@
 import Form from '@/app/ui/places/create-form';
 import Breadcrumbs from '@/app/ui/places/breadcrumbs';
 import { Metadata } from 'next';
+import { requireAuth } from '@/atuh';
 
 export const metadata: Metadata = {
   title: 'Nou Lloc',
 };
 
-export default async function Page() {
-  // const customers = await fetchCustomers();
-
+async function Page() {
   return (
     <main>
       <Breadcrumbs
@@ -25,3 +24,5 @@ export default async function Page() {
     </main>
   );
 }
+
+export default requireAuth(Page);

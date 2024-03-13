@@ -1,4 +1,5 @@
 import { montserrat } from '@/app/ui/fonts';
+import { requireAuth } from '@/atuh';
 
 import { Metadata } from 'next';
 
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Dashboard',
 };
 
-export default async function Page() {
+async function Page() {
   return (
     <h1 className={`${montserrat.className} mb-4 text-xl md:text-2xl`}>
       Dashboard
@@ -33,3 +34,5 @@ export default async function Page() {
   //   </main>
   // );
 }
+
+export default requireAuth(Page);

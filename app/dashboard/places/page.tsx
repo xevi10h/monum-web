@@ -5,12 +5,13 @@ import { CreateInvoice } from '@/app/ui/places/buttons';
 import { montserrat } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
+import { requireAuth } from '@/atuh';
 
 export const metadata: Metadata = {
   title: 'Places',
 };
 
-export default async function Page({
+async function Page({
   searchParams,
 }: {
   searchParams?: {
@@ -41,3 +42,5 @@ export default async function Page({
     </div>
   );
 }
+
+export default requireAuth(Page);

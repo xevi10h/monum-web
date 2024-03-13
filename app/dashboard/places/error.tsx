@@ -1,8 +1,9 @@
 'use client';
 
+import { requireAuth } from '@/atuh';
 import { useEffect } from 'react';
 
-export default function Error({
+function Error({
   error,
   reset,
 }: {
@@ -29,3 +30,5 @@ export default function Error({
     </main>
   );
 }
+
+export default requireAuth(Error);
