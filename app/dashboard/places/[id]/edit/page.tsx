@@ -1,11 +1,7 @@
+'use client';
 import Breadcrumbs from '@/app/ui/places/breadcrumbs';
 import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
-import { requireAuth } from '@/atuh';
-
-export const metadata: Metadata = {
-  title: 'Edit Invoice',
-};
+import requireAuth from '@/atuh';
 
 async function Page({ params }: { params: { id: string } }) {
   // const id = params.id;

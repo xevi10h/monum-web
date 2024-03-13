@@ -1,11 +1,6 @@
+'use client';
 import { montserrat } from '@/app/ui/fonts';
-import { requireAuth } from '@/atuh';
-
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Dashboard',
-};
+import requireAuth from '@/atuh';
 
 async function Page() {
   return (

@@ -1,3 +1,4 @@
+'use client';
 import Pagination from '@/app/ui/places/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/places/table';
@@ -5,11 +6,7 @@ import { CreateInvoice } from '@/app/ui/places/buttons';
 import { montserrat } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
-import { requireAuth } from '@/atuh';
-
-export const metadata: Metadata = {
-  title: 'Places',
-};
+import requireAuth from '@/atuh';
 
 async function Page({
   searchParams,

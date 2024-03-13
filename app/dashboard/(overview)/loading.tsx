@@ -1,4 +1,5 @@
-import { requireAuth } from '@/atuh';
+'use client';
+import requireAuth from '@/atuh';
 
 function Loading() {
   return 'Loading...';

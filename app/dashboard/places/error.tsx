@@ -1,6 +1,6 @@
 'use client';
 
-import { requireAuth } from '@/atuh';
+import requireAuth from '@/atuh';
 import { useEffect } from 'react';
 
 function Error({

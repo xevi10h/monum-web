@@ -1,11 +1,7 @@
+'use client';
 import Form from '@/app/ui/places/create-form';
 import Breadcrumbs from '@/app/ui/places/breadcrumbs';
-import { Metadata } from 'next';
-import { requireAuth } from '@/atuh';
-
-export const metadata: Metadata = {
-  title: 'Nou Lloc',
-};
+import requireAuth from '@/atuh';
 
 async function Page() {
   return (

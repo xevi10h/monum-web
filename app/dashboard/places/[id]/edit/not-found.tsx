@@ -1,6 +1,7 @@
+'use client';
 import Link from 'next/link';
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
-import { requireAuth } from '@/atuh';
+import requireAuth from '@/atuh';
 
 function NotFound() {
   return (
