@@ -1,36 +1,5 @@
-'use client';
-import Image from 'next/image';
-// import { UpdateInvoice, DeleteInvoice } from '@/app/ui/places/buttons';
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { useQuery } from '@apollo/client';
-import { graphql } from '@/graphql';
-
-export default function InvoicesTable({
-  currentPage,
-}: {
-  query: string;
-  currentPage: number;
-}) {
-  const getAllPlaces = graphql(`
-    query Query {
-      getAllPlaces {
-        id
-        name
-        address {
-          street
-          city
-          country
-          postalCode
-          province
-        }
-        importance
-      }
-    }
-  `);
-  // fetch with pagination using the current page
-  const { loading, error, data } = useQuery(getAllPlaces);
-  const places = data?.getAllPlaces;
-  places?.map((place) => console.log(place?.importance));
+export default function PlacesTable({ places }: { places: Array<Place> }) {
+  places.map((place) => console.log(place.importance));
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
