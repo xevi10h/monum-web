@@ -2,7 +2,7 @@
 import Pagination from '@/app/ui/places/pagination';
 import Search from '@/app/ui/search';
 import PlacesTable from '@/app/ui/places/table';
-import { CreateInvoice } from '@/app/ui/places/buttons';
+import { CreatePlace } from '@/app/ui/places/buttons';
 import { montserrat } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import requireAuth from '@/atuh';
@@ -85,11 +85,11 @@ function Page({
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
-        <h1 className={`${montserrat.className} text-2xl`}>Places</h1>
+        <h1 className={`${montserrat.className} text-2xl`}>Llocs</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search places..." />
-        <CreateInvoice />
+        <Search placeholder="Busca llocs..." />
+        <CreatePlace />
       </div>
       <Suspense>
         <PlacesTable places={placesForTable} />

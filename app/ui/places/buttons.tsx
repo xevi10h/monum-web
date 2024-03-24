@@ -1,7 +1,7 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-export function CreateInvoice() {
+export function CreatePlace() {
   return (
     <Link
       href="/dashboard/places/create"
@@ -13,7 +13,7 @@ export function CreateInvoice() {
   );
 }
 
-export function UpdateInvoice({ id }: { id: string }) {
+export function UpdatePlace({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/places/${id}/edit`}

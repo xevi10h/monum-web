@@ -1829,12 +1829,9 @@ export type introspection = {
           {
             "name": "text",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "args": []
           },
@@ -1851,40 +1848,64 @@ export type introspection = {
             "args": []
           },
           {
-            "name": "audioUrl",
+            "name": "url",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "args": []
           },
           {
             "name": "voiceId",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "args": []
           },
           {
             "name": "duration",
             "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "type",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "MediaType",
+                "ofType": null
+              }
             },
             "args": []
           }
         ],
         "interfaces": []
+      },
+      {
+        "kind": "ENUM",
+        "name": "MediaType",
+        "enumValues": [
+          {
+            "name": "audio"
+          },
+          {
+            "name": "video"
+          },
+          {
+            "name": "text"
+          }
+        ]
       },
       {
         "kind": "ENUM",
@@ -1933,7 +1954,7 @@ export type introspection = {
             }
           },
           {
-            "name": "audioUrl",
+            "name": "url",
             "type": {
               "kind": "SCALAR",
               "name": "String",

@@ -1,156 +1,218 @@
-// 'use client';
+'use client';
 
-// import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
-// import {
-//   CheckIcon,
-//   ClockIcon,
-//   CurrencyDollarIcon,
-//   UserCircleIcon,
-// } from '@heroicons/react/24/outline';
-// import Link from 'next/link';
-// import { Button } from '@/app/ui/button';
-// import { updateInvoice } from '@/app/lib/actions';
-// import { useFormState } from 'react-dom';
+import Link from 'next/link';
+import { Button } from '@/app/ui/button';
+import { HashtagIcon } from '@heroicons/react/24/outline';
+import { VariablesOf, graphql } from '@/graphql';
+import { useMutation } from '@apollo/client';
+import { useRouter } from 'next/navigation';
 
-// export default function EditInvoiceForm({
-//   invoice,
-//   customers,
-// }: {
-//   invoice: InvoiceForm;
-//   customers: CustomerField[];
-// }) {
-//   const initialState = { message: null, errors: {} };
-//   const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
-//   const [state, dispatch] = useFormState(updateInvoiceWithId, initialState);
+const UpdatePlaceMutation = graphql(`
+  mutation Mutation($updatePlaceId: ID!, $placeUpdate: UpdatePlaceInput!) {
+    updatePlace(id: $updatePlaceId, placeUpdate: $placeUpdate) {
+      id
+    }
+  }
+`);
 
-//   return (
-//     <form action={dispatch}>
-//       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-//         {/* Customer Name */}
-//         <div className="mb-4">
-//           <label htmlFor="customer" className="mb-2 block text-sm font-medium">
-//             Choose customer
-//           </label>
-//           <div className="relative">
-//             <select
-//               id="customer"
-//               name="customerId"
-//               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-//               defaultValue={invoice.customer_id}
-//               aria-describedby="customer-error"
-//             >
-//               <option value="" disabled>
-//                 Select a customer
-//               </option>
-//               {customers.map((customer) => (
-//                 <option key={customer.id} value={customer.id}>
-//                   {customer.name}
-//                 </option>
-//               ))}
-//             </select>
-//             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-//           </div>
-//           <div id="customer-error" aria-live="polite" aria-atomic="true">
-//             {state.errors?.customerId &&
-//               state.errors.customerId.map((error: string) => (
-//                 <p className="mt-2 text-sm text-red-500" key={error}>
-//                   {error}
-//                 </p>
-//               ))}
-//           </div>
-//         </div>
+export default function EditPlaceForm({ place }: { place: Place }) {
+  const router = useRouter();
+  const [updatePlace, { loading, error }] = useMutation(UpdatePlaceMutation, {
+    onError: (error) => console.error('Update place error', error),
+    onCompleted: (data) => {
+      if (data.updatePlace?.id) {
+        const redirect = '/dashboard/places';
+        router.push(redirect);
+      } else {
+        console.log('Failed updating place', data);
+      }
+    },
+  });
 
-//         {/* Invoice Amount */}
-//         <div className="mb-4">
-//           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-//             Choose an amount
-//           </label>
-//           <div className="relative mt-2 rounded-md">
-//             <div className="relative">
-//               <input
-//                 id="amount"
-//                 name="amount"
-//                 type="number"
-//                 step="0.01"
-//                 defaultValue={invoice.amount}
-//                 placeholder="Enter USD amount"
-//                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-//                 aria-describedby="amount-error"
-//               />
-//               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-//             </div>
-//           </div>
-//           <div id="amount-error" aria-live="polite" aria-atomic="true">
-//             {state.errors?.amount &&
-//               state.errors.amount.map((error: string) => (
-//                 <p className="mt-2 text-sm text-red-500" key={error}>
-//                   {error}
-//                 </p>
-//               ))}
-//           </div>
-//         </div>
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const variables: VariablesOf<typeof UpdatePlaceMutation> = {
+        updatePlaceId: place.id,
+        placeUpdate: {
+          name: e.target.name.value,
+          description: e.target.description.value,
+          importance: parseInt(e.target.importance.value),
+          address: {
+            coordinates: {
+              lat: parseFloat(e.target.latitude.value),
+              lng: parseFloat(e.target.longitude.value),
+            },
+            street: e.target.street.value,
+            city: e.target.city.value,
+            country: e.target.country.value,
+            postalCode: e.target.postalCode.value,
+            province: e.target.province.value,
+          },
+        },
+      };
+      await updatePlace({ variables });
+    } catch (error) {
+      console.error('Update place error', error);
+    }
+  };
 
-//         {/* Invoice Status */}
-//         <fieldset>
-//           <legend className="mb-2 block text-sm font-medium">
-//             Set the invoice status
-//           </legend>
-//           <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-//             <div className="flex gap-4">
-//               <div className="flex items-center">
-//                 <input
-//                   id="pending"
-//                   name="status"
-//                   type="radio"
-//                   value="pending"
-//                   defaultChecked={invoice.status === 'pending'}
-//                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-//                   aria-describedby="status-error"
-//                 />
-//                 <label
-//                   htmlFor="pending"
-//                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
-//                 >
-//                   Pending <ClockIcon className="h-4 w-4" />
-//                 </label>
-//               </div>
-//               <div className="flex items-center">
-//                 <input
-//                   id="paid"
-//                   name="status"
-//                   type="radio"
-//                   value="paid"
-//                   defaultChecked={invoice.status === 'paid'}
-//                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-//                 />
-//                 <label
-//                   htmlFor="paid"
-//                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
-//                 >
-//                   Paid <CheckIcon className="h-4 w-4" />
-//                 </label>
-//               </div>
-//             </div>
-//           </div>
-//           <div id="status-error" aria-live="polite" aria-atomic="true">
-//             {state.errors?.status &&
-//               state.errors.status.map((error: string) => (
-//                 <p className="mt-2 text-sm text-red-500" key={error}>
-//                   {error}
-//                 </p>
-//               ))}
-//           </div>
-//         </fieldset>
-//       </div>
-//       <div className="mt-6 flex justify-end gap-4">
-//         <Link
-//           href="/dashboard/invoices"
-//           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-//         >
-//           Cancel
-//         </Link>
-//         <Button type="submit">Edit Invoice</Button>
-//       </div>
-//     </form>
-//   );
-// }
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+        <div className="mb-4">
+          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
+            Informació bàsica
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="name"
+                name="name"
+                type="string"
+                defaultValue={place.name}
+                placeholder="Nom"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <textarea
+                id="description"
+                name="description"
+                placeholder="Descripció"
+                defaultValue={place.description}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby="name-error"
+              />
+            </div>
+          </div>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="importance"
+                name="importance"
+                type="number"
+                min={1}
+                max={10}
+                step={1}
+                placeholder="Importància"
+                defaultValue={place.importance}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-8 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby="name-error"
+              />
+            </div>
+            <HashtagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+          </div>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="name" className="mb-2 block text-sm font-medium">
+            Adreça
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="latitude"
+                name="latitude"
+                type="number"
+                min={-90}
+                max={90}
+                step={0.000000001}
+                placeholder="Latitud"
+                defaultValue={place.address.coordinates?.latitude}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="longitude"
+                name="longitude"
+                type="number"
+                min={-90}
+                max={90}
+                step={0.000000001}
+                placeholder="Longitud"
+                defaultValue={place.address.coordinates?.longitude}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="street"
+                name="street"
+                type="string"
+                placeholder="Carrer"
+                defaultValue={place.address.street}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="city"
+                name="city"
+                type="string"
+                placeholder="Ciutat"
+                defaultValue={place.address.city}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="country"
+                name="country"
+                type="string"
+                placeholder="País"
+                defaultValue={place.address.country}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="postalCode"
+                name="postalCode"
+                type="string"
+                placeholder="Codi Postal"
+                defaultValue={place.address.postalCode}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="province"
+                name="province"
+                type="string"
+                placeholder="Província"
+                defaultValue={place.address.province}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-6 flex justify-center gap-4">
+        <Link
+          href="/dashboard/places"
+          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+        >
+          Cancel·lar
+        </Link>
+        <Button disabled={loading} aria-disabled={loading}>
+          Actualitza
+        </Button>
+      </div>
+    </form>
+  );
+}
