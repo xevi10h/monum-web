@@ -1245,6 +1245,18 @@ export type introspection = {
             "args": []
           },
           {
+            "name": "users",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
             "name": "verifyToken",
             "type": {
               "kind": "SCALAR",

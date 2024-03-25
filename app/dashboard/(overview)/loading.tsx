@@ -2,7 +2,7 @@
 import requireAuth from '@/atuh';
 
 function Loading() {
-  return 'Loading...';
+  return 'Carregant...';
 }
 
 export default requireAuth(Loading);

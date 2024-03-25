@@ -1,5 +1,8 @@
+import { VariablesOf, graphql } from '@/graphql';
+import { useMutation } from '@apollo/client';
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export function CreatePlace() {
   return (
@@ -17,21 +20,48 @@ export function UpdatePlace({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/places/${id}/edit`}
-      className="rounded-md border p-2 hover:bg-gray-100"
+      className="rounded-md border bg-blue-300 p-2 hover:bg-blue-500"
     >
       <PencilIcon className="w-5" />
     </Link>
   );
 }
 
-// export function DeleteInvoice({ id }: { id: string }) {
-//   const deleteInvoiceWithId = deleteInvoice.bind(null, id);
-//   return (
-//     <form action={deleteInvoiceWithId}>
-//       <button className="rounded-md border p-2 hover:bg-gray-100">
-//         <span className="sr-only">Delete</span>
-//         <TrashIcon className="w-5" />
-//       </button>
-//     </form>
-//   );
-// }
+const deletePlaceMutation = graphql(`
+  mutation Mutation($deletePlaceId: ID!) {
+    deletePlace(id: $deletePlaceId)
+  }
+`);
+
+export function DeletePlace({ id }: { id: string }) {
+  const router = useRouter();
+  const [deletePlace, { loading, error }] = useMutation(deletePlaceMutation, {
+    onCompleted: () => {
+      console.log('Place deleted');
+      router.push('/dashboard/places');
+    },
+    onError: (error) => {
+      console.error('Delete place error:', error);
+    },
+  });
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const variables: VariablesOf<typeof deletePlaceMutation> = {
+        deletePlaceId: id,
+      };
+      await deletePlace({ variables });
+      console.log('Place deleted');
+    } catch (error) {
+      console.error('Place delete error:', error);
+    }
+  };
+  return (
+    <form onSubmit={handleSubmit}>
+      <button className="rounded-md border bg-red-300 p-2 hover:bg-red-500">
+        <span className="sr-only">Delete</span>
+        <TrashIcon className="w-5" />
+      </button>
+    </form>
+  );
+}
