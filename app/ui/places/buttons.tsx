@@ -1,14 +1,30 @@
 import { VariablesOf, graphql } from '@/graphql';
 import { useMutation } from '@apollo/client';
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import {
+  PencilIcon,
+  TrashIcon,
+  PlusIcon,
+  FolderIcon,
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+
+export function NavigateToMedias({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/dashboard/places/${id}/medias`}
+      className="rounded-md border bg-gray-300 p-2 hover:bg-gray-500"
+    >
+      <FolderIcon className="w-5" />
+    </Link>
+  );
+}
 
 export function CreatePlace() {
   return (
     <Link
       href="/dashboard/places/create"
-      className="flex h-10 items-center rounded-lg bg-green-600 px-4 text-sm font-medium text-white transition-colors hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+      className="flex h-10 items-center rounded-lg bg-monum-green-600 px-4 text-sm font-medium text-white transition-colors hover:bg-monum-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-monum-green-600"
     >
       <span className="hidden md:block">Afegir Lloc</span>{' '}
       <PlusIcon className="h-5 md:ml-4" />

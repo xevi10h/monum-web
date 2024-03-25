@@ -1,4 +1,8 @@
-import { UpdatePlace, DeletePlace } from '@/app/ui/places/buttons';
+import {
+  UpdatePlace,
+  DeletePlace,
+  NavigateToMedias,
+} from '@/app/ui/places/buttons';
 
 export default function PlacesTable({ places }: { places: Array<Place> }) {
   return (
@@ -16,6 +20,7 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div className="flex justify-end gap-2">
+                    <NavigateToMedias id={place?.id} />
                     <UpdatePlace id={place?.id} />
                     <DeletePlace id={place?.id} />
                   </div>
@@ -70,6 +75,7 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
 
                   <td className="py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
+                      <NavigateToMedias id={place?.id} />
                       <UpdatePlace id={place?.id} />
                       <DeletePlace id={place?.id} />
                     </div>
