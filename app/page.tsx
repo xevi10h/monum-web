@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col p-6">
-      <div className="h-30 align-items-center flex shrink-0 gap-3 rounded-lg bg-green-500 p-4">
+      <div className="h-30 align-items-center flex shrink-0 gap-3 rounded-lg bg-monum-green-500 p-4">
         <MonumIcon /> <MonumLetters />
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
@@ -21,7 +21,7 @@ export default function Page() {
           </p>
           <Link
             href="/login"
-            className="bg-monum-green-500 hover:bg-monum-green-400 flex items-center gap-5 self-start rounded-lg px-6 py-3 text-sm font-medium text-white transition-colors md:text-base"
+            className="flex items-center gap-5 self-start rounded-lg bg-monum-green-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-monum-green-400 md:text-base"
           >
             <span>Accedir-hi</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
