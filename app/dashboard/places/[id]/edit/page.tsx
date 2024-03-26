@@ -1,5 +1,5 @@
 'use client';
-import Breadcrumbs from '@/app/ui/places/breadcrumbs';
+import Breadcrumbs from '@/app/ui/shared/breadcrumbs';
 import { notFound } from 'next/navigation';
 import requireAuth from '@/atuh';
 import { VariablesOf, graphql } from '@/graphql';

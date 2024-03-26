@@ -1,6 +1,6 @@
 'use client';
 import Form from '@/app/ui/places/create-form';
-import Breadcrumbs from '@/app/ui/places/breadcrumbs';
+import Breadcrumbs from '@/app/ui/shared/breadcrumbs';
 import requireAuth from '@/atuh';
 
 async function Page() {
