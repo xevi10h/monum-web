@@ -17,6 +17,30 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
         return <p>{type}</p>;
     }
   };
+  const renderContent = (media: Media) => {
+    switch (media.type) {
+      case 'video':
+        return (
+          <div className="flex items-center justify-center">Video content</div>
+        );
+      case 'audio':
+        return (
+          <div className="flex items-center justify-center">
+            <audio controls>
+              <source src={media.url} type="audio/mp3" />
+            </audio>
+          </div>
+        );
+      case 'text':
+        return <div className=" flex">{media.text}</div>;
+      default:
+        return (
+          <div className="flex items-center justify-center text-center">
+            Other not supported media
+          </div>
+        );
+    }
+  };
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -51,6 +75,9 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
                 <th scope="col" className=" px-3 py-5 text-center font-medium">
                   Tipus
                 </th>
+                <th scope="col" className=" px-3 py-5 text-center font-medium">
+                  Contingut
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -61,9 +88,17 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
                 >
                   <td className=" px-3 py-3 text-center">{media?.id}</td>
                   <td className=" px-3 py-3 text-center">{media?.title}</td>
-                  <td className=" flex items-center justify-center px-3 py-3">
-                    {renderType(media?.type)}
+                  <td className="px-3 py-3 text-center">
+                    <div className="flex items-center justify-center">
+                      {renderType(media?.type)}
+                    </div>
                   </td>
+                  <td className="h-36 w-96 overflow-hidden">
+                    <div className="flex h-full w-full justify-center overflow-y-auto">
+                      {renderContent(media)}
+                    </div>
+                  </td>
+                  <td className="px-3 py-3 text-center"></td>
                 </tr>
               ))}
             </tbody>

@@ -22,6 +22,8 @@ const getMediasOfPlace = graphql(`
       id
       title
       type
+      url
+      text
     }
   }
 `);
@@ -35,7 +37,6 @@ function Page({ params }: { params: { id: string } }) {
 
   const variablesMediaQuery: VariablesOf<typeof getMediasOfPlace> = {
     placeId: id,
-    language: 'en_US',
   };
 
   const {
@@ -73,6 +74,8 @@ function Page({ params }: { params: { id: string } }) {
         id: media?.id ? media.id.toString() : '',
         title: media?.title ? media.title.toString() : '',
         type: media?.type ? media.type.toString() : '',
+        url: media?.url ? media.url.toString() : '',
+        text: media?.text ? media.text.toString() : '',
       });
     }
   }

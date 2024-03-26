@@ -768,6 +768,71 @@ export type introspection = {
             ]
           },
           {
+            "name": "createMedia",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Media",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "placeId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "title",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "text",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "type",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "ENUM",
+                    "name": "MediaType",
+                    "ofType": null
+                  }
+                }
+              },
+              {
+                "name": "rating",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Float",
+                    "ofType": null
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "translateMedia",
             "type": {
               "kind": "OBJECT",
@@ -1232,6 +1297,10 @@ export type introspection = {
         "interfaces": []
       },
       {
+        "kind": "SCALAR",
+        "name": "Float"
+      },
+      {
         "kind": "OBJECT",
         "name": "Query",
         "fields": [
@@ -1639,10 +1708,6 @@ export type introspection = {
           }
         ],
         "interfaces": []
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Float"
       },
       {
         "kind": "OBJECT",
