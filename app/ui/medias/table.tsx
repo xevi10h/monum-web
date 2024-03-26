@@ -33,16 +33,22 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
               </div>
             ))}
           </div>
-          <table className="hidden table-fixed text-gray-900 md:table">
+          <table className="hidden w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                <th
+                  scope="col"
+                  className=" px-4 py-5 text-center font-medium sm:pl-6"
+                >
                   Id
                 </th>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                <th
+                  scope="col"
+                  className=" px-4 py-5 text-center font-medium sm:pl-6"
+                >
                   Títol
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className=" px-3 py-5 text-center font-medium">
                   Tipus
                 </th>
               </tr>
@@ -53,8 +59,8 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
                   key={media?.id}
                   className="border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className=" px-3 py-3">{media?.id}</td>
-                  <td className=" px-3 py-3">{media?.title}</td>
+                  <td className=" px-3 py-3 text-center">{media?.id}</td>
+                  <td className=" px-3 py-3 text-center">{media?.title}</td>
                   <td className=" flex items-center justify-center px-3 py-3">
                     {renderType(media?.type)}
                   </td>

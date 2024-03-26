@@ -5,17 +5,23 @@ import {
   TrashIcon,
   PlusIcon,
   FolderIcon,
+  FolderOpenIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export function NavigateToMedias({ id }: { id: string }) {
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <Link
       href={`/dashboard/places/${id}/medias`}
-      className="rounded-md border bg-gray-300 p-2 hover:bg-gray-500"
+      className="relative rounded-md border bg-gray-300 p-2 hover:bg-gray-500"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <FolderIcon className="w-5" />
+      <FolderOpenIcon className={`w-5 ${isHovered ? 'block' : 'hidden'}`} />
+      <FolderIcon className={`w-5 ${isHovered ? 'hidden' : 'block'}`} />
     </Link>
   );
 }

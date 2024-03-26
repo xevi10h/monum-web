@@ -48,7 +48,7 @@ function Page({
   const variables: VariablesOf<typeof getPlaceBySearchAndPagination> = {
     textSearch: query,
     pageNumber: currentPage,
-    resultsPerPage: 10,
+    resultsPerPage: 9,
   };
 
   const { loading, error, data } = useQuery(getPlaceBySearchAndPagination, {
@@ -91,9 +91,11 @@ function Page({
         <Search placeholder="Busca llocs..." />
         <CreatePlace />
       </div>
-      <Suspense>
-        <PlacesTable places={placesForTable} />
-      </Suspense>
+      <div className="mt-4">
+        <Suspense>
+          <PlacesTable places={placesForTable} />
+        </Suspense>
+      </div>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

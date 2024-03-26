@@ -6,7 +6,7 @@ import {
 
 export default function PlacesTable({ places }: { places: Array<Place> }) {
   return (
-    <div className="mt-6 flow-root">
+    <div className=" mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
           <div className="md:hidden">
@@ -28,19 +28,25 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
               </div>
             ))}
           </div>
-          <table className="hidden table-fixed text-gray-900 md:table">
+          <table className="hidden w-full table-fixed text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-center font-medium sm:pl-6"
+                >
                   Id
                 </th>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-center font-medium sm:pl-6"
+                >
                   Nom
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 text-center font-medium">
                   Adreça
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-5 text-center font-medium">
                   Importància
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
@@ -54,9 +60,9 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
                   key={place?.id}
                   className="border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className=" px-3 py-3">{place?.id}</td>
-                  <td className=" px-3 py-3">{place?.name}</td>
-                  <td className=" px-3 py-3">
+                  <td className=" px-3 py-3 text-center">{place?.id}</td>
+                  <td className=" px-3 py-3 text-center">{place?.name}</td>
+                  <td className=" px-3 py-3 text-center">
                     {`${
                       place?.address.street.includes('undefined')
                         ? 'NO STREET'
