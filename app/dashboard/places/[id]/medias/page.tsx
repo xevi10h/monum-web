@@ -6,6 +6,7 @@ import { VariablesOf, graphql } from '@/graphql';
 import { useQuery } from '@apollo/client';
 import MediasTable from '@/app/ui/medias/table';
 import { CreateMedia } from '@/app/ui/medias/buttons';
+import { useEffect } from 'react';
 
 const getPlaceById = graphql(`
   query Query($placeId: ID!) {
@@ -51,8 +52,13 @@ function Page({ params }: { params: { id: string } }) {
     loading: mediasLoading,
     error: mediasError,
     data: mediasData,
+    refetch: mediasRefetch,
   } = useQuery(getMediasOfPlace, {
     variables: variablesMediaQuery,
+  });
+
+  useEffect(() => {
+    mediasRefetch();
   });
 
   const place = placeData?.place;

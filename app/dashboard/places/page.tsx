@@ -4,7 +4,7 @@ import Search from '@/app/ui/search';
 import PlacesTable from '@/app/ui/places/table';
 import { CreatePlace } from '@/app/ui/places/buttons';
 import { montserrat } from '@/app/ui/fonts';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import requireAuth from '@/atuh';
 import { VariablesOf, graphql } from '@/graphql';
 import { useQuery } from '@apollo/client';
@@ -51,9 +51,17 @@ function Page({
     resultsPerPage: 9,
   };
 
-  const { loading, error, data } = useQuery(getPlaceBySearchAndPagination, {
-    variables,
+  const { loading, error, data, refetch } = useQuery(
+    getPlaceBySearchAndPagination,
+    {
+      variables,
+    },
+  );
+
+  useEffect(() => {
+    refetch();
   });
+
   const places = data?.getPlaceBySearchAndPagination?.places || [];
   const totalPages =
     data?.getPlaceBySearchAndPagination?.pageInfo?.totalPages || 1;
