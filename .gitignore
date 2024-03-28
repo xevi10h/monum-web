@@ -35,6 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
 # graphql schema file
 graphql/graphql-env.d.ts

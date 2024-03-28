@@ -10,6 +10,7 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Modal from '@/app/ui/shared/confirmation-modal';
 
 export function NavigateToMedias({ id }: { id: string }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -56,6 +57,7 @@ const deletePlaceMutation = graphql(`
 `);
 
 export function DeletePlace({ id }: { id: string }) {
+  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
   const [deletePlace, { loading, error }] = useMutation(deletePlaceMutation, {
     onCompleted: () => {
@@ -66,8 +68,8 @@ export function DeletePlace({ id }: { id: string }) {
       console.error('Delete place error:', error);
     },
   });
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+
+  const handleDelete = async () => {
     try {
       const variables: VariablesOf<typeof deletePlaceMutation> = {
         deletePlaceId: id,
@@ -78,12 +80,39 @@ export function DeletePlace({ id }: { id: string }) {
       console.error('Place delete error:', error);
     }
   };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    setShowModal(true);
+  };
+
+  const handleConfirmation = () => {
+    setShowModal(false);
+    handleDelete();
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <button className="rounded-md border bg-red-300 p-2 hover:bg-red-500">
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5" />
-      </button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <button className="rounded-md border bg-red-300 p-2 hover:bg-red-500">
+          <span className="sr-only">Delete</span>
+          <TrashIcon className="w-5" />
+        </button>
+      </form>
+      {showModal && (
+        <Modal
+          title="Eliminar el lloc"
+          message="Estàs a punt d'eliminar aquest lloc, aquesta acció no es pot desfer. Estàs segur/a que vols continuar?"
+          closeColor="gray"
+          confirmColor="red"
+          onClose={handleCloseModal}
+          onConfirm={handleConfirmation}
+        />
+      )}
+    </>
   );
 }
