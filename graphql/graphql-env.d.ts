@@ -36,6 +36,14 @@ export type introspection = {
             }
           },
           {
+            "name": "name",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
             "name": "email",
             "type": {
               "kind": "NON_NULL",
@@ -447,6 +455,15 @@ export type introspection = {
             "args": []
           },
           {
+            "name": "name",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
             "name": "createdAt",
             "type": {
               "kind": "NON_NULL",
@@ -486,15 +503,6 @@ export type introspection = {
             "args": []
           },
           {
-            "name": "name",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
             "name": "photo",
             "type": {
               "kind": "SCALAR",
@@ -525,10 +533,10 @@ export type introspection = {
             "args": []
           },
           {
-            "name": "organizationId",
+            "name": "organization",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "OBJECT",
+              "name": "Organization",
               "ofType": null
             },
             "args": []
@@ -827,17 +835,6 @@ export type introspection = {
                 }
               },
               {
-                "name": "text",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              },
-              {
                 "name": "type",
                 "type": {
                   "kind": "NON_NULL",
@@ -857,6 +854,22 @@ export type introspection = {
                     "name": "Float",
                     "ofType": null
                   }
+                }
+              },
+              {
+                "name": "text",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "videoBase64",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 }
               }
             ]
@@ -1601,30 +1614,6 @@ export type introspection = {
             ]
           },
           {
-            "name": "placeSearcherSuggestions",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": [
-              {
-                "name": "textSearch",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              }
-            ]
-          },
-          {
             "name": "getPlaceBySearchAndPagination",
             "type": {
               "kind": "OBJECT",
@@ -1692,6 +1681,30 @@ export type introspection = {
                   "kind": "ENUM",
                   "name": "Language",
                   "ofType": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "getMapSearcherResults",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MapSearcherResult",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "getMapSearcherResultsInput",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "GetMapSearcherResultsInput",
+                    "ofType": null
+                  }
                 }
               }
             ]
@@ -1782,76 +1795,10 @@ export type introspection = {
             "args": []
           },
           {
-            "name": "googleId",
+            "name": "createdBy",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "googleMapsUri",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "internationalPhoneNumber",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "nationalPhoneNumber",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "types",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "primaryType",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "userRatingCount",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "args": []
-          },
-          {
-            "name": "websiteUri",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "OBJECT",
+              "name": "User",
               "ofType": null
             },
             "args": []
@@ -2243,9 +2190,6 @@ export type introspection = {
         "name": "SortField",
         "enumValues": [
           {
-            "name": "rating"
-          },
-          {
             "name": "importance"
           },
           {
@@ -2457,34 +2401,6 @@ export type introspection = {
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CoordinatesInput",
-        "inputFields": [
-          {
-            "name": "lat",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              }
-            }
-          },
-          {
-            "name": "lng",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "INPUT_OBJECT",
         "name": "NameTranslationsInput",
         "inputFields": [
           {
@@ -2626,14 +2542,6 @@ export type introspection = {
             "type": {
               "kind": "SCALAR",
               "name": "Int",
-              "ofType": null
-            }
-          },
-          {
-            "name": "rating",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
               "ofType": null
             }
           }
@@ -3036,6 +2944,34 @@ export type introspection = {
           }
         ],
         "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CoordinatesInput",
+        "inputFields": [
+          {
+            "name": "lng",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            }
+          },
+          {
+            "name": "lat",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            }
+          }
+        ]
       },
       {
         "kind": "INPUT_OBJECT",
@@ -3509,6 +3445,149 @@ export type introspection = {
               "ofType": {
                 "kind": "SCALAR",
                 "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "GetMapSearcherResultsInput",
+        "inputFields": [
+          {
+            "name": "textSearch",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          {
+            "name": "coordinates",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "CoordinatesInput",
+              "ofType": null
+            }
+          }
+        ]
+      },
+      {
+        "kind": "ENUM",
+        "name": "MapSearcherType",
+        "enumValues": [
+          {
+            "name": "place"
+          },
+          {
+            "name": "city"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MapSearcherResult",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "city",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "region",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "country",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "coordinates",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Coordinates",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "distance",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "importance",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "hasMonums",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "type",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "ENUM",
+                "name": "MapSearcherType",
                 "ofType": null
               }
             },

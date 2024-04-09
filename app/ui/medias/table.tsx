@@ -21,7 +21,12 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
     switch (media.type) {
       case 'video':
         return (
-          <div className="flex items-center justify-center">Video content</div>
+          <div className="flex items-center justify-center">
+            <video controls className="mt-2 max-h-full max-w-full">
+              <source src={media.url} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
         );
       case 'audio':
         return (
