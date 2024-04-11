@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { HashtagIcon } from '@heroicons/react/24/outline';
+import { HashtagIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { useMutation } from '@apollo/client';
 import { VariablesOf, graphql } from '@/graphql';
 import { useRouter } from 'next/navigation';
@@ -33,6 +33,7 @@ export default function Form({ placeId }: { placeId: string }) {
   const router = useRouter();
   const [videoFile, setVideoFile] = useState<File | null>(null); // State to store the dropped video file
   const [resourceType, setResourceType] = useState('text'); // Default resource type
+  const [borderColor, setBorderColor] = useState('border-gray-200'); // Border color for drag-and-drop area
 
   // Handle file drop
   const handleDrop = (event: any) => {
@@ -49,6 +50,7 @@ export default function Form({ placeId }: { placeId: string }) {
   const preventDefault = (event: any) => {
     event.preventDefault();
     event.stopPropagation();
+    setBorderColor('border-monum-green-800');
   };
 
   // Handle file input change
@@ -212,12 +214,15 @@ export default function Form({ placeId }: { placeId: string }) {
               htmlFor="video"
               className="mb-2 block pl-2 text-sm font-medium"
             >
-              Video (MP4):
+              Vídeo (en format <b>.mp4</b>)
             </label>
             <div
-              className="relative cursor-pointer rounded-md border border-dashed border-gray-200 p-4"
+              className={`relative cursor-pointer rounded-md border border-dashed p-4 ${borderColor}`}
               onDragOver={preventDefault}
+              onDragLeave={() => setBorderColor('border-gray-200')}
               onDrop={handleDrop}
+              onMouseEnter={() => setBorderColor('border-monum-green-800')}
+              onMouseLeave={() => setBorderColor('border-gray-200')}
             >
               <label
                 htmlFor="video"
@@ -226,7 +231,7 @@ export default function Form({ placeId }: { placeId: string }) {
                 <span>
                   {videoFile
                     ? ''
-                    : 'Drag and drop your MP4 video here, or click to select.'}
+                    : 'Arrossega i deixa anar un fitxer de vídeo (en .mp4) aquí o fes clic per seleccionar un fitxer.'}
                 </span>
                 <input
                   id="video"
@@ -237,34 +242,20 @@ export default function Form({ placeId }: { placeId: string }) {
                   className="hidden"
                 />
               </label>
-              {/* Render video preview and discard button */}
-              {videoFile && (
-                <div className="absolute right-0 top-0 m-2">
-                  <button
-                    onClick={discardVideo}
-                    className="rounded-full bg-gray-200 p-1 hover:bg-red-200"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-gray-500 hover:text-red-500"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M14.707 5.293a1 1 0 011.414 1.414L11.414 12l4.707 4.707a1 1 0 11-1.414 1.414L10 13.414l-4.707 4.707a1 1 0 01-1.414-1.414L8.586 12 3.879 7.293a1 1 0 111.414-1.414L10 10.586l4.707-4.707a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              )}
               {/* Render video preview */}
               {videoFile && (
-                <video controls className="mt-2 max-w-full">
-                  <source src={getVideoSrc(videoFile)} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                <div className=" relative" style={{ maxWidth: '400px' }}>
+                  <div className="absolute right-0 top-0 z-50 -mr-3 -mt-3">
+                    <XCircleIcon
+                      onClick={discardVideo}
+                      className=" w-8 text-gray-400 hover:text-red-500"
+                    />
+                  </div>
+                  <video controls className=" mt-2">
+                    <source src={getVideoSrc(videoFile)} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
               )}
             </div>
           </div>
