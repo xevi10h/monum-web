@@ -107,8 +107,8 @@ export function DeletePlace({ id }: { id: string }) {
         <Modal
           title="Eliminar el lloc"
           message="Estàs a punt d'eliminar aquest lloc, aquesta acció no es pot desfer. Estàs segur/a que vols continuar?"
-          closeColor="gray"
-          confirmColor="red"
+          closeClassName="bg-gray-300 hover:bg-gray-400"
+          confirmClassName="bg-red-500 hover:bg-red-600"
           onClose={handleCloseModal}
           onConfirm={handleConfirmation}
         />

@@ -3,20 +3,18 @@ import React from 'react';
 const Modal = ({
   title,
   message,
-  closeColor,
-  confirmColor,
+  closeClassName,
+  confirmClassName,
   onClose,
   onConfirm,
 }: {
   title: string;
   message: string;
-  closeColor: string;
-  confirmColor: string;
+  closeClassName: string;
+  confirmClassName: string;
   onClose: () => void;
   onConfirm: () => void;
 }) => {
-  const colorClose = `bg-${closeColor}-300 hover:bg-${closeColor}-400`;
-  const colorConfirm = `bg-${confirmColor}-500 hover:bg-${confirmColor}-600`;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -25,13 +23,13 @@ const Modal = ({
         <p className="mb-4 text-center">{message}</p>
         <div className="flex justify-end">
           <button
-            className={`mr-2 rounded px-4 py-2 ${colorClose}`}
+            className={`mr-2 rounded px-4 py-2 ${closeClassName}`}
             onClick={onClose}
           >
             Cancel·lar
           </button>
           <button
-            className={`rounded px-4 py-2 text-white ${colorConfirm}`}
+            className={`rounded px-4 py-2 text-white ${confirmClassName}`}
             onClick={onConfirm}
           >
             Confirmar
