@@ -15,6 +15,7 @@ const CreateMediaMutation = graphql(`
     $type: MediaType!
     $rating: Float!
     $videoBase64: String
+    $videoDurationInSeconds: Int
   ) {
     createMedia(
       placeId: $placeId
@@ -23,6 +24,7 @@ const CreateMediaMutation = graphql(`
       type: $type
       rating: $rating
       videoBase64: $videoBase64
+      videoDurationInSeconds: $videoDurationInSeconds
     ) {
       id
     }
@@ -85,6 +87,14 @@ export default function Form({ placeId }: { placeId: string }) {
       let videoBase64 = null;
 
       if (videoFile && typeof videoFile === 'object') {
+        const videoElement = document.createElement('video');
+        videoElement.preload = 'metadata';
+        videoElement.src = URL.createObjectURL(videoFile);
+        let duration = 0;
+        videoElement.addEventListener('loadedmetadata', () => {
+          duration = videoElement.duration;
+          URL.revokeObjectURL(videoElement.src); // Clean up
+        });
         // Create a new FileReader instance
         const reader = new FileReader();
 
@@ -101,6 +111,7 @@ export default function Form({ placeId }: { placeId: string }) {
             type: e.target.type.value,
             rating: parseFloat(e.target.rating.value),
             videoBase64: videoBase64,
+            videoDurationInSeconds: Math.round(duration),
           };
           await createMedia({ variables });
         };

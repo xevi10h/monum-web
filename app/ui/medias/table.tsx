@@ -37,7 +37,9 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
           </div>
         );
       case 'text':
-        return <div className=" flex">{media.text}</div>;
+        return (
+          <div className=" flex items-center justify-center">{media.text}</div>
+        );
       default:
         return (
           <div className="flex items-center justify-center text-center">

@@ -871,6 +871,14 @@ export type introspection = {
                   "name": "String",
                   "ofType": null
                 }
+              },
+              {
+                "name": "videoDurationInSeconds",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               }
             ]
           },
