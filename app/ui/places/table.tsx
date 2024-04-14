@@ -50,7 +50,7 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
                   Importància
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
-                  <span className="sr-only">Edit</span>
+                  <span className="sr-only">Manage</span>
                 </th>
               </tr>
             </thead>

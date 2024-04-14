@@ -3,8 +3,15 @@ import {
   SpeakerWaveIcon,
   VideoCameraIcon,
 } from '@heroicons/react/24/outline';
+import { DeleteMedia } from '@/app/ui/medias/buttons';
 
-export default function MediasTable({ medias }: { medias: Array<Media> }) {
+export default function MediasTable({
+  medias,
+  placeId,
+}: {
+  medias: Array<Media>;
+  placeId: string;
+}) {
   const renderType = (type: string) => {
     switch (type) {
       case 'video':
@@ -61,6 +68,11 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
                 <div className="flex items-center justify-between border-b pb-4">
                   <p className="text-sm text-gray-500">{media?.title}</p>
                 </div>
+                <div className="flex w-full items-center justify-between pt-4">
+                  <div className="flex justify-end gap-2">
+                    <DeleteMedia id={media?.id} placeId={placeId} />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -85,6 +97,9 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
                 <th scope="col" className=" px-3 py-5 text-center font-medium">
                   Contingut
                 </th>
+                <th scope="col" className="relative py-3 pl-6 pr-3">
+                  <span className="sr-only">Manage</span>
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -105,7 +120,11 @@ export default function MediasTable({ medias }: { medias: Array<Media> }) {
                       {renderContent(media)}
                     </div>
                   </td>
-                  <td className="px-3 py-3 text-center"></td>
+                  <td className="py-3 pl-6 pr-3">
+                    <div className="flex justify-end gap-3">
+                      <DeleteMedia id={media?.id} placeId={placeId} />
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

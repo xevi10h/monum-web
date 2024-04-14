@@ -102,7 +102,7 @@ function Page({ params }: { params: { id: string } }) {
         {place?.name}
       </h1>
       <CreateMedia placeId={id} />
-      <MediasTable medias={mediasArray} />
+      <MediasTable medias={mediasArray} placeId={id} />
     </main>
   );
 }
