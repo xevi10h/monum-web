@@ -1,4 +1,4 @@
-import MonumIcon from '@/app/ui/monum-icon';
+import MonumIcon from '@/app/ui/monum-icon-white';
 import MonumLetters from '@/app/ui/monum-letters';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col p-6">
-      <div className="h-30 align-items-center flex shrink-0 gap-3 rounded-lg bg-monum-green-500 p-4">
+      <div className="h-30 align-items-center flex shrink-0 gap-3 rounded-lg bg-monum-green-default p-4">
         <MonumIcon /> <MonumLetters />
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
@@ -21,7 +21,7 @@ export default function Page() {
           </p>
           <Link
             href="/login"
-            className="flex items-center gap-5 self-start rounded-lg bg-monum-green-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-monum-green-400 md:text-base"
+            className="hover:bg-monum-green-dark flex items-center gap-5 self-start rounded-lg bg-monum-green-default px-6 py-3 text-sm font-medium text-white transition-colors md:text-base"
           >
             <span>Accedir-hi</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>

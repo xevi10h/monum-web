@@ -9,7 +9,7 @@ function Page({ params }: { params: { id: string } }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Llocs', href: '/dashboard/places' },
+          { label: 'Monums', href: '/dashboard/places' },
           {
             label: `Recursos`,
             href: `{/dashboard/places/${id}/medias/`,

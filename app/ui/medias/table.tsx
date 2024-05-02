@@ -12,6 +12,14 @@ export default function MediasTable({
   medias: Array<Media>;
   placeId: string;
 }) {
+  const dateFormater = new Intl.DateTimeFormat('ca-ES', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  });
   const renderType = (type: string) => {
     switch (type) {
       case 'video':
@@ -83,16 +91,23 @@ export default function MediasTable({
                   scope="col"
                   className=" px-4 py-5 text-center font-medium sm:pl-6"
                 >
-                  Id
-                </th>
-                <th
-                  scope="col"
-                  className=" px-4 py-5 text-center font-medium sm:pl-6"
-                >
                   Títol
                 </th>
                 <th scope="col" className=" px-3 py-5 text-center font-medium">
                   Tipus
+                </th>
+
+                <th
+                  scope="col"
+                  className=" px-3 py-5 text-center font-medium sm:pl-6"
+                >
+                  Data de creació
+                </th>
+                <th
+                  scope="col"
+                  className=" px-3 py-5 text-center font-medium sm:pl-6"
+                >
+                  Última actualització
                 </th>
                 <th scope="col" className=" px-3 py-5 text-center font-medium">
                   Contingut
@@ -108,18 +123,24 @@ export default function MediasTable({
                   key={media?.id}
                   className="border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className=" px-3 py-3 text-center">{media?.id}</td>
                   <td className=" px-3 py-3 text-center">{media?.title}</td>
                   <td className="px-3 py-3 text-center">
                     <div className="flex items-center justify-center">
                       {renderType(media?.type)}
                     </div>
                   </td>
+                  <td className=" px-3 py-3 text-center">
+                    {dateFormater.format(media?.createdAt)}
+                  </td>
+                  <td className=" px-3 py-3 text-center">
+                    {dateFormater.format(media?.updatedAt)}
+                  </td>
                   <td className="h-36 w-96 overflow-hidden">
                     <div className="flex h-full w-full justify-center overflow-y-auto">
                       {renderContent(media)}
                     </div>
                   </td>
+
                   <td className="py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <DeleteMedia id={media?.id} placeId={placeId} />

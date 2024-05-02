@@ -8,9 +8,9 @@ async function Page() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Llocs', href: '/dashboard/places' },
+          { label: 'Monums', href: '/dashboard/places' },
           {
-            label: 'Afegir Lloc',
+            label: 'Afegir Monum',
             href: '/dashboard/places/create',
             active: true,
           },

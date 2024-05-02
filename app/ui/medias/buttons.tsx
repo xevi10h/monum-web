@@ -12,7 +12,7 @@ export function CreateMedia({ placeId }: { placeId: string }) {
       <div className="max-w-fit">
         <Link
           href={`/dashboard/places/${placeId}/medias/create`}
-          className="flex h-10 items-center rounded-lg bg-monum-green-600 px-4 text-sm font-medium text-white transition-colors hover:bg-monum-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-monum-green-600"
+          className="flex h-10 items-center rounded-lg bg-monum-green-default px-4 text-sm font-medium text-white transition-colors hover:bg-monum-green-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-monum-green-default"
         >
           <span className="hidden md:block">Afegir Recurs</span>{' '}
           <PlusIcon className="h-5 md:ml-4" />

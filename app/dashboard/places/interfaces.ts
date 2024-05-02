@@ -1,6 +1,6 @@
 interface Coordinates {
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
 }
 interface Address {
   street: string;
@@ -17,4 +17,7 @@ interface Place {
   description?: string;
   address: Address;
   importance: number;
+  coordinates?: Coordinates;
+  createdAt: Date;
+  updatedAt: Date;
 }

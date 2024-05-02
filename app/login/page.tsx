@@ -1,4 +1,4 @@
-import MonumIcon from '@/app/ui/monum-icon';
+import MonumIcon from '@/app/ui/monum-icon-white';
 import LoginForm from '@/app/ui/login-form';
 import MonumLetters from '@/app/ui/monum-letters';
 import { Metadata } from 'next';
@@ -12,7 +12,7 @@ export default function LoginPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">
       <div className="relative mx-auto flex w-full max-w-[600px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="h-30 bg-monum-green-500 flex gap-3 rounded-lg p-5">
+        <div className="h-30 flex gap-3 rounded-lg bg-monum-green-default p-5">
           <MonumIcon /> <MonumLetters />
         </div>
         <Suspense fallback={null}>

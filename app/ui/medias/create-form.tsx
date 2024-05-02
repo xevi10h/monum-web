@@ -52,7 +52,7 @@ export default function Form({ placeId }: { placeId: string }) {
   const preventDefault = (event: any) => {
     event.preventDefault();
     event.stopPropagation();
-    setBorderColor('border-monum-green-800');
+    setBorderColor('border-monum-green-default');
   };
 
   // Handle file input change
@@ -232,7 +232,7 @@ export default function Form({ placeId }: { placeId: string }) {
               onDragOver={preventDefault}
               onDragLeave={() => setBorderColor('border-gray-200')}
               onDrop={handleDrop}
-              onMouseEnter={() => setBorderColor('border-monum-green-800')}
+              onMouseEnter={() => setBorderColor('border-monum-green-default')}
               onMouseLeave={() => setBorderColor('border-gray-200')}
             >
               <label

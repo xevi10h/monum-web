@@ -25,6 +25,8 @@ const getMediasOfPlace = graphql(`
       type
       url
       text
+      createdAt
+      updatedAt
     }
   }
 `);
@@ -76,12 +78,24 @@ function Page({ params }: { params: { id: string } }) {
     console.log('No medias');
   } else {
     for (const media of medias) {
+      const rawCreatedAt = media?.createdAt;
+      const rawUpdatedAt = media?.updatedAt;
+      const createdAt =
+        typeof rawCreatedAt === 'string' || typeof rawCreatedAt === 'number'
+          ? new Date(rawCreatedAt)
+          : new Date();
+      const updatedAt =
+        typeof rawUpdatedAt === 'string' || typeof rawUpdatedAt === 'number'
+          ? new Date(rawUpdatedAt)
+          : new Date();
       mediasArray.push({
         id: media?.id ? media.id.toString() : '',
         title: media?.title ? media.title.toString() : '',
         type: media?.type ? media.type.toString() : '',
         url: media?.url ? media.url.toString() : '',
         text: media?.text ? media.text.toString() : '',
+        createdAt: createdAt,
+        updatedAt: updatedAt,
       });
     }
   }
@@ -90,7 +104,7 @@ function Page({ params }: { params: { id: string } }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Llocs', href: '/dashboard/places' },
+          { label: 'Monums', href: '/dashboard/places' },
           {
             label: `Recursos`,
             href: `/dashboard/places/${id}/medias`,
@@ -98,7 +112,7 @@ function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <h1 className="font text-3xl font-medium text-monum-green-800">
+      <h1 className="font text-3xl font-medium text-monum-green-default">
         {place?.name}
       </h1>
       <CreateMedia placeId={id} />

@@ -5,6 +5,7 @@ import NavLinks from '@/app/ui/dashboard/nav-links';
 import MonumLetters from '@/app/ui/monum-letters';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import MonumIcon from '../monum-icon-white';
 
 export default function SideNav() {
   const router = useRouter();
@@ -16,10 +17,11 @@ export default function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
       <Link
-        className="bg-monum-green-600 mb-2 flex h-20 items-end justify-start rounded-md p-4 md:h-40"
-        href="/"
+        className="mb-2 flex h-20 items-end justify-start rounded-md bg-monum-green-default p-4 md:h-40"
+        href="/dashboard"
       >
-        <div className="w-32 text-white md:w-40">
+        <div className="flex items-center gap-3 text-white">
+          <MonumIcon />
           <MonumLetters />
         </div>
       </Link>
@@ -27,7 +29,7 @@ export default function SideNav() {
         <NavLinks />
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
         <form onSubmit={handleSubmit}>
-          <button className="hover:bg-monum-green-200 hover:text-monum-green-600 flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3">
+          <button className="hover:bg-monum-green-hover flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:text-monum-green-default md:flex-none md:justify-start md:p-2 md:px-3">
             <PowerIcon className="w-6" />
             <div className="hidden md:block">Sortir</div>
           </button>

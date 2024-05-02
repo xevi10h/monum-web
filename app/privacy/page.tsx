@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import MonumLetters from '@/app/ui/monum-letters';
-import MonumIcon from '@/app/ui/monum-icon';
+import MonumIcon from '@/app/ui/monum-icon-white';
 
 export const metadata: Metadata = {
   title: 'Privacy',
@@ -9,16 +9,16 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="p-42 relative mx-auto mb-20 flex flex-col space-y-2.5">
-      <div className="h-30 flex gap-3 bg-monum-green-500 p-5">
+      <div className="h-30 flex gap-3 bg-monum-green-default p-5">
         <MonumIcon />
         <MonumLetters />
       </div>
       <div className="rounded-lg bg-white p-4 shadow-md">
-        <h1 className="mb-4 text-2xl font-bold text-monum-green-700">
+        <h1 className="mb-4 text-2xl font-bold text-monum-green-default">
           Política de Privacidad de Monum
         </h1>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Introducción
           </h2>
           <p>
@@ -28,7 +28,7 @@ export default function Page() {
           </p>
         </section>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Consentimiento de los Usuarios
           </h2>
           <p>
@@ -39,7 +39,7 @@ export default function Page() {
           </p>
         </section>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Menores de Edad
           </h2>
           <p>
@@ -50,7 +50,7 @@ export default function Page() {
           </p>
         </section>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Transferencias Internacionales de Datos
           </h2>
           <p>
@@ -59,7 +59,7 @@ export default function Page() {
           </p>
         </section>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Proveedores de Terceros y Socios
           </h2>
           <p>
@@ -69,7 +69,7 @@ export default function Page() {
           </p>
         </section>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Derechos Específicos de los Usuarios
           </h2>
           <p>
@@ -81,7 +81,7 @@ export default function Page() {
           </p>
         </section>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Seguridad de los Datos
           </h2>
           <p>
@@ -96,7 +96,7 @@ export default function Page() {
           </p>
         </section>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Notificación de Violaciones de Datos
           </h2>
           <p>
@@ -112,7 +112,7 @@ export default function Page() {
           </p>
         </section>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Cambios a Esta Política de Privacidad
           </h2>
           <p>
@@ -121,7 +121,7 @@ export default function Page() {
           </p>
         </section>
         <section className="mb-6">
-          <h2 className="mb-2 text-lg font-semibold text-monum-green-500">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
             Contacto
           </h2>
           <p>

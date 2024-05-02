@@ -5,6 +5,14 @@ import {
 } from '@/app/ui/places/buttons';
 
 export default function PlacesTable({ places }: { places: Array<Place> }) {
+  const dateFormater = new Intl.DateTimeFormat('ca-ES', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  });
   return (
     <div className=" mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -12,7 +20,7 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
           <div className="md:hidden">
             {places?.map((place) => (
               <div
-                key={place?.id}
+                key={dateFormater.format(place?.createdAt)}
                 className="mb-2 w-full rounded-md bg-white p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
@@ -35,12 +43,6 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
                   scope="col"
                   className="px-4 py-5 text-center font-medium sm:pl-6"
                 >
-                  Id
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-medium sm:pl-6"
-                >
                   Nom
                 </th>
                 <th scope="col" className="px-3 py-5 text-center font-medium">
@@ -48,6 +50,18 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
                 </th>
                 <th scope="col" className="px-3 py-5 text-center font-medium">
                   Importància
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-center font-medium sm:pl-6"
+                >
+                  Data de creació
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-center font-medium sm:pl-6"
+                >
+                  Última actualització
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Manage</span>
@@ -60,7 +74,6 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
                   key={place?.id}
                   className="border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className=" px-3 py-3 text-center">{place?.id}</td>
                   <td className=" px-3 py-3 text-center">{place?.name}</td>
                   <td className=" px-3 py-3 text-center">
                     {`${
@@ -78,7 +91,12 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
                     ${place?.address.country.includes('undefined') ? 'NO COUNTRY' : place?.address.country}`}
                   </td>
                   <td className="px-3	 py-3 text-center">{place?.importance}</td>
-
+                  <td className=" px-3 py-3 text-center">
+                    {dateFormater.format(place?.createdAt)}
+                  </td>
+                  <td className=" px-3 py-3 text-center">
+                    {dateFormater.format(place?.updatedAt)}
+                  </td>
                   <td className="py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <NavigateToMedias id={place?.id} />

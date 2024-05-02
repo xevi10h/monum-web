@@ -27,6 +27,13 @@ export default function EditPlaceForm({ place }: { place: Place }) {
         console.log('Failed updating place', data);
       }
     },
+    update: (cache) => {
+      cache.evict({
+        id: cache.identify({ __typename: 'Place', id: place.id }),
+      });
+      cache.evict({ fieldName: 'getPlaceBySearchAndPagination' });
+      cache.gc();
+    },
   });
 
   const handleSubmit = async (e: any) => {
@@ -40,8 +47,8 @@ export default function EditPlaceForm({ place }: { place: Place }) {
           importance: parseInt(e.target.importance.value),
           address: {
             coordinates: {
-              lat: parseFloat(e.target.latitude.value),
-              lng: parseFloat(e.target.longitude.value),
+              lat: parseFloat(e.target.lat.value),
+              lng: parseFloat(e.target.lng.value),
             },
             street: e.target.street.value,
             city: e.target.city.value,
@@ -113,14 +120,14 @@ export default function EditPlaceForm({ place }: { place: Place }) {
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="latitude"
-                name="latitude"
+                id="lat"
+                name="lat"
                 type="number"
                 min={-90}
                 max={90}
                 step={0.000000001}
                 placeholder="Latitud"
-                defaultValue={place.address.coordinates?.latitude}
+                defaultValue={place.address.coordinates?.lat}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
@@ -128,14 +135,14 @@ export default function EditPlaceForm({ place }: { place: Place }) {
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="longitude"
-                name="longitude"
+                id="lng"
+                name="lng"
                 type="number"
                 min={-90}
                 max={90}
                 step={0.000000001}
                 placeholder="Longitud"
-                defaultValue={place.address.coordinates?.longitude}
+                defaultValue={place.address.coordinates?.lng}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>

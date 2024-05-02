@@ -11,8 +11,8 @@ const getUsersQuery = graphql(`
     }
   }
 `);
-async function Page() {
-  const { data } = await useQuery(getUsersQuery);
+function Page() {
+  const { data } = useQuery(getUsersQuery);
   const usersNumber = data?.users?.length;
   return (
     <main>

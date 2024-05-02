@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation';
 const links = [
   { name: 'Inici', href: '/dashboard', icon: HomeIcon },
   {
-    name: 'Llocs',
+    name: 'Monums',
     href: '/dashboard/places',
     icon: MapPinIcon,
   },
@@ -28,9 +28,9 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              'hover:bg-monum-green-200 hover:text-monum-green-600 flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3',
+              'hover:bg-monum-green-hover flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:text-monum-green-default md:flex-none md:justify-start md:p-2 md:px-3',
               {
-                'bg-monum-green-300 text-monum-green-600':
+                'bg-monum-green-selected text-monum-green-default':
                   pathName === link.href,
               },
             )}

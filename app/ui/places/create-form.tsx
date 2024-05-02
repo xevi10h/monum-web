@@ -37,8 +37,8 @@ export default function Form() {
           importance: parseInt(e.target.importance.value),
           address: {
             coordinates: {
-              lat: parseFloat(e.target.latitude.value),
-              lng: parseFloat(e.target.longitude.value),
+              lat: parseFloat(e.target.lat.value),
+              lng: parseFloat(e.target.lng.value),
             },
             street: e.target.street.value,
             city: e.target.city.value,
@@ -105,8 +105,8 @@ export default function Form() {
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="latitude"
-                name="latitude"
+                id="lat"
+                name="lat"
                 type="number"
                 min={-90}
                 max={90}
@@ -119,8 +119,8 @@ export default function Form() {
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="longitude"
-                name="longitude"
+                id="lng"
+                name="lng"
                 type="number"
                 min={-90}
                 max={90}
@@ -195,7 +195,7 @@ export default function Form() {
           Cancel·lar
         </Link>
         <Button disabled={loading} aria-disabled={loading}>
-          Afegir Lloc
+          Afegir Monum
         </Button>
       </div>
     </form>

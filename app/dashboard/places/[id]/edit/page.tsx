@@ -24,6 +24,8 @@ const getPlaceById = graphql(`
         }
       }
       importance
+      createdAt
+      updatedAt
     }
   }
 `);
@@ -50,8 +52,8 @@ function Page({ params }: { params: { id: string } }) {
     description: place?.description as string,
     address: {
       coordinates: {
-        latitude: place?.address.coordinates.lat as number,
-        longitude: place?.address.coordinates.lng as number,
+        lat: place?.address.coordinates.lat as number,
+        lng: place?.address.coordinates.lng as number,
       },
       street: place?.address.street as string,
       city: place?.address.city as string,
@@ -60,14 +62,16 @@ function Page({ params }: { params: { id: string } }) {
       country: place?.address.country as string,
     },
     importance: place?.importance as number,
+    createdAt: place?.createdAt as Date,
+    updatedAt: place?.updatedAt as Date,
   };
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Llocs', href: '/dashboard/places' },
+          { label: 'Monums', href: '/dashboard/places' },
           {
-            label: 'Edita el lloc',
+            label: 'Edita el monum',
             href: `/dashboard/places/${id}/edit`,
             active: true,
           },
