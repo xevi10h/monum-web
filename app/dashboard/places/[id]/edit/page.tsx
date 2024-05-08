@@ -62,8 +62,8 @@ function Page({ params }: { params: { id: string } }) {
       country: place?.address.country as string,
     },
     importance: place?.importance as number,
-    createdAt: place?.createdAt as Date,
-    updatedAt: place?.updatedAt as Date,
+    createdAt: new Date(place?.createdAt || 0),
+    updatedAt: new Date(place?.updatedAt || 0),
   };
   return (
     <main>

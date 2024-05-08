@@ -6,11 +6,26 @@ import {
   PlusIcon,
   FolderIcon,
   FolderOpenIcon,
+  PhotoIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Modal from '@/app/ui/shared/confirmation-modal';
+
+export function NavigateToPhotos({ id }: { id: string }) {
+  const [isHovered, setIsHovered] = useState(false);
+  return (
+    <Link
+      href={`/dashboard/places/${id}/photos`}
+      className="bg-monum-green-light hover:bg-monum-green-hover relative rounded-md border p-2"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <PhotoIcon className={`w-5`} />
+    </Link>
+  );
+}
 
 export function NavigateToMedias({ id }: { id: string }) {
   const [isHovered, setIsHovered] = useState(false);

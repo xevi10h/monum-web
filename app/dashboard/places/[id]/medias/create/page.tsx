@@ -1,5 +1,5 @@
 'use client';
-import Form from '@/app/ui/medias/create-form';
+import Form from '@/app/ui/places/medias/create-form';
 import Breadcrumbs from '@/app/ui/shared/breadcrumbs';
 import requireAuth from '@/atuh';
 

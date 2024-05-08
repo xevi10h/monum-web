@@ -19,6 +19,10 @@ const config: Config = {
           hover: 'rgba(103, 158, 92, 0.7)',
           selected: 'rgba(162, 199, 143, 0.5)',
         },
+        'monum-red': {
+          default: '#BF1C39',
+          hover: '#D73754',
+        },
       },
     },
     keyframes: {

@@ -9,6 +9,7 @@ export default function MonumLetters() {
         width={250}
         height={47}
         className="block"
+        priority
       />
     </div>
   );

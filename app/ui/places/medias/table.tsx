@@ -3,7 +3,7 @@ import {
   SpeakerWaveIcon,
   VideoCameraIcon,
 } from '@heroicons/react/24/outline';
-import { DeleteMedia } from '@/app/ui/medias/buttons';
+import { DeleteMedia } from '@/app/ui/places/medias/buttons';
 
 export default function MediasTable({
   medias,

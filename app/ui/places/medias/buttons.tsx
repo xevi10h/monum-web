@@ -8,7 +8,7 @@ import Modal from '@/app/ui/shared/confirmation-modal';
 
 export function CreateMedia({ placeId }: { placeId: string }) {
   return (
-    <div className="mr-10 flex justify-end">
+    <div className="flex justify-end">
       <div className="max-w-fit">
         <Link
           href={`/dashboard/places/${placeId}/medias/create`}

@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 import requireAuth from '@/atuh';
 import { VariablesOf, graphql } from '@/graphql';
 import { useQuery } from '@apollo/client';
-import MediasTable from '@/app/ui/medias/table';
-import { CreateMedia } from '@/app/ui/medias/buttons';
+import MediasTable from '@/app/ui/places/medias/table';
+import { CreateMedia } from '@/app/ui/places/medias/buttons';
 import { useEffect } from 'react';
 
 const getPlaceById = graphql(`
