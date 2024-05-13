@@ -2,12 +2,13 @@
 import Pagination from '@/app/ui/places/pagination';
 import Search from '@/app/ui/search';
 import PlacesTable from '@/app/ui/places/table';
-import { CreatePlace } from '@/app/ui/places/buttons';
+import { CreatePlace, TogglePlaceView } from '@/app/ui/places/buttons';
 import { montserrat } from '@/app/ui/fonts';
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import requireAuth from '@/atuh';
 import { VariablesOf, graphql } from '@/graphql';
 import { useQuery } from '@apollo/client';
+import { Place } from '../interfaces';
 
 const getPlaceBySearchAndPagination = graphql(`
   query Query($textSearch: String!, $pageNumber: Int!, $resultsPerPage: Int!) {
@@ -51,6 +52,7 @@ function Page({
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
+
   const variables: VariablesOf<typeof getPlaceBySearchAndPagination> = {
     textSearch: query,
     pageNumber: currentPage,
@@ -64,11 +66,10 @@ function Page({
     },
   );
 
-  const places = data?.getPlaceBySearchAndPagination?.places || [];
   const totalPages =
     data?.getPlaceBySearchAndPagination?.pageInfo?.totalPages || 1;
-  let placesForTable: Array<Place> = [];
-  for (const place of places) {
+
+  const places = data?.getPlaceBySearchAndPagination?.places?.map((place) => {
     const rawCreatedAt = place?.createdAt;
     const rawUpdatedAt = place?.updatedAt;
     const createdAt =
@@ -79,7 +80,7 @@ function Page({
       typeof rawUpdatedAt === 'string' || typeof rawUpdatedAt === 'number'
         ? new Date(rawUpdatedAt)
         : new Date();
-    placesForTable.push({
+    return {
       id: place?.id || '',
       name: place?.name || '',
       address: {
@@ -93,8 +94,8 @@ function Page({
       importance: place?.importance || 1,
       createdAt: createdAt,
       updatedAt: updatedAt,
-    });
-  }
+    };
+  }) as Array<Place>;
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -102,15 +103,18 @@ function Page({
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Busca monums..." />
+        <TogglePlaceView view="list" />
         <CreatePlace />
       </div>
-      <div className="mt-4">
-        <Suspense>
-          <PlacesTable places={placesForTable} />
-        </Suspense>
-      </div>
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
+      <div>
+        <div className="mt-4">
+          <Suspense>
+            <PlacesTable places={places} />
+          </Suspense>
+        </div>
+        <div className="mt-5 flex w-full justify-center">
+          <Pagination totalPages={totalPages} />
+        </div>
       </div>
     </div>
   );

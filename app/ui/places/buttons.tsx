@@ -7,6 +7,8 @@ import {
   FolderIcon,
   FolderOpenIcon,
   PhotoIcon,
+  ListBulletIcon,
+  MapIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -18,7 +20,7 @@ export function NavigateToPhotos({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/places/${id}/photos`}
-      className="bg-monum-green-light hover:bg-monum-green-hover relative rounded-md border p-2"
+      className="relative rounded-md border bg-monum-green-light p-2 hover:bg-monum-green-hover"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -77,7 +79,7 @@ export function DeletePlace({ id }: { id: string }) {
   const [deletePlace, { loading, error }] = useMutation(deletePlaceMutation, {
     onCompleted: () => {
       console.log('Place deleted');
-      router.push('/dashboard/places');
+      router.push('/dashboard/places/list');
     },
     onError: (error) => {
       console.error('Delete place error:', error);
@@ -131,3 +133,29 @@ export function DeletePlace({ id }: { id: string }) {
     </>
   );
 }
+
+interface TogglePlaceViewProps {
+  view: 'list' | 'map';
+}
+
+export const TogglePlaceView: React.FC<TogglePlaceViewProps> = ({
+  view,
+}: TogglePlaceViewProps) => {
+  const router = useRouter();
+  return (
+    <div className="flex justify-center gap-4 p-4">
+      <button
+        className={`rounded-full p-2 ${view === 'list' ? 'bg-blue-500' : 'bg-gray-300'} shadow-lg`}
+        onClick={() => router.push('/dashboard/places/list')}
+      >
+        <ListBulletIcon className="h-6 w-6 text-white" />
+      </button>
+      <button
+        className={`rounded-full p-2 ${view === 'map' ? 'bg-blue-500' : 'bg-gray-300'} shadow-lg`}
+        onClick={() => router.push('/dashboard/places/map')}
+      >
+        <MapIcon className="h-6 w-6 text-white" />
+      </button>
+    </div>
+  );
+};

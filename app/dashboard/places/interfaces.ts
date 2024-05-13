@@ -1,17 +1,17 @@
-interface Coordinates {
+export interface Coordinates {
   lat: number;
   lng: number;
 }
-interface Address {
+export interface Address {
   street: string;
   city: string;
   country: string;
   postalCode: string;
   province: string;
-  coordinates?: Coordinates;
+  coordinates: Coordinates;
 }
 
-interface Place {
+export interface Place {
   id: string;
   name: string;
   description?: string;
@@ -20,4 +20,16 @@ interface Place {
   coordinates?: Coordinates;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface PlaceMap {
+  id: string;
+  name: string;
+  address: {
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+  };
+  importance: number;
 }

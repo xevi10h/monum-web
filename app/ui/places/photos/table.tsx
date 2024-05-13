@@ -75,7 +75,7 @@ export default function PhotosTable({ photos, placeId }: PhotosTableProps) {
       onError: (error) => console.error('Update place error', error),
       onCompleted: (data) => {
         if (data.updatePlacePhotos) {
-          const redirect = '/dashboard/places';
+          const redirect = '/dashboard/places/list';
           router.push(redirect);
         } else {
           console.log('Failed updating place', data);
@@ -347,7 +347,7 @@ export default function PhotosTable({ photos, placeId }: PhotosTableProps) {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className={'bg-monum-green-light overflow-auto rounded p-4'}
+                className={'overflow-auto rounded bg-monum-green-light p-4'}
               >
                 {provisionalPhotos.map(
                   (photo: OldPhoto | NewPhoto, index: number) => {
@@ -425,7 +425,7 @@ export default function PhotosTable({ photos, placeId }: PhotosTableProps) {
                                 width={200}
                                 height={200}
                                 style={{ objectFit: 'contain' }}
-                                className={`bg-monum-red-default hover:bg-monum-red-hover h-12 w-12 rounded-full px-3`}
+                                className={`h-12 w-12 rounded-full bg-monum-red-default px-3 hover:bg-monum-red-hover`}
                               />
                             </button>
                           </div>
@@ -441,7 +441,7 @@ export default function PhotosTable({ photos, placeId }: PhotosTableProps) {
       </div>
       <div className="mt-6 flex justify-center gap-4">
         <Link
-          href="/dashboard/places"
+          href="/dashboard/places/list"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel·lar

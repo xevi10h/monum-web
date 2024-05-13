@@ -23,6 +23,9 @@ const config: Config = {
           default: '#BF1C39',
           hover: '#D73754',
         },
+        'monum-yellow': {
+          default: '#FFF172',
+        },
       },
     },
     keyframes: {
@@ -31,6 +34,13 @@ const config: Config = {
           transform: 'translateX(100%)',
         },
       },
+      spin: {
+        '0%': { transform: 'rotate(0deg)' },
+        '100%': { transform: 'rotate(360deg)' },
+      },
+    },
+    animation: {
+      spin: 'spin 1s linear infinite',
     },
   },
   plugins: [require('@tailwindcss/forms')],

@@ -21,7 +21,7 @@ export default function Page() {
           </p>
           <Link
             href="/login"
-            className="hover:bg-monum-green-dark flex items-center gap-5 self-start rounded-lg bg-monum-green-default px-6 py-3 text-sm font-medium text-white transition-colors md:text-base"
+            className="flex items-center gap-5 self-start rounded-lg bg-monum-green-default px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-monum-green-dark md:text-base"
           >
             <span>Accedir-hi</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>

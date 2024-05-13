@@ -1,10 +1,9 @@
 'use client';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { HashtagIcon } from '@heroicons/react/24/outline';
 import { useMutation } from '@apollo/client';
 import { VariablesOf, graphql } from '@/graphql';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const CreatePlaceMutation = graphql(`
   mutation Mutation($place: CreatePlaceInput!) {
@@ -16,11 +15,13 @@ const CreatePlaceMutation = graphql(`
 
 export default function Form() {
   const router = useRouter();
+  const defaultLat = useSearchParams().get('defaultLat');
+  const defaultLng = useSearchParams().get('defaultLat');
   const [createPlace, { loading, error }] = useMutation(CreatePlaceMutation, {
     onError: (error) => console.error('Create place error:', error),
     onCompleted: (data) => {
       if (data.createPlace?.id) {
-        const redirect = '/dashboard/places';
+        const redirect = '/dashboard/places/list';
         router.push(redirect);
       } else {
         console.log('Failed creating place', data);
@@ -198,8 +199,10 @@ export default function Form() {
                 min={-90}
                 max={90}
                 step={0.000000001}
+                defaultValue={defaultLat ? Number(defaultLat) : undefined}
+                disabled={Boolean(defaultLat)}
                 placeholder="Latitud"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+                className={`${defaultLat ? 'bg-gray-100' : ''} peer block w-full rounded-md border border-gray-200  py-2 pl-3 text-sm outline-2 placeholder:text-gray-500`}
               />
             </div>
             <div className="flex-1" style={{ flexBasis: '12.5%' }}>
@@ -212,21 +215,23 @@ export default function Form() {
                 type="number"
                 min={-90}
                 max={90}
+                defaultValue={defaultLng ? Number(defaultLng) : undefined}
+                disabled={Boolean(defaultLng)}
                 step={0.000000001}
                 placeholder="Longitud"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
+                className={`${defaultLng ? 'bg-gray-100' : ''} peer block w-full rounded-md border border-gray-200  py-2 pl-3 text-sm outline-2 placeholder:text-gray-500`}
               />
             </div>
           </div>
         </div>
       </div>
       <div className="mt-6 flex justify-end gap-4">
-        <Link
-          href="/dashboard/places"
+        <button
+          onClick={router.back}
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel·lar
-        </Link>
+        </button>
         <Button disabled={loading} aria-disabled={loading}>
           Afegir Monum
         </Button>

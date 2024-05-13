@@ -1,3 +1,4 @@
+import { Place } from '@/app/dashboard/places/interfaces';
 import {
   UpdatePlace,
   DeletePlace,

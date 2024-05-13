@@ -104,7 +104,7 @@ function Page({ params }: { params: { id: string } }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Monums', href: '/dashboard/places' },
+          { label: 'Monums', href: '/dashboard/places/list' },
           {
             label: `Recursos`,
             href: `/dashboard/places/${id}/medias`,

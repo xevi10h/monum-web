@@ -5,6 +5,7 @@ import requireAuth from '@/atuh';
 import { VariablesOf, graphql } from '@/graphql';
 import { useQuery } from '@apollo/client';
 import Form from '@/app/ui/places/edit-form';
+import { Place } from '../../interfaces';
 
 const getPlaceById = graphql(`
   query Query($placeId: ID!) {
@@ -69,7 +70,7 @@ function Page({ params }: { params: { id: string } }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Monums', href: '/dashboard/places' },
+          { label: 'Monums', href: '/dashboard/places/list' },
           {
             label: 'Edita el monum',
             href: `/dashboard/places/${id}/edit`,

@@ -12,7 +12,8 @@ const links = [
   { name: 'Inici', href: '/dashboard', icon: HomeIcon },
   {
     name: 'Monums',
-    href: '/dashboard/places',
+    href: '/dashboard/places/list',
+    href2: '/dashboard/places/map',
     icon: MonumMap,
   },
 ];
@@ -29,10 +30,10 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              'hover:bg-monum-green-hover flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:text-monum-green-default md:flex-none md:justify-start md:p-2 md:px-3',
+              'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-monum-green-hover hover:text-monum-green-default md:flex-none md:justify-start md:p-2 md:px-3',
               {
                 'bg-monum-green-selected text-monum-green-default':
-                  pathName === link.href,
+                  pathName === link.href || pathName === link.href2,
               },
             )}
           >
