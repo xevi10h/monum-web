@@ -20,8 +20,7 @@ export default function SideNav() {
         className="mb-2 flex h-20 items-end justify-start rounded-md bg-monum-green-dark p-3 md:h-40"
         style={{
           backgroundImage: 'url(/background_monums_horizontal.png)',
-          backgroundRepeat: 'repeat-x',
-          backgroundSize: 'auto 100%',
+          backgroundSize: 'cover',
         }}
         href="/dashboard"
       >
