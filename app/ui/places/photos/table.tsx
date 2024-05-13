@@ -168,51 +168,48 @@ export default function PhotosTable({ photos, placeId }: PhotosTableProps) {
       reader.readAsDataURL(file);
     });
 
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files && e.target.files.length > 0) {
-        const files = e.target.files;
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          if (
-            file.type === 'image/jpeg' ||
-            file.type === 'image/png' ||
-            file.type === 'image/jpg'
-          ) {
-            setProvisionalPhotos((prev) => {
-              let newName = file.name;
-              let counter = 0;
-              const regex = /(.+?)(?:\((\d+)\))?(\.[^.]*$|$)/;
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const files = e.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (
+          file.type === 'image/jpeg' ||
+          file.type === 'image/png' ||
+          file.type === 'image/jpg'
+        ) {
+          setProvisionalPhotos((prev) => {
+            let newName = file.name;
+            let counter = 0;
+            const regex = /(.+?)(?:\((\d+)\))?(\.[^.]*$|$)/;
 
-              while (prev.some((photo) => photo.name === newName)) {
-                const match = regex.exec(file.name);
-                if (match) {
-                  const base = match[1];
-                  const extension = match[3] || '';
-                  counter++;
-                  newName = `${base}(${counter})${extension}`;
-                } else {
-                  newName = `${file.name}(${counter})`;
-                }
+            while (prev.some((photo) => photo.name === newName)) {
+              const match = regex.exec(file.name);
+              if (match) {
+                const base = match[1];
+                const extension = match[3] || '';
+                counter++;
+                newName = `${base}(${counter})${extension}`;
+              } else {
+                newName = `${file.name}(${counter})`;
               }
-              return [
-                ...prev,
-                {
-                  name: newName,
-                  url: URL.createObjectURL(file),
-                  file,
-                },
-              ];
-            });
-            setInputImage(false);
-          } else {
-            alert('Please select a valid image file.');
-          }
+            }
+            return [
+              ...prev,
+              {
+                name: newName,
+                url: URL.createObjectURL(file),
+                file,
+              },
+            ];
+          });
+          setInputImage(false);
+        } else {
+          alert('Please select a valid image file.');
         }
       }
-    },
-    [provisionalPhotos],
-  );
+    }
+  }, []);
 
   const [dragging, setDragging] = useState(false);
 

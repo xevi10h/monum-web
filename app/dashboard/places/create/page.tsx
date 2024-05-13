@@ -2,6 +2,7 @@
 import Form from '@/app/ui/places/create-form';
 import Breadcrumbs from '@/app/ui/shared/breadcrumbs';
 import requireAuth from '@/atuh';
+import { Suspense } from 'react';
 
 async function Page() {
   return (
@@ -16,7 +17,10 @@ async function Page() {
           },
         ]}
       />
-      <Form />
+      <Suspense fallback={null}>
+        {' '}
+        <Form />
+      </Suspense>
     </main>
   );
 }

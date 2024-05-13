@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { useMutation } from '@apollo/client';
 import { VariablesOf, graphql } from '@/graphql';
@@ -15,8 +14,9 @@ const CreatePlaceMutation = graphql(`
 
 export default function Form() {
   const router = useRouter();
-  const defaultLat = useSearchParams().get('defaultLat');
-  const defaultLng = useSearchParams().get('defaultLat');
+  const searchParams = useSearchParams();
+  const defaultLat = searchParams.get('defaultLat');
+  const defaultLng = searchParams.get('defaultLng');
   const [createPlace, { loading, error }] = useMutation(CreatePlaceMutation, {
     onError: (error) => console.error('Create place error:', error),
     onCompleted: (data) => {
