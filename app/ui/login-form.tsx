@@ -52,8 +52,8 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
+    <form onSubmit={handleSubmit} className="space-y-3 ">
+      <div className="flex-1 rounded-lg  bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`${montserrat.className} mb-3 text-2xl`}>
           Entra les teves credencials per continuar.
         </h1>

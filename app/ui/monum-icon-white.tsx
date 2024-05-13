@@ -6,8 +6,8 @@ export default function MonumIcon() {
       <Image
         src="/monum-icon-white.png"
         alt="Monum Icon"
-        width={75}
-        height={75}
+        width={50}
+        height={50}
         className="block"
       />
     </div>

@@ -6,8 +6,8 @@ export default function MonumLetters() {
       <Image
         src="/monum-letters-white.png"
         alt="Monum Letters White"
-        width={250}
-        height={47}
+        width={267}
+        height={50}
         className="block"
         priority
       />

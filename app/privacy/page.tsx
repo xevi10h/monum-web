@@ -9,7 +9,16 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="p-42 relative mx-auto mb-20 flex flex-col space-y-2.5">
-      <div className="h-30 flex gap-3 bg-monum-green-default p-5">
+      <div
+        className="h-30 align-items-center flex shrink-0 justify-end gap-3 rounded-lg bg-monum-green-dark px-20 py-10"
+        style={{
+          backgroundImage: 'url(/background_monums_horizontal.png)',
+          backgroundRepeat: 'repeat-x',
+          backgroundSize: 'auto 100%',
+          width: '100%',
+          minHeight: '150px',
+        }}
+      >
         <MonumIcon />
         <MonumLetters />
       </div>

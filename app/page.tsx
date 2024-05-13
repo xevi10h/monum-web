@@ -7,7 +7,16 @@ import Image from 'next/image';
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col p-6">
-      <div className="h-30 align-items-center flex shrink-0 gap-3 rounded-lg bg-monum-green-default p-4">
+      <div
+        className="h-30 align-items-center flex shrink-0 justify-end gap-3 rounded-lg bg-monum-green-dark px-20 py-10"
+        style={{
+          backgroundImage: 'url(/background_monums_horizontal.png)',
+          backgroundRepeat: 'repeat-x',
+          backgroundSize: 'auto 100%',
+          width: '100%',
+          minHeight: '150px',
+        }}
+      >
         <MonumIcon /> <MonumLetters />
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
