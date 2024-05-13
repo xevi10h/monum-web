@@ -15,7 +15,7 @@ import Image from 'next/image';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default function MapboxMap({ places }: { places: PlaceMap[] }) {
-  const mapboxToken = process.env.NEXT_PRIVATE_MAPBOX_TOKEN;
+  const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPlace, setSelectedPlace] = useState<PlaceMap | null>(null);
   const [onAddPlaceCoordinates, setOnAddPlaceCoordinates] =
