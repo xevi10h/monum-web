@@ -32,7 +32,7 @@ export default function Page() {
           </h2>
           <p>
             En Monum, nos comprometemos a proteger su privacidad. Esta Política
-            de Privacidad explica cómo recopilamos, usamos, procesamos, y
+            de Privacidad explica cómo recopilamos, usamos, procesamos y
             compartimos su información personal al usar Monum.
           </p>
         </section>
@@ -85,7 +85,7 @@ export default function Page() {
             Bajo el GDPR y otras regulaciones de privacidad, usted tiene
             derechos sobre sus datos, incluidos el acceso, la rectificación, la
             eliminación, la oposición al procesamiento, la limitación del
-            procesamiento, y la portabilidad de los datos. Puede ejercer estos
+            procesamiento y la portabilidad de los datos. Puede ejercer estos
             derechos contactándonos directamente.
           </p>
         </section>
@@ -118,6 +118,18 @@ export default function Page() {
             que usted puede tomar para proteger sus datos. Estamos comprometidos
             con la transparencia y la protección de nuestros usuarios, actuando
             con rapidez y responsabilidad ante cualquier incidente de seguridad.
+          </p>
+        </section>
+        <section className="mb-6">
+          <h2 className="mb-2 text-lg font-semibold text-monum-green-default">
+            Política de Retención y Eliminación de Datos
+          </h2>
+          <p>
+            Retenemos sus datos personales durante el tiempo necesario para
+            cumplir con los propósitos para los que fueron recopilados,
+            incluyendo cualquier obligación legal, contable o de informes. Puede
+            solicitar la eliminación de sus datos en cualquier momento
+            contactándonos a través de los canales proporcionados.
           </p>
         </section>
         <section className="mb-6">
