@@ -1,0 +1,135 @@
+{
+  "Root": {
+    "access": "Accéder",
+    "title": "Bienvenue à Monum !",
+    "subtitle": "Votre application de gestion des monuments et des lieux d'intérêt"
+  },
+  "Login": {
+    "title": "Entrez vos identifiants pour continuer",
+    "email": "Courriel",
+    "emailPlaceholder": "Entrez votre courriel",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "login": "Se connecter"
+  },
+  "Sidenav": {
+    "home": "Accueil",
+    "monums": "Monums",
+    "settings": "Paramètres",
+    "routes": "Itinéraires"
+  },
+  "Home": {
+    "title": "Panneau d'administration",
+    "totalUsers": "# Utilisateurs totaux",
+    "loading": "Chargement..."
+  },
+  "MonumsList": {
+    "title": "Monums",
+    "name": "Nom",
+    "address": "Adresse",
+    "importance": "Importance",
+    "createdAt": "Date de création",
+    "updatedAt": "Dernière mise à jour",
+    "actions": "Actions",
+    "addMonum": "Ajouter monum",
+    "searchMonums": "Rechercher monums..."
+  },
+  "MonumsMap": {
+    "whatDoYouWant": "Que voulez-vous faire ?",
+    "addMonum": "Ajouter monum",
+    "cancel": "Annuler",
+    "searchMonums": "Rechercher monums..."
+  },
+  "MonumDetail": {
+    "editMonum": "Modifier le monum",
+    "addMonum": "Ajouter un monum",
+    "basicInfo": "Informations de base",
+    "name": "Nom",
+    "description": "Description",
+    "importance": "Importance",
+    "address": "Adresse",
+    "completeAddress": "Adresse complète",
+    "city": "Ville",
+    "country": "Pays",
+    "postalCode": "Code postal",
+    "province": "Province",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "cancel": "Annuler",
+    "save": "Enregistrer Monum"
+  },
+  "MonumEditNotFound": {
+    "notFound": "Nous n'avons pas pu trouver le monum",
+    "goBack": "Retourner"
+  },
+  "MonumDelete": {
+    "title": "Supprimer le monum",
+    "message": "Vous êtes sur le point de supprimer ce monum, cette action ne peut pas être annulée. Êtes-vous sûr(e) de vouloir continuer ?"
+  },
+  "MediaList": {
+    "medias": "Ressources",
+    "title": "Titre",
+    "type": "Type",
+    "createdAt": "Date de création",
+    "updatedAt": "Dernière mise à jour",
+    "content": "Contenu",
+    "addMedia": "Ajouter ressource"
+  },
+  "MediaCreate": {
+    "medias": "Ressources",
+    "addNewMedia": "Ajouter une nouvelle ressource",
+    "title": "Titre",
+    "type": "Type de ressource",
+    "text": "Texte",
+    "textDescription": "Entrez le texte de la ressource",
+    "mediaMark": "Évaluation de la ressource",
+    "cancel": "Annuler",
+    "save": "Ajouter Ressource",
+    "typeText": "Texte",
+    "typeAudio": "Audio",
+    "typeVideo": "Vidéo",
+    "videoDescription": "Vidéo (en format ",
+    "grabOrAddVideo": "Glissez et déposez un fichier vidéo ici ou cliquez pour sélectionner un fichier.",
+    "formatNotSupported": "Format de vidéo non pris en charge"
+  },
+  "MediaDelete": {
+    "title": "Supprimer la ressource",
+    "message": "Vous êtes sur le point de supprimer cette ressource, cette action est irréversible. Êtes-vous sûr(e) de vouloir continuer ?",
+    "cancel": "Annuler",
+    "confirm": "Confirmer"
+  },
+  "PhotosList": {
+    "photos": "Photos",
+    "photo": "Photo",
+    "addPhoto": "Ajouter photo",
+    "cancel": "Annuler",
+    "save": "Mettre à jour",
+    "created": "Créé le",
+    "by": "par",
+    "newPhoto": "Nouvelle photo",
+    "grabOrAddPhoto": "Glissez vos photos ici ou cliquez pour les sélectionner"
+  },
+  "Settings": {
+    "title": "Paramètres",
+    "profile": "Profil",
+    "updateProfile": "Mettez à jour votre profil",
+    "completeName": "Nom complet",
+    "username": "Nom d'utilisateur",
+    "email": "Courriel",
+    "createdAt": "Date de création",
+    "language": "Langue",
+    "save": "Enregistrer les modifications",
+    "logout": "Se déconnecter",
+    "noPhoto": "Pas de photo"
+  },
+  "Languages": {
+    "es_ES": "Espagnol",
+    "en_US": "Anglais",
+    "ca_ES": "Catalan",
+    "fr_FR": "Français"
+  },
+  "Generic": {
+    "loading": "Chargement...",
+    "error": "Erreur"
+  }
+}

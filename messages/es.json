@@ -1,0 +1,135 @@
+{
+  "Root": {
+    "access": "Acceder",
+    "title": "¡Bienvenido a Monum!",
+    "subtitle": "Tu aplicación de gestión de monumentos y lugares de interés"
+  },
+  "Login": {
+    "title": "Introduce tus credenciales para continuar",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Introduce tu correo electrónico",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Introduce tu contraseña",
+    "login": "Acceder"
+  },
+  "Sidenav": {
+    "home": "Inicio",
+    "monums": "Monums",
+    "settings": "Configuración",
+    "routes": "Rutas"
+  },
+  "Home": {
+    "title": "Panel de administración",
+    "totalUsers": "# Usuarios totales",
+    "loading": "Cargando..."
+  },
+  "MonumsList": {
+    "title": "Monums",
+    "name": "Nombre",
+    "address": "Dirección",
+    "importance": "Importancia",
+    "createdAt": "Fecha de creación",
+    "updatedAt": "Última actualización",
+    "actions": "Acciones",
+    "addMonum": "Agregar monum",
+    "searchMonums": "Buscar monums..."
+  },
+  "MonumsMap": {
+    "whatDoYouWant": "¿Qué quieres hacer?",
+    "addMonum": "Agregar monum",
+    "cancel": "Cancelar",
+    "searchMonums": "Buscar monums..."
+  },
+  "MonumDetail": {
+    "editMonum": "Editar el monum",
+    "addMonum": "Agregar un monum",
+    "basicInfo": "Información básica",
+    "name": "Nombre",
+    "description": "Descripción",
+    "importance": "Importancia",
+    "address": "Dirección",
+    "completeAddress": "Dirección completa",
+    "city": "Ciudad",
+    "country": "País",
+    "postalCode": "Código postal",
+    "province": "Provincia",
+    "latitude": "Latitud",
+    "longitude": "Longitud",
+    "cancel": "Cancelar",
+    "save": "Guardar Monum"
+  },
+  "MonumEditNotFound": {
+    "notFound": "No hemos podido encontrar el monum",
+    "goBack": "Volver atrás"
+  },
+  "MonumDelete": {
+    "title": "Eliminar el monum",
+    "message": "Estás a punto de eliminar este monum, esta acción no se puede deshacer. ¿Estás seguro/a de que quieres continuar?"
+  },
+  "MediaList": {
+    "medias": "Recursos",
+    "title": "Título",
+    "type": "Tipo",
+    "createdAt": "Fecha de creación",
+    "updatedAt": "Última actualización",
+    "content": "Contenido",
+    "addMedia": "Agregar recurso"
+  },
+  "MediaCreate": {
+    "medias": "Recursos",
+    "addNewMedia": "Agregar un nuevo recurso",
+    "title": "Título",
+    "type": "Tipo de recurso",
+    "text": "Texto",
+    "textDescription": "Introduce el texto del recurso",
+    "mediaMark": "Calificación del recurso",
+    "cancel": "Cancelar",
+    "save": "Agregar Recurso",
+    "typeText": "Texto",
+    "typeAudio": "Audio",
+    "typeVideo": "Video",
+    "videoDescription": "Video (en formato ",
+    "grabOrAddVideo": "Arrastra y suelta un archivo de video aquí o haz clic para seleccionar un archivo.",
+    "formatNotSupported": "Formato de video no soportado"
+  },
+  "MediaDelete": {
+    "title": "Eliminar el recurso",
+    "message": "Estás a punto de eliminar este recurso, esta acción no se puede deshacer. ¿Estás seguro/a de que quieres continuar?",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
+  },
+  "PhotosList": {
+    "photos": "Fotos",
+    "photo": "Foto",
+    "addPhoto": "Agregar foto",
+    "cancel": "Cancelar",
+    "save": "Actualizar",
+    "created": "Creada el",
+    "by": "por",
+    "newPhoto": "Nueva foto",
+    "grabOrAddPhoto": "Arrastra tus fotos aquí o haz clic para seleccionarlas"
+  },
+  "Settings": {
+    "title": "Configuración",
+    "profile": "Perfil",
+    "updateProfile": "Actualiza tu perfil",
+    "completeName": "Nombre completo",
+    "username": "Nombre de usuario",
+    "email": "Correo electrónico",
+    "createdAt": "Fecha de creación",
+    "language": "Idioma",
+    "save": "Guardar los cambios",
+    "logout": "Cerrar sesión",
+    "noPhoto": "Sin foto"
+  },
+  "Languages": {
+    "es_ES": "Español",
+    "en_US": "Inglés",
+    "ca_ES": "Catalán",
+    "fr_FR": "Francés"
+  },
+  "Generic": {
+    "loading": "Cargando...",
+    "error": "Error"
+  }
+}

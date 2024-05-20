@@ -1,0 +1,135 @@
+{
+  "Root": {
+    "access": "Accedir",
+    "title": "Benvingut a Monum!",
+    "subtitle": "La teva aplicació de gestió de monuments i llocs d'interès"
+  },
+  "Login": {
+    "title": "Introdueix les teves credencials per continuar",
+    "email": "Correu electrònic",
+    "emailPlaceholder": "Introdueix el teu correu electrònic",
+    "password": "Contrasenya",
+    "passwordPlaceholder": "Introdueix la teva contrasenya",
+    "login": "Accedir"
+  },
+  "Sidenav": {
+    "home": "Inici",
+    "monums": "Monums",
+    "settings": "Configuració",
+    "routes": "Rutes"
+  },
+  "Home": {
+    "title": "Panell d'administració",
+    "totalUsers": "# Usuaris totals",
+    "loading": "Carregant..."
+  },
+  "MonumsList": {
+    "title": "Monums",
+    "name": "Nom",
+    "address": "Adreça",
+    "importance": "Importància",
+    "createdAt": "Data de creació",
+    "updatedAt": "Última actualització",
+    "actions": "Accions",
+    "addMonum": "Afegir monum",
+    "searchMonums": "Busca monums..."
+  },
+  "MonumsMap": {
+    "whatDoYouWant": "Què vols fer?",
+    "addMonum": "Afegir monum",
+    "cancel": "Cancel·lar",
+    "searchMonums": "Busca monums..."
+  },
+  "MonumDetail": {
+    "editMonum": "Edita el monum",
+    "addMonum": "Afegir un monum",
+    "basicInfo": "Informació bàsica",
+    "name": "Nom",
+    "description": "Descripció",
+    "importance": "Importància",
+    "address": "Adreça",
+    "completeAddress": "Adreça completa",
+    "city": "Ciutat",
+    "country": "País",
+    "postalCode": "Codi postal",
+    "province": "Província",
+    "latitude": "Latitud",
+    "longitude": "Longitud",
+    "cancel": "Cancel·lar",
+    "save": "Afegir Monum"
+  },
+  "MonumEditNotFound": {
+    "notFound": "No hem pogut trobar el monum",
+    "goBack": "Tornar enrera"
+  },
+  "MonumDelete": {
+    "title": "Eliminar el monum",
+    "message": "Estàs a punt d'eliminar aquest monum, aquesta acció no es pot desfer. Estàs segur/a que vols continuar?"
+  },
+  "MediaList": {
+    "medias": "Recursos",
+    "title": "Títol",
+    "type": "Tipus",
+    "createdAt": "Data de creació",
+    "updatedAt": "Última actualització",
+    "content": "Contingut",
+    "addMedia": "Afegir recurs"
+  },
+  "MediaCreate": {
+    "medias": "Recursos",
+    "addNewMedia": "Afegir un nou recurs",
+    "title": "Títol",
+    "type": "Tipus de recurs",
+    "text": "Text",
+    "textDescription": "Introdueix el text del recurs",
+    "mediaMark": "Qualificació del recurs",
+    "cancel": "Cancel·lar",
+    "save": "Afegir Recurs",
+    "typeText": "Text",
+    "typeAudio": "Àudio",
+    "typeVideo": "Vídeo",
+    "videoDescription": "Vídeo (en format ",
+    "grabOrAddVideo": "Arrossega i deixa anar un fitxer de vídeo aquí o fes clic per seleccionar un fitxer.",
+    "formatNotSupported": "Format de vídeo no suportat"
+  },
+  "MediaDelete": {
+    "title": "Eliminar el recurs",
+    "message": "Estàs a punt d'eliminar aquest recurs, aquesta acció no es pot desfer. Estàs segur/a que vols continuar?",
+    "cancel": "Cancel·lar",
+    "confirm": "Confirmar"
+  },
+  "PhotosList": {
+    "photos": "Fotos",
+    "photo": "Foto",
+    "addPhoto": "Afegir foto",
+    "cancel": "Cancel·lar",
+    "save": "Actualitza",
+    "created": "Creada el",
+    "by": "per",
+    "newPhoto": "Nova foto",
+    "grabOrAddPhoto": "Arrossega les teves fotos aquí o fes clic per seleccionar-les"
+  },
+  "Settings": {
+    "title": "Configuració",
+    "profile": "Perfil",
+    "updateProfile": "Actualitza el teu perfil",
+    "completeName": "Nom complet",
+    "username": "Nom d'usuari",
+    "email": "Correu electrònic",
+    "createdAt": "Data de creació",
+    "language": "Idioma",
+    "save": "Guardar els canvis",
+    "logout": "Tancar la sessió",
+    "noPhoto": "Sense foto"
+  },
+  "Languages": {
+    "es_ES": "Espanyol",
+    "en_US": "Anglès",
+    "ca_ES": "Català",
+    "fr_FR": "Francès"
+  },
+  "Generic": {
+    "loading": "Carregant...",
+    "error": "Error"
+  }
+}

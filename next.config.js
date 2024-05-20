@@ -1,7 +1,11 @@
+const createNextIntlPlugin = require('next-intl/plugin');
+const { i18n } = require('next-intl');
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  //  reactStrictMode: true, -- because of the 'bug' in react-beautiful-dnd
   swcMinify: true,
   images: {
     remotePatterns: [
@@ -10,8 +14,14 @@ const nextConfig = {
         hostname: 'media.monum.es',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'monum-profile-images.s3.eu-west-1.amazonaws.com',
+        port: '',
+      },
     ],
   },
+  i18n,
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);
