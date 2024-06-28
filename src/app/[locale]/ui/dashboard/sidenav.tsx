@@ -14,7 +14,7 @@ export default function SideNav() {
           backgroundImage: 'url(/background_monums_horizontal.png)',
           backgroundSize: 'cover',
         }}
-        href="/dashboard"
+        href="/dashboard/home"
       >
         <div className="px-1">
           <MonumIcon />

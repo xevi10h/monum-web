@@ -1,19 +1,19 @@
 'use client';
-import Form from '@/app/[locale]/ui/places/create-form';
+import Form from '@/app/[locale]/ui/routes/create-form';
 import Breadcrumbs from '@/app/[locale]/ui/shared/breadcrumbs';
 import requireAuth from '@/auth';
 import { useTranslations } from 'next-intl';
 
-async function Page() {
-  const t = useTranslations('MonumDetail');
+async function CreateRoute() {
+  const t = useTranslations('RouteDetail');
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Monums', href: '/dashboard/places/list' },
+          { label: t('routes'), href: '/dashboard/routes' },
           {
-            label: t('saveNew'),
-            href: '/dashboard/places/create',
+            label: t('addRoute'),
+            href: '/dashboard/routes',
             active: true,
           },
         ]}
@@ -23,4 +23,4 @@ async function Page() {
   );
 }
 
-export default requireAuth(Page);
+export default requireAuth(CreateRoute);

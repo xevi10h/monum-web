@@ -1,9 +1,23 @@
-import IMedia from './IMedia';
-import IPlace from './IPlace';
+import { IMedia, IMediaTranslated } from './IMedia';
+import { IPlace, IPlaceTranslated } from './IPlace';
 
-export default interface IStop {
+export interface IStop {
   order: number;
-  optimizedOrder: number;
+  optimizedOrder?: number;
   medias: IMedia[];
   place: IPlace;
+}
+
+export interface IStopTranslated {
+  order: number;
+  optimizedOrder?: number;
+  medias: IMediaTranslated[];
+  place: IPlaceTranslated;
+}
+
+export interface IStopReduced {
+  order: number;
+  optimizedOrder?: number;
+  mediasIds: string[];
+  placeId: string;
 }

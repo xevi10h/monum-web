@@ -1,13 +1,46 @@
-import IPlace from './IPlace';
+import { IPlace, IPlaceTranslated } from './IPlace';
+import { MediaType } from '../types/MediaType.js';
 
-export default interface IMedia {
-  id: string;
-  duration?: number;
-  position?: number;
+export interface IMedia {
+  id?: String;
+  placeId: String;
+  title: {
+    [key: string]: string;
+  };
+  text?: {
+    [key: string]: string;
+  };
+  rating?: number;
+  url?: {
+    [key: string]: string;
+  };
+  voiceId?: {
+    [key: string]: string;
+  };
+  duration: {
+    [key: string]: number;
+  };
+  createdAt: Date;
+  updatedAt: Date;
+  place?: IPlace;
+  type: MediaType;
+  format?: {
+    [key: string]: string;
+  };
+  deleted?: boolean;
+}
+
+export interface IMediaTranslated
+  extends Omit<
+    IMedia,
+    'title' | 'text' | 'url' | 'voiceId' | 'place' | 'duration' | 'format'
+  > {
   title: string;
   text?: string;
-  rating: number;
-  url: string;
-  type: string;
-  place?: IPlace;
+  url?: string;
+  voiceId?: string;
+  place?: IPlaceTranslated;
+  duration?: number;
+  format?: string;
+  deleted?: boolean;
 }

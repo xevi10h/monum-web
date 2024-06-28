@@ -7,6 +7,7 @@ import { useQuery } from '@apollo/client';
 import Form from '@/app/[locale]/ui/places/edit-form';
 import { Place } from '../../interfaces';
 import { useTranslations } from 'next-intl';
+import Spinner from '@/app/[locale]/ui/spinner';
 
 const getPlaceById = graphql(`
   query Query($placeId: ID!) {
@@ -46,7 +47,10 @@ function Page({ params }: { params: { id: string } }) {
   const place = data?.place;
 
   if (error) {
-    notFound();
+    return notFound();
+  }
+  if (loading) {
+    return <Spinner />;
   }
 
   const placeObject: Place = {

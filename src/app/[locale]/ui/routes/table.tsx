@@ -1,18 +1,17 @@
-import { Place } from '@/app/[locale]/dashboard/places/interfaces';
-import {
-  UpdatePlace,
-  DeletePlace,
-  NavigateToMedias,
-  NavigateToPhotos,
-} from '@/app/[locale]/ui/places/buttons';
+'use client';
 import { Locale } from '@/shared/types/Locale';
 import { useLocale, useTranslations } from 'next-intl';
 import { LocaleToDateTimeFormat } from '@/shared/types/DateTimeFormat';
+import { IRouteTranslated } from '@/shared/interfaces/IRoute';
+import { DeleteRoute, UpdateRoute, ViewRouteInMap } from './buttons';
 
-export default function PlacesTable({ places }: { places: Array<Place> }) {
-  console.log('places', places);
+export default function RoutesTable({
+  routes,
+}: {
+  routes: Array<IRouteTranslated>;
+}) {
   const locale = useLocale() as Locale;
-  const t = useTranslations('MonumsList');
+  const t = useTranslations('RoutesList');
   const dateFormater = new Intl.DateTimeFormat(LocaleToDateTimeFormat[locale], {
     year: 'numeric',
     month: 'short',
@@ -33,21 +32,21 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
                   className="px-4 py-5 text-center font-medium sm:pl-6"
                   style={{ width: '20%' }}
                 >
-                  {t('name')}
+                  {t('title')}
                 </th>
                 <th
                   scope="col"
                   className="px-3 py-5 text-center font-medium"
                   style={{ width: '30%' }}
                 >
-                  {t('address')}
+                  {t('description')}
                 </th>
                 <th
                   scope="col"
                   className="px-3 py-5 text-center font-medium"
                   style={{ width: '15%' }}
                 >
-                  {t('importance')}
+                  {t('stopsCount')}
                 </th>
                 <th
                   scope="col"
@@ -73,28 +72,27 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {places?.map((place) => (
+              {routes?.map((route) => (
                 <tr
-                  key={place?.id}
+                  key={route?.id}
                   className="border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className="px-3 py-3 text-center">{place?.name}</td>
+                  <td className="px-3 py-3 text-center">{route?.title}</td>
                   <td className="px-3 py-3 text-center">
-                    {`${place?.address.street.includes('undefined') ? 'NO STREET' : place?.address.street}, ${place?.address.city.includes('undefined') ? 'NO CITY' : place?.address.city}, ${place?.address.postalCode.includes('undefined') ? 'NO POSTAL CODE' : place?.address.postalCode}, ${place?.address.province.includes('undefined') ? 'NO PROVINCE' : place?.address.province}, ${place?.address.country.includes('undefined') ? 'NO COUNTRY' : place?.address.country}`}
+                    {route?.description}
                   </td>
-                  <td className="px-3 py-3 text-center">{place?.importance}</td>
+                  <td className="px-3 py-3 text-center">{route?.stopsCount}</td>
                   <td className="px-3 py-3 text-center">
-                    {dateFormater.format(place?.createdAt)}
+                    {dateFormater.format(route?.createdAt)}
                   </td>
                   <td className="px-3 py-3 text-center">
-                    {dateFormater.format(place?.updatedAt)}
+                    {dateFormater.format(route?.updatedAt)}
                   </td>
                   <td className="py-3 pl-6 pr-3">
                     <div className="flex justify-center gap-3">
-                      <NavigateToPhotos id={place?.id} />
-                      <NavigateToMedias id={place?.id} />
-                      <UpdatePlace id={place?.id} />
-                      <DeletePlace id={place?.id} />
+                      <ViewRouteInMap id={route?.id} />
+                      <UpdateRoute id={route?.id} />
+                      <DeleteRoute id={route?.id} />
                     </div>
                   </td>
                 </tr>

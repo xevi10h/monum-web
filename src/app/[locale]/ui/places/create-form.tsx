@@ -5,6 +5,8 @@ import { VariablesOf, graphql } from '@/graphql';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/navigation';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/navigation';
+import { MouseEventHandler } from 'react';
 
 const CreatePlaceMutation = graphql(`
   mutation Mutation($place: CreatePlaceInput!) {
@@ -29,6 +31,10 @@ export default function Form() {
       } else {
         console.log('Failed creating place', data);
       }
+    },
+    update: (cache) => {
+      cache.evict({ fieldName: 'getPlaceBySearchAndPagination' });
+      cache.gc();
     },
   });
   const handleSubmit = async (e: any) => {
@@ -110,7 +116,7 @@ export default function Form() {
               placeholder={t('description')}
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               aria-describedby="name-error"
-              style={{ minHeight: '4em' }} // Ajuste de altura mínima para visualizar al menos dos líneas
+              style={{ minHeight: '4em' }}
             />
           </div>
         </div>
@@ -228,15 +234,19 @@ export default function Form() {
           </div>
         </div>
       </div>
-      <div className="mt-6 flex justify-end gap-4">
-        <button
-          onClick={router.back}
+      <div className="mt-6 flex justify-center gap-4">
+        <Link
+          href="#"
+          onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+            e.preventDefault();
+            router.back();
+          }}
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           {t('cancel')}
-        </button>
+        </Link>
         <Button disabled={loading} aria-disabled={loading}>
-          {t('save')}
+          {t('saveNew')}
         </Button>
       </div>
     </form>

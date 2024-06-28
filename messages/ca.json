@@ -56,7 +56,8 @@
     "latitude": "Latitud",
     "longitude": "Longitud",
     "cancel": "Cancel·lar",
-    "save": "Afegir Monum"
+    "save": "Guardar els canvis",
+    "saveNew": "Afegir Monum"
   },
   "MonumEditNotFound": {
     "notFound": "No hem pogut trobar el monum",
@@ -108,6 +109,42 @@
     "by": "per",
     "newPhoto": "Nova foto",
     "grabOrAddPhoto": "Arrossega les teves fotos aquí o fes clic per seleccionar-les"
+  },
+  "RoutesList": {
+    "routes": "Rutes",
+    "title": "Títol",
+    "description": "Descripció",
+    "stopsCount": "Aturades",
+    "createdAt": "Data de creació",
+    "updatedAt": "Última actualització",
+    "actions": "Accions",
+    "addRoute": "Afegir ruta",
+    "searchRoutes": "Busca rutes..."
+  },
+  "RouteDetail": {
+    "routes": "Rutes",
+    "editRoute": "Edita la ruta",
+    "addRoute": "Afegir una ruta",
+    "basicInfo": "Informació bàsica",
+    "title": "Títol",
+    "description": "Descripció",
+    "cancel": "Cancel·lar",
+    "saveNew": "Afegir Ruta",
+    "save": "Guardar els canvis",
+    "language": "Idioma",
+    "addStop": "Afegir parada",
+    "chooseMultipleStops": "Escull quines parades vols afegir a la ruta",
+    "monumsAndMediasSelected": "Has seleccionat {monumsSelected} monums i {mediasSelected} recursos",
+    "searchMonums": "Busca monums...",
+    "searchMedias": "Busca recursos..."
+  },
+  "RouteDelete": {
+    "title": "Eliminar la ruta",
+    "message": "Estàs a punt d'eliminar aquesta ruta, aquesta acció no es pot desfer. Estàs segur/a que vols continuar?"
+  },
+  "RouteEditNotFound": {
+    "notFound": "No hem pogut trobar la ruta",
+    "goBack": "Tornar enrera"
   },
   "Settings": {
     "title": "Configuració",

@@ -86,6 +86,10 @@ export function DeletePlace({ id }: { id: string }) {
     onError: (error) => {
       console.error('Delete place error:', error);
     },
+    update: (cache) => {
+      cache.evict({ fieldName: 'getPlaceBySearchAndPagination' });
+      cache.gc();
+    },
   });
 
   const handleDelete = async () => {

@@ -8,13 +8,16 @@ import {
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
+  uri: 'http://localhost:4000',
   // localhost: 'http://localhost:4000/graphql'
   // production: 'process.env.NEXT_PUBLIC_GRAPHQL_API_URL'
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('monum_token');
+  const userLocalStorage = localStorage.getItem('user');
+  const state = userLocalStorage ? JSON.parse(userLocalStorage).state : null;
+  const user = state ? state.user : null;
+  const token = user ? user.token : null;
 
   return {
     headers: {

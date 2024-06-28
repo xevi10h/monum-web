@@ -77,7 +77,7 @@ export default function LoginForm() {
             : new Date(),
         };
         setUser(user);
-        const redirect = searchParams?.get('redirect') || '/dashboard';
+        const redirect = searchParams?.get('redirect') || '/dashboard/home';
         router.push(redirect, { locale: LanguageToLocale[user.language] });
       } else {
         console.log('Login failed', data);

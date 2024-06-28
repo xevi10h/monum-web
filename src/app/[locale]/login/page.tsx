@@ -10,7 +10,7 @@ export default function LoginPage() {
   const user = useUserStore((state) => state.user);
   const router = useRouter();
   if (user.token) {
-    router.push('/dashboard', { locale: LanguageToLocale[user.language] });
+    router.push('/dashboard/home', { locale: LanguageToLocale[user.language] });
   }
   return (
     <main className="flex items-center justify-center md:h-screen ">

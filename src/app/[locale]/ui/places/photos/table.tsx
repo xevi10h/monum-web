@@ -287,7 +287,7 @@ export default function PhotosTable({ photos, placeId }: PhotosTableProps) {
 
   return (
     <div
-      className=" flex h-[80vh] flex-col"
+      className="flex h-[80vh] flex-col"
       onClick={() => setInputImage(false)}
     >
       <div className="flex justify-end">
