@@ -133,10 +133,12 @@
     "save": "Guardar els canvis",
     "language": "Idioma",
     "addStop": "Afegir parada",
+    "addStops": "Afegir parades",
     "chooseMultipleStops": "Escull quines parades vols afegir a la ruta",
     "monumsAndMediasSelected": "Has seleccionat {monumsSelected} monums i {mediasSelected} recursos",
     "searchMonums": "Busca monums...",
-    "searchMedias": "Busca recursos..."
+    "searchMedias": "Busca recursos...",
+    "mediasOfStop": "Recursos seleccionats de la parada"
   },
   "RouteDelete": {
     "title": "Eliminar la ruta",

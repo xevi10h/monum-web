@@ -25,6 +25,17 @@ export interface IRoute {
   stopsCount?: number;
 }
 
+export interface IRouteSimplified
+  extends Omit<IRoute, 'title' | 'description' | 'stops'> {
+  title: {
+    [key in Language]: string;
+  };
+  description: {
+    [key in Language]: string;
+  };
+  stops?: IStopTranslated[];
+}
+
 export interface IRouteTranslated
   extends Omit<IRoute, 'title' | 'description' | 'stops'> {
   title: string;

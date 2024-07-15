@@ -7,3 +7,10 @@ export const LanguageToLocale: Record<Language, Locale> = {
   ca_ES: 'ca',
   fr_FR: 'fr',
 };
+
+export const LocaleToLanguage: Record<Locale, Language> = {
+  en: 'en_US',
+  es: 'es_ES',
+  ca: 'ca_ES',
+  fr: 'fr_FR',
+};

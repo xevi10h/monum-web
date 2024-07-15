@@ -48,7 +48,10 @@ export default function EditRouteForm({ route }: { route: IRoute }) {
       }
     },
     update: (cache) => {
-      cache.evict({ fieldName: 'getRoutesBySearchAndPagination' });
+      cache.evict({
+        id: cache.identify({ __typename: 'RouteFull', id: route.id }),
+      });
+      cache.evict({ fieldName: 'routesPaginated' });
       cache.gc();
     },
   });
@@ -74,11 +77,18 @@ export default function EditRouteForm({ route }: { route: IRoute }) {
       Object.entries(obj).map(([key, value]) => ({ key, value }));
 
     try {
+      console.log('stops', stops);
       const variables: VariablesOf<typeof UpdateRouteMutation> = {
         updateRouteFullId: route.id,
         routeUpdateFull: {
           title: objectEntriesToArrays(titles),
           description: objectEntriesToArrays(descriptions),
+          stops: stops.map((stop, index) => ({
+            placeId: stop.place.id,
+            mediasIds: stop.medias.map((media) => media && media.id),
+            order: index,
+            optimizedOrder: index,
+          })),
         },
       };
       await updateRoute({ variables });

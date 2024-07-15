@@ -2,8 +2,8 @@ import { IPlace, IPlaceTranslated } from './IPlace';
 import { MediaType } from '../types/MediaType.js';
 
 export interface IMedia {
-  id?: String;
-  placeId: String;
+  id: string;
+  placeId: string;
   title: {
     [key: string]: string;
   };

@@ -14,6 +14,7 @@ export interface IPlace {
   };
   importance: number;
   photos?: IPhoto[];
+  imagesUrl?: string[];
   createdBy?: IUser;
   createdAt: Date;
   updatedAt: Date;
@@ -25,7 +26,6 @@ export interface IPlaceTranslated
   extends Omit<IPlace, 'address' | 'description'> {
   address: IAddressTranslated;
   description?: string;
-  imagesUrl?: string[];
   photos?: IPhotoExisting[];
 }
 

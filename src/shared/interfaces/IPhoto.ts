@@ -1,7 +1,4 @@
-import { Types } from "mongoose";
-
 export default interface IPhoto {
-  _id?: Types.ObjectId;
   id?: string;
   url: string;
   sizes: {
@@ -10,12 +7,12 @@ export default interface IPhoto {
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
-  createdBy: Types.ObjectId;
+  createdBy?: string;
   order?: number;
-  deleteBy?: Types.ObjectId;
+  deleteBy?: string;
   name?: string;
 }
 
-export interface IPhotoExisting extends Omit<IPhoto, "order"> {
+export interface IPhotoExisting extends Omit<IPhoto, 'order'> {
   order: number;
 }
