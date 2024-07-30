@@ -1,6 +1,6 @@
 import { IStop } from '@/shared/interfaces/IStop';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   DragDropContext,
   DragStart,
@@ -8,7 +8,7 @@ import {
   Droppable,
 } from 'react-beautiful-dnd';
 import { montserrat } from '../../fonts';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { Language } from '@/shared/types/Language';
 import {
   PlusIcon,
@@ -18,10 +18,12 @@ import {
 } from '@heroicons/react/24/outline';
 import AddStop from './AddStop';
 import { Link } from '@/navigation';
-import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
+import { Locale } from '@/shared/types/Locale';
 import MediaTypeAudio from '../../media-type-audio';
 import MediaTypeVideo from '../../media-type-video';
 import MediaTypeText from '../../media-type-text';
+import { LanguageToDateTimeFormat } from '@/shared/types/DateTimeFormat';
+import { translateRoutes } from '@/app/[locale]/dashboard/routes/translations';
 
 interface PlacePickerProps {
   stops: IStop[];
@@ -34,13 +36,11 @@ export default function PlacePicker({
   setStops,
   language,
 }: PlacePickerProps) {
-  const t = useTranslations('RouteDetail');
   const locale = useLocale() as Locale;
   const [scrollToBottom, setScrollToBottom] = useState<boolean>(false);
   const [expandedStopsIds, setExpandedStopsIds] = useState<string[]>([]);
 
   const handleOnDragEnd = (result: any) => {
-    setDraggingIndexMedia(null);
     setDraggingIndexPlace(null);
     if (!result.destination) return;
     if (result.destination.droppableId === 'places') {
@@ -49,19 +49,10 @@ export default function PlacePicker({
       items.splice(result.destination.index, 0, reorderedItem);
       setStops(items);
     }
-    if (result.destination.droppableId.includes('medias')) {
-      const stopIndex = parseInt(result.destination.droppableId.split('_')[1]);
-      const items = Array.from(stops[stopIndex].medias);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
-      console.log('items', items);
-      const updatedStops = [...stops];
-      updatedStops[stopIndex].medias = items;
-      setStops(updatedStops);
-    }
   };
 
   const deleteStop = (index: number) => {
+    if (index < 0 || index >= stops.length) return;
     const items = Array.from(stops);
     items.splice(index, 1);
     setStops(items);
@@ -73,6 +64,43 @@ export default function PlacePicker({
       setScrollToBottom(true);
       return updatedStops;
     });
+  };
+
+  const mediaUp = (index: number, mediaId: string) => {
+    const items = Array.from(stops);
+    const stop = items[index];
+    const medias = stop.medias;
+    const mediaIndex = medias.findIndex((media) => media.id === mediaId);
+    if (mediaIndex === 0) return;
+    const [reorderedMedia] = medias.splice(mediaIndex, 1);
+    medias.splice(mediaIndex - 1, 0, reorderedMedia);
+    stop.medias = medias;
+    items[index] = stop;
+    setStops(items);
+  };
+
+  const mediaDown = (index: number, mediaId: string) => {
+    const items = Array.from(stops);
+    const stop = items[index];
+    const medias = stop.medias;
+    const mediaIndex = medias.findIndex((media) => media.id === mediaId);
+    if (mediaIndex === medias.length - 1) return;
+    const [reorderedMedia] = medias.splice(mediaIndex, 1);
+    medias.splice(mediaIndex + 1, 0, reorderedMedia);
+    stop.medias = medias;
+    items[index] = stop;
+    setStops(items);
+  };
+
+  const deleteMedia = (index: number, mediaId: string) => {
+    const items = Array.from(stops);
+    const stop = items[index];
+    const medias = stop.medias;
+    const mediaIndex = medias.findIndex((media) => media.id === mediaId);
+    medias.splice(mediaIndex, 1);
+    stop.medias = medias;
+    items[index] = stop;
+    setStops(items);
   };
 
   const mediaTypeIcon = ({
@@ -100,10 +128,20 @@ export default function PlacePicker({
   const [draggingIndexPlace, setDraggingIndexPlace] = useState<number | null>(
     null,
   );
-  const [draggingIndexMedia, setDraggingIndexMedia] = useState<string | null>(
-    null,
-  );
+
   const [addStop, setAddStop] = useState<boolean>(false);
+
+  const dateFormater = new Intl.DateTimeFormat(
+    LanguageToDateTimeFormat[language],
+    {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    },
+  );
 
   return (
     <div className="mt-5 flex h-[50vh] flex-grow flex-col overflow-auto">
@@ -115,7 +153,9 @@ export default function PlacePicker({
           }}
           className={`flex h-10 items-center rounded-lg bg-monum-green-default px-4 text-sm font-medium text-white`}
         >
-          <span className="hidden md:block">{t('addStops')}</span>{' '}
+          <span className="hidden md:block">
+            {translateRoutes('addStops', language)}
+          </span>{' '}
           <PlusIcon className="h-5 md:ml-4" />
         </button>
       </div>
@@ -124,11 +164,6 @@ export default function PlacePicker({
         onDragStart={(dragStart: DragStart) => {
           dragStart.draggableId.includes('place') &&
             setDraggingIndexPlace(dragStart.source.index);
-
-          console.log('dragStart', dragStart);
-
-          dragStart.draggableId.includes('media') &&
-            setDraggingIndexMedia(dragStart.draggableId);
         }}
       >
         <Droppable droppableId={`places`} direction="vertical">
@@ -148,6 +183,15 @@ export default function PlacePicker({
               className={'overflow-auto rounded bg-monum-green-light p-4'}
             >
               {stops.map((stop: IStop, index: number) => {
+                const place = stop.place;
+                const placeStreet = place?.address?.street?.[language] || '';
+                const placeCity = place?.address?.city?.[language] || '';
+                const placePostalCode = place?.address?.postalCode || '';
+                const placeProvince =
+                  place?.address?.province?.[language] || '';
+                const placeCountry = place?.address?.country?.[language] || '';
+
+                const placeAddress = `${placeStreet}, ${placeCity}, ${placePostalCode}, ${placeProvince}, ${placeCountry}`;
                 return (
                   <Draggable
                     key={'place_' + index}
@@ -160,9 +204,7 @@ export default function PlacePicker({
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         className={`relative ${index !== 0 && 'mt-5'} transition-[height] ${
-                          expandedStopsIds.includes(stop.place.id)
-                            ? 'h-[45vh]'
-                            : 'h-40'
+                          expandedStopsIds.includes(place.id) ? 'h-68' : 'h-28'
                         } flex w-full cursor-pointer flex-col rounded shadow ${
                           index === draggingIndexPlace
                             ? 'bg-monum-green-default'
@@ -170,51 +212,52 @@ export default function PlacePicker({
                         } `}
                         onMouseDown={(e) => {
                           e.stopPropagation();
+                          e.preventDefault();
                         }}
                       >
-                        <div className="relative flex h-40 w-full cursor-grab p-4">
-                          <div className="flex-shrink-0">
+                        <div className="relative flex h-28 w-full cursor-grab p-4">
+                          <div className="h-full flex-shrink-0">
                             <Image
                               src={
-                                Array.isArray(stop.place.photos) &&
-                                stop.place.photos[0].url
-                                  ? stop.place.photos[0].url
+                                Array.isArray(place.photos) &&
+                                place.photos[0].url
+                                  ? place.photos[0].url
                                   : ''
                               }
                               alt={`Photo ${index + 1}`}
-                              width={200}
-                              height={200}
+                              width={100}
+                              height={100}
                               style={{ objectFit: 'cover' }}
-                              className="h-full w-[15vh] rounded"
+                              className="aspect-square h-20 w-20 rounded"
                             />
                           </div>
                           <div className="ml-5 flex-grow ">
                             <div
-                              className={`text-l font-semibold  ${
+                              className={`text-l truncate font-semibold ${
                                 index === draggingIndexPlace
                                   ? 'text-gray-50'
                                   : 'text-gray-900'
                               }`}
                             >
-                              {stop.place.name}
+                              {place.nameTranslations[language]}
                             </div>
                             <div
-                              className={`text-l  ${montserrat.className} ${
+                              className={`text-l truncate ${montserrat.className} ${
                                 index === draggingIndexPlace
                                   ? 'text-gray-50'
                                   : 'text-gray-700'
                               }`}
                             >
-                              {stop.place.name}
+                              {`${translateRoutes('updatedAt', language)}: ${dateFormater.format(place.createdAt)}`}
                             </div>
                             <div
-                              className={`text-l italic ${
+                              className={`text-l truncate italic ${
                                 index === draggingIndexPlace
                                   ? 'text-gray-50'
                                   : 'text-gray-500'
                               }`}
                             >
-                              {stop.place.name}
+                              {placeAddress}
                             </div>
                           </div>
 
@@ -234,7 +277,9 @@ export default function PlacePicker({
                           </div>
                           <div className="mr-5 flex h-full items-center justify-center">
                             <Link
-                              href={`/dashboard/places/${stop.place.id}/edit`}
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              href={`/dashboard/places/${place.id}/edit`}
                               className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-gray-200`}
                             >
                               <ArrowTopRightOnSquareIcon
@@ -253,16 +298,14 @@ export default function PlacePicker({
                               className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-gray-200"
                               onClick={(e) => {
                                 setExpandedStopsIds((prev) => {
-                                  if (prev.includes(stop.place.id)) {
-                                    return prev.filter(
-                                      (id) => id !== stop.place.id,
-                                    );
+                                  if (prev.includes(place.id)) {
+                                    return prev.filter((id) => id !== place.id);
                                   }
-                                  return [...prev, stop.place.id];
+                                  return [...prev, place.id];
                                 });
                               }}
                             >
-                              {expandedStopsIds.includes(stop.place.id) ? (
+                              {expandedStopsIds.includes(place.id) ? (
                                 <ChevronUpIcon
                                   className="h-8 w-8"
                                   color={
@@ -283,34 +326,50 @@ export default function PlacePicker({
                               )}
                             </Link>
                           </div>
-                          <button
-                            className="mr-5 flex h-full items-center justify-center"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteStop(index);
-                            }}
-                          >
-                            <Image
-                              src={'/trash.png'}
-                              alt={`Trash`}
-                              width={200}
-                              height={200}
-                              style={{ objectFit: 'contain' }}
-                              className={`h-12 w-12 rounded-full bg-monum-red-default px-3 hover:bg-monum-red-hover`}
-                            />
-                          </button>
+                          <div className="flex h-full items-center">
+                            <button
+                              className="mr-5 aspect-square h-12 w-12"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                deleteStop(index);
+                              }}
+                            >
+                              <Image
+                                src={'/trash.png'}
+                                alt={`Trash`}
+                                width={200}
+                                height={200}
+                                style={{ objectFit: 'contain' }}
+                                className={`h-12 w-12 rounded-full bg-monum-red-default px-3 hover:bg-monum-red-hover`}
+                              />
+                            </button>
+                          </div>
                         </div>
-                        {expandedStopsIds.includes(stop.place.id) && (
+                        {expandedStopsIds.includes(place.id) && (
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
+                              e.preventDefault();
                             }}
-                            className="relative w-full flex-grow flex-col items-center justify-center border-t-2"
+                            className="flex-column flex h-full w-full flex-col items-center justify-center border-t-2 pl-12 pr-4"
                           >
-                            <div className="text-m relative flex h-12 w-full items-center pl-12 font-medium text-monum-green-dark ">
-                              {t('mediasOfStop')}
+                            <div
+                              className={`text-m w-full items-center pt-2 font-medium ${
+                                index === draggingIndexPlace
+                                  ? 'text-white'
+                                  : 'text-monum-green-dark '
+                              }`}
+                            >
+                              {translateRoutes('mediasSelected', language)}
                             </div>
-                            <div className="relative h-full w-full pl-12 pr-4">
+                            <div
+                              className={`flex-column my-2 h-40 w-full overflow-auto rounded-lg p-4 ${
+                                index === draggingIndexPlace
+                                  ? 'bg-white text-white'
+                                  : 'bg-gray-200 text-monum-green-dark'
+                              }`}
+                            >
                               {stop.medias.map((media, mediaIndex) => {
                                 if (
                                   !media ||
@@ -320,43 +379,50 @@ export default function PlacePicker({
                                 )
                                   return null;
 
-                                const duration =
-                                  media.duration[LocaleToLanguage[locale]];
-                                const title =
-                                  media.title[LocaleToLanguage[locale]];
+                                const duration = media.duration[language];
+                                const title = media.title[language];
 
                                 const minutes = Math.floor(duration / 60);
                                 const seconds = (duration % 60).toFixed(0);
 
                                 return (
                                   <div
-                                    key={media.id}
-                                    className={`cursor-drag mb-2 flex h-20 items-center justify-stretch gap-4 rounded bg-gray-200
-                                        p-4
+                                    key={`place_${index}_media_${mediaIndex}`}
+                                    className={`mb-2 flex h-14 w-full items-center gap-8 rounded-lg p-4 ${
+                                      index === draggingIndexPlace
+                                        ? 'bg-monum-green-default text-white'
+                                        : 'bg-white text-monum-green-dark'
+                                    }
                                     `}
                                   >
-                                    <div className="flex">
-                                      <div>
+                                    <div className="flex h-full w-full items-center ">
+                                      <div className="mr-4 self-center text-sm">
                                         {mediaTypeIcon({
                                           type: media?.type || '',
-                                          selected: false,
+                                          selected:
+                                            index === draggingIndexPlace,
                                         })}
                                       </div>
-                                      <div>{title}</div>
 
-                                      <div className="w-2/6 text-right text-sm font-medium">
+                                      <div className="w-full truncate text-sm">
+                                        {title}
+                                      </div>
+
+                                      <div className="w-1/5 justify-self-end text-right text-sm font-medium">
                                         {minutes} min {seconds} sec
                                       </div>
                                     </div>
 
-                                    <div className="flex">
-                                      <div className="mr-5 flex h-full items-center justify-center">
+                                    <div className="flex w-1/4 flex-row justify-end gap-5">
+                                      <div>
                                         <Link
-                                          href={`/dashboard/places/${stop.place.id}/edit`}
-                                          className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-gray-200`}
+                                          rel="noopener noreferrer"
+                                          target="_blank"
+                                          href={`/dashboard/places/${place.id}/medias/`}
+                                          className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-gray-400`}
                                         >
                                           <ArrowTopRightOnSquareIcon
-                                            className={`h-8 w-8`}
+                                            className={`h-6 w-6`}
                                             color={
                                               index === draggingIndexPlace
                                                 ? 'white'
@@ -365,60 +431,64 @@ export default function PlacePicker({
                                           />
                                         </Link>
                                       </div>
-                                      <div className="mr-5 flex h-full items-center justify-center">
+                                      <div className="flex-column h-8 w-8 items-center">
                                         <Link
                                           href="#"
-                                          className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-gray-200"
+                                          className={`flex h-4 w-full items-center justify-center rounded-full ${mediaIndex !== 0 ? 'cursor-pointer hover:bg-gray-400' : 'cursor-default'}`}
                                           onClick={(e) => {
-                                            setExpandedStopsIds((prev) => {
-                                              if (
-                                                prev.includes(stop.place.id)
-                                              ) {
-                                                return prev.filter(
-                                                  (id) => id !== stop.place.id,
-                                                );
-                                              }
-                                              return [...prev, stop.place.id];
-                                            });
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            mediaIndex !== 0 &&
+                                              mediaUp(index, media.id);
                                           }}
                                         >
-                                          {expandedStopsIds.includes(
-                                            stop.place.id,
-                                          ) ? (
-                                            <ChevronUpIcon
-                                              className="h-8 w-8"
-                                              color={
-                                                index === draggingIndexPlace
-                                                  ? 'white'
-                                                  : 'black'
-                                              }
-                                            />
-                                          ) : (
-                                            <ChevronDownIcon
-                                              className="h-8 w-8"
-                                              color={
-                                                index === draggingIndexPlace
-                                                  ? 'white'
-                                                  : 'black'
-                                              }
-                                            />
-                                          )}
+                                          <ChevronUpIcon
+                                            className="w-5"
+                                            color={
+                                              index === draggingIndexPlace
+                                                ? 'white'
+                                                : 'black'
+                                            }
+                                          />
+                                        </Link>
+
+                                        <Link
+                                          href="#"
+                                          className={`flex h-4 w-full cursor-pointer items-center justify-center rounded-full hover:bg-gray-400 ${mediaIndex !== stop.medias.length - 1 ? 'cursor-pointer hover:bg-gray-400' : 'cursor-default'}`}
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            mediaIndex !==
+                                              stop.medias.length - 1 &&
+                                              mediaDown(index, media.id);
+                                          }}
+                                        >
+                                          <ChevronDownIcon
+                                            className="w-5"
+                                            color={
+                                              index === draggingIndexPlace
+                                                ? 'white'
+                                                : 'black'
+                                            }
+                                          />
                                         </Link>
                                       </div>
+
                                       <button
-                                        className="mr-5 flex h-full items-center justify-center"
+                                        className="aspect-square h-8 w-8"
                                         onClick={(e) => {
                                           e.stopPropagation();
-                                          deleteStop(index);
+                                          e.preventDefault();
+                                          deleteMedia(index, media.id);
                                         }}
                                       >
                                         <Image
                                           src={'/trash.png'}
                                           alt={`Trash`}
-                                          width={200}
-                                          height={200}
+                                          width={150}
+                                          height={150}
                                           style={{ objectFit: 'contain' }}
-                                          className={`h-12 w-12 rounded-full bg-monum-red-default px-3 hover:bg-monum-red-hover`}
+                                          className={`aspect-square rounded-full bg-monum-red-default px-2 hover:bg-monum-red-hover`}
                                         />
                                       </button>
                                     </div>
@@ -449,6 +519,7 @@ export default function PlacePicker({
             stops={stops}
             addNewStops={addNewStops}
             setAddStop={setAddStop}
+            language={language}
           />
         </div>
       )}

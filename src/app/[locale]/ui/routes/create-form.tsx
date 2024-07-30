@@ -8,7 +8,7 @@ import { useUserStore } from '@/zustand/UserStore';
 import { useState } from 'react';
 import { AllLanguages, Language } from '@/shared/types/Language';
 import { translateRoutes } from '../../dashboard/routes/translations';
-import PlacePicker from './components/StopTable';
+import PlacePicker from './components/PlacePicker';
 import { IStop } from '@/shared/interfaces/IStop';
 
 const CreateRouteMutation = graphql(`
@@ -43,7 +43,6 @@ const initialKeyValues = () => {
 };
 
 export default function CreateRouteForm() {
-  const t = useTranslations('RouteDetail');
   const languages = useTranslations('Languages');
   const user = useUserStore((state) => state.user);
   const router = useRouter();
@@ -188,10 +187,10 @@ export default function CreateRouteForm() {
           }}
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          {t('cancel')}
+          {translateRoutes('cancel', selectedLanguage)}
         </Link>
         <Button disabled={loading} aria-disabled={loading}>
-          {t('save')}
+          {translateRoutes('createRoute', selectedLanguage)}
         </Button>
       </div>
     </form>

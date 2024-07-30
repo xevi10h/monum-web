@@ -119,26 +119,9 @@
     "updatedAt": "Última actualització",
     "actions": "Accions",
     "addRoute": "Afegir ruta",
-    "searchRoutes": "Busca rutes..."
-  },
-  "RouteDetail": {
-    "routes": "Rutes",
+    "searchRoutes": "Busca rutes...",
     "editRoute": "Edita la ruta",
-    "addRoute": "Afegir una ruta",
-    "basicInfo": "Informació bàsica",
-    "title": "Títol",
-    "description": "Descripció",
-    "cancel": "Cancel·lar",
-    "saveNew": "Afegir Ruta",
-    "save": "Guardar els canvis",
-    "language": "Idioma",
-    "addStop": "Afegir parada",
-    "addStops": "Afegir parades",
-    "chooseMultipleStops": "Escull quines parades vols afegir a la ruta",
-    "monumsAndMediasSelected": "Has seleccionat {monumsSelected} monums i {mediasSelected} recursos",
-    "searchMonums": "Busca monums...",
-    "searchMedias": "Busca recursos...",
-    "mediasOfStop": "Recursos seleccionats de la parada"
+    "addOneRoute": "Afegir una ruta"
   },
   "RouteDelete": {
     "title": "Eliminar la ruta",

@@ -2,7 +2,7 @@
   "Root": {
     "access": "Acceder",
     "title": "¡Bienvenido a Monum!",
-    "subtitle": "Tu aplicación de gestión de monumentos y lugares de interés"
+    "subtitle": "Tu aplicación para la gestión de monumentos y lugares de interés"
   },
   "Login": {
     "title": "Introduce tus credenciales para continuar",
@@ -56,15 +56,16 @@
     "latitude": "Latitud",
     "longitude": "Longitud",
     "cancel": "Cancelar",
-    "save": "Guardar Monum"
+    "save": "Guardar los cambios",
+    "saveNew": "Agregar Monum"
   },
   "MonumEditNotFound": {
-    "notFound": "No hemos podido encontrar el monum",
+    "notFound": "No pudimos encontrar el monum",
     "goBack": "Volver atrás"
   },
   "MonumDelete": {
     "title": "Eliminar el monum",
-    "message": "Estás a punto de eliminar este monum, esta acción no se puede deshacer. ¿Estás seguro/a de que quieres continuar?"
+    "message": "Estás a punto de eliminar este monum, esta acción no se puede deshacer. ¿Estás seguro de que deseas continuar?"
   },
   "MediaList": {
     "medias": "Recursos",
@@ -84,17 +85,17 @@
     "textDescription": "Introduce el texto del recurso",
     "mediaMark": "Calificación del recurso",
     "cancel": "Cancelar",
-    "save": "Agregar Recurso",
+    "save": "Agregar recurso",
     "typeText": "Texto",
     "typeAudio": "Audio",
-    "typeVideo": "Video",
-    "videoDescription": "Video (en formato ",
-    "grabOrAddVideo": "Arrastra y suelta un archivo de video aquí o haz clic para seleccionar un archivo.",
-    "formatNotSupported": "Formato de video no soportado"
+    "typeVideo": "Vídeo",
+    "videoDescription": "Vídeo (en formato ",
+    "grabOrAddVideo": "Arrastra y suelta un archivo de vídeo aquí o haz clic para seleccionar un archivo.",
+    "formatNotSupported": "Formato de vídeo no soportado"
   },
   "MediaDelete": {
     "title": "Eliminar el recurso",
-    "message": "Estás a punto de eliminar este recurso, esta acción no se puede deshacer. ¿Estás seguro/a de que quieres continuar?",
+    "message": "Estás a punto de eliminar este recurso, esta acción no se puede deshacer. ¿Estás seguro de que deseas continuar?",
     "cancel": "Cancelar",
     "confirm": "Confirmar"
   },
@@ -108,6 +109,27 @@
     "by": "por",
     "newPhoto": "Nueva foto",
     "grabOrAddPhoto": "Arrastra tus fotos aquí o haz clic para seleccionarlas"
+  },
+  "RoutesList": {
+    "routes": "Rutas",
+    "title": "Título",
+    "description": "Descripción",
+    "stopsCount": "Paradas",
+    "createdAt": "Fecha de creación",
+    "updatedAt": "Última actualización",
+    "actions": "Acciones",
+    "addRoute": "Agregar ruta",
+    "searchRoutes": "Buscar rutas...",
+    "editRoute": "Editar la ruta",
+    "addOneRoute": "Agregar una ruta"
+  },
+  "RouteDelete": {
+    "title": "Eliminar la ruta",
+    "message": "Estás a punto de eliminar esta ruta, esta acción no se puede deshacer. ¿Estás seguro de que deseas continuar?"
+  },
+  "RouteEditNotFound": {
+    "notFound": "No pudimos encontrar la ruta",
+    "goBack": "Volver atrás"
   },
   "Settings": {
     "title": "Configuración",

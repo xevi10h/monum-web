@@ -128,7 +128,7 @@ function EditRoute({ params }: { params: { id: string } }) {
       {} as { [key in Language]: string },
     );
 
-  const t = useTranslations('RouteDetail');
+  const t = useTranslations('RoutesList');
 
   const id = params.id;
 

@@ -14,6 +14,7 @@ import { IPlace } from '@/shared/interfaces/IPlace';
 import { Language } from '@/shared/types/Language';
 import { IMedia } from '@/shared/interfaces/IMedia';
 import { MediaType } from '@/shared/types/MediaType';
+import { translateRoutes } from '@/app/[locale]/dashboard/routes/translations';
 
 const getPlacesToAddStop = graphql(`
   query PlacesFull($textSearch: String) {
@@ -110,14 +111,15 @@ interface AddStopProps {
   stops: IStop[];
   addNewStops: (stops: IStop[]) => void;
   setAddStop: React.Dispatch<React.SetStateAction<boolean>>;
+  language: Language;
 }
 
 export default function AddStop({
   stops,
   addNewStops,
   setAddStop,
+  language,
 }: AddStopProps) {
-  const t = useTranslations('RouteDetail');
   const locale = useLocale() as Locale;
   const [searchPlaces, setSearchPlaces] = useState('');
   const [searchMedias, setSearchMedias] = useState('');
@@ -344,8 +346,6 @@ export default function AddStop({
     );
   };
 
-  console.log('selectedStops', selectedStops);
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div
@@ -356,10 +356,10 @@ export default function AddStop({
       >
         <div className="mb-4 h-1/6 w-full text-center">
           <h1 className="text-2xl font-bold text-monum-green-dark">
-            {t('chooseMultipleStops')}
+            {translateRoutes('chooseMultipleStops', language)}
           </h1>
           <p className="text-monum-grey-500 text-lg">
-            {t('monumsAndMediasSelected', {
+            {translateRoutes('monumsAndMediasSelected', language, {
               monumsSelected: selectedStops.length,
               mediasSelected: selectedStops.reduce(
                 (acc, stop) => acc + stop.medias.length,
@@ -372,7 +372,7 @@ export default function AddStop({
           <div className="w-1/2 pr-4">
             <input
               type="text"
-              placeholder={t('searchMonums')}
+              placeholder={translateRoutes('searchMonums', language)}
               value={searchPlaces}
               onChange={(e) => setSearchPlaces(e.target.value)}
               className="mb-4 w-full rounded border px-2 py-1"
@@ -426,7 +426,7 @@ export default function AddStop({
             <div className="w-1/2 overflow-auto pl-4">
               <input
                 type="text"
-                placeholder={t('searchMedias')}
+                placeholder={translateRoutes('searchMedias', language)}
                 value={searchMedias}
                 onChange={(e) => setSearchMedias(e.target.value)}
                 className="mb-4 w-full rounded border px-2 py-1"
@@ -481,7 +481,7 @@ export default function AddStop({
             }}
             className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
           >
-            {t('cancel')}
+            {translateRoutes('cancel', language)}
           </Link>
           <Link
             href="#"
@@ -492,7 +492,7 @@ export default function AddStop({
             }}
             className="flex h-10 items-center rounded-lg bg-monum-green-default px-4 text-sm font-medium text-white transition-colors hover:bg-monum-green-default"
           >
-            {t('addStops')}
+            {translateRoutes('addStops', language)}
           </Link>
         </div>
       </div>

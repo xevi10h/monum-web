@@ -19,8 +19,8 @@
     "routes": "Routes"
   },
   "Home": {
-    "title": "Admin panel",
-    "totalUsers": "# Total users",
+    "title": "Admin Panel",
+    "totalUsers": "# Total Users",
     "loading": "Loading..."
   },
   "MonumsList": {
@@ -28,63 +28,64 @@
     "name": "Name",
     "address": "Address",
     "importance": "Importance",
-    "createdAt": "Creation date",
-    "updatedAt": "Last update",
+    "createdAt": "Creation Date",
+    "updatedAt": "Last Update",
     "actions": "Actions",
-    "addMonum": "Add monum",
+    "addMonum": "Add Monum",
     "searchMonums": "Search monums..."
   },
   "MonumsMap": {
     "whatDoYouWant": "What do you want to do?",
-    "addMonum": "Add monum",
+    "addMonum": "Add Monum",
     "cancel": "Cancel",
     "searchMonums": "Search monums..."
   },
   "MonumDetail": {
-    "editMonum": "Edit the monum",
-    "addMonum": "Add a monum",
-    "basicInfo": "Basic information",
+    "editMonum": "Edit Monum",
+    "addMonum": "Add a Monum",
+    "basicInfo": "Basic Information",
     "name": "Name",
     "description": "Description",
     "importance": "Importance",
     "address": "Address",
-    "completeAddress": "Complete address",
+    "completeAddress": "Complete Address",
     "city": "City",
     "country": "Country",
-    "postalCode": "Postal code",
+    "postalCode": "Postal Code",
     "province": "Province",
     "latitude": "Latitude",
     "longitude": "Longitude",
     "cancel": "Cancel",
-    "save": "Save Monum"
+    "save": "Save Changes",
+    "saveNew": "Add Monum"
   },
   "MonumEditNotFound": {
-    "notFound": "We couldn't find the monum",
-    "goBack": "Go back"
+    "notFound": "We could not find the monum",
+    "goBack": "Go Back"
   },
   "MonumDelete": {
-    "title": "Delete the monum",
+    "title": "Delete Monum",
     "message": "You are about to delete this monum, this action cannot be undone. Are you sure you want to continue?"
   },
   "MediaList": {
-    "medias": "Resources",
+    "medias": "Media",
     "title": "Title",
     "type": "Type",
-    "createdAt": "Creation date",
-    "updatedAt": "Last update",
+    "createdAt": "Creation Date",
+    "updatedAt": "Last Update",
     "content": "Content",
-    "addMedia": "Add resource"
+    "addMedia": "Add Media"
   },
   "MediaCreate": {
-    "medias": "Resources",
-    "addNewMedia": "Add a new resource",
+    "medias": "Media",
+    "addNewMedia": "Add New Media",
     "title": "Title",
-    "type": "Resource type",
+    "type": "Media Type",
     "text": "Text",
-    "textDescription": "Enter the text of the resource",
-    "mediaMark": "Resource rating",
+    "textDescription": "Enter the text of the media",
+    "mediaMark": "Media Rating",
     "cancel": "Cancel",
-    "save": "Add Resource",
+    "save": "Add Media",
     "typeText": "Text",
     "typeAudio": "Audio",
     "typeVideo": "Video",
@@ -93,34 +94,55 @@
     "formatNotSupported": "Video format not supported"
   },
   "MediaDelete": {
-    "title": "Delete the resource",
-    "message": "You are about to delete this resource, this action cannot be undone. Are you sure you want to continue?",
+    "title": "Delete Media",
+    "message": "You are about to delete this media, this action cannot be undone. Are you sure you want to continue?",
     "cancel": "Cancel",
     "confirm": "Confirm"
   },
   "PhotosList": {
     "photos": "Photos",
     "photo": "Photo",
-    "addPhoto": "Add photo",
+    "addPhoto": "Add Photo",
     "cancel": "Cancel",
     "save": "Update",
     "created": "Created on",
     "by": "by",
-    "newPhoto": "New photo",
+    "newPhoto": "New Photo",
     "grabOrAddPhoto": "Drag your photos here or click to select them"
+  },
+  "RoutesList": {
+    "routes": "Routes",
+    "title": "Title",
+    "description": "Description",
+    "stopsCount": "Stops",
+    "createdAt": "Creation Date",
+    "updatedAt": "Last Update",
+    "actions": "Actions",
+    "addRoute": "Add Route",
+    "searchRoutes": "Search routes...",
+    "editRoute": "Edit Route",
+    "addOneRoute": "Add a Route"
+  },
+  "RouteDelete": {
+    "title": "Delete Route",
+    "message": "You are about to delete this route, this action cannot be undone. Are you sure you want to continue?"
+  },
+  "RouteEditNotFound": {
+    "notFound": "We could not find the route",
+    "goBack": "Go Back"
   },
   "Settings": {
     "title": "Settings",
     "profile": "Profile",
-    "updateProfile": "Update your profile",
-    "completeName": "Full name",
+    "updateProfile": "Update Your Profile",
+    "completeName": "Full Name",
     "username": "Username",
     "email": "Email",
-    "createdAt": "Creation date",
+    "createdAt": "Creation Date",
     "language": "Language",
-    "save": "Save changes",
-    "logout": "Log out",
-    "noPhoto": "No photo"
+    "save": "Save Changes",
+    "logout": "Logout",
+    "noPhoto": "No Photo"
   },
   "Languages": {
     "es_ES": "Spanish",

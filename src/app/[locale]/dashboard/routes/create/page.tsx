@@ -5,14 +5,14 @@ import requireAuth from '@/auth';
 import { useTranslations } from 'next-intl';
 
 async function CreateRoute() {
-  const t = useTranslations('RouteDetail');
+  const t = useTranslations('RoutesList');
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
           { label: t('routes'), href: '/dashboard/routes' },
           {
-            label: t('addRoute'),
+            label: t('addOneRoute'),
             href: '/dashboard/routes',
             active: true,
           },

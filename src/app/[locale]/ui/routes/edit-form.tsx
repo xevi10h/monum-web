@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { Language } from '@/shared/types/Language';
 import { translateRoutes } from '../../dashboard/routes/translations';
 import { IRoute } from '@/shared/interfaces/IRoute';
-import PlacePicker from './components/StopTable';
+import PlacePicker from './components/PlacePicker';
 import { IStop } from '@/shared/interfaces/IStop';
 
 const UpdateRouteMutation = graphql(`
@@ -24,7 +24,6 @@ const UpdateRouteMutation = graphql(`
 `);
 
 export default function EditRouteForm({ route }: { route: IRoute }) {
-  const t = useTranslations('RouteDetail');
   const languages = useTranslations('Languages');
   const user = useUserStore((state) => state.user);
   const router = useRouter();
@@ -77,7 +76,6 @@ export default function EditRouteForm({ route }: { route: IRoute }) {
       Object.entries(obj).map(([key, value]) => ({ key, value }));
 
     try {
-      console.log('stops', stops);
       const variables: VariablesOf<typeof UpdateRouteMutation> = {
         updateRouteFullId: route.id,
         routeUpdateFull: {
@@ -180,10 +178,10 @@ export default function EditRouteForm({ route }: { route: IRoute }) {
           }}
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          {t('cancel')}
+          {translateRoutes('cancel', selectedLanguage)}
         </Link>
         <Button disabled={loading} aria-disabled={loading}>
-          {t('save')}
+          {translateRoutes('save', selectedLanguage)}
         </Button>
       </div>
     </form>

@@ -10,7 +10,6 @@ import { useLocale, useTranslations } from 'next-intl';
 import { LocaleToDateTimeFormat } from '@/shared/types/DateTimeFormat';
 
 export default function PlacesTable({ places }: { places: Array<Place> }) {
-  console.log('places', places);
   const locale = useLocale() as Locale;
   const t = useTranslations('MonumsList');
   const dateFormater = new Intl.DateTimeFormat(LocaleToDateTimeFormat[locale], {

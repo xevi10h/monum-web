@@ -1,13 +1,13 @@
 {
   "Root": {
     "access": "Accéder",
-    "title": "Bienvenue à Monum !",
-    "subtitle": "Votre application de gestion des monuments et des lieux d'intérêt"
+    "title": "Bienvenue à Monum!",
+    "subtitle": "Votre application pour la gestion des monuments et des lieux d'intérêt"
   },
   "Login": {
     "title": "Entrez vos identifiants pour continuer",
-    "email": "Courriel",
-    "emailPlaceholder": "Entrez votre courriel",
+    "email": "Email",
+    "emailPlaceholder": "Entrez votre email",
     "password": "Mot de passe",
     "passwordPlaceholder": "Entrez votre mot de passe",
     "login": "Se connecter"
@@ -31,14 +31,14 @@
     "createdAt": "Date de création",
     "updatedAt": "Dernière mise à jour",
     "actions": "Actions",
-    "addMonum": "Ajouter monum",
-    "searchMonums": "Rechercher monums..."
+    "addMonum": "Ajouter un monum",
+    "searchMonums": "Rechercher des monums..."
   },
   "MonumsMap": {
-    "whatDoYouWant": "Que voulez-vous faire ?",
-    "addMonum": "Ajouter monum",
+    "whatDoYouWant": "Que voulez-vous faire?",
+    "addMonum": "Ajouter un monum",
     "cancel": "Annuler",
-    "searchMonums": "Rechercher monums..."
+    "searchMonums": "Rechercher des monums..."
   },
   "MonumDetail": {
     "editMonum": "Modifier le monum",
@@ -56,7 +56,8 @@
     "latitude": "Latitude",
     "longitude": "Longitude",
     "cancel": "Annuler",
-    "save": "Enregistrer Monum"
+    "save": "Enregistrer les modifications",
+    "saveNew": "Ajouter un monum"
   },
   "MonumEditNotFound": {
     "notFound": "Nous n'avons pas pu trouver le monum",
@@ -64,44 +65,44 @@
   },
   "MonumDelete": {
     "title": "Supprimer le monum",
-    "message": "Vous êtes sur le point de supprimer ce monum, cette action ne peut pas être annulée. Êtes-vous sûr(e) de vouloir continuer ?"
+    "message": "Vous êtes sur le point de supprimer ce monum, cette action est irréversible. Êtes-vous sûr de vouloir continuer?"
   },
   "MediaList": {
-    "medias": "Ressources",
+    "medias": "Médias",
     "title": "Titre",
     "type": "Type",
     "createdAt": "Date de création",
     "updatedAt": "Dernière mise à jour",
     "content": "Contenu",
-    "addMedia": "Ajouter ressource"
+    "addMedia": "Ajouter un média"
   },
   "MediaCreate": {
-    "medias": "Ressources",
-    "addNewMedia": "Ajouter une nouvelle ressource",
+    "medias": "Médias",
+    "addNewMedia": "Ajouter un nouveau média",
     "title": "Titre",
-    "type": "Type de ressource",
+    "type": "Type de média",
     "text": "Texte",
-    "textDescription": "Entrez le texte de la ressource",
-    "mediaMark": "Évaluation de la ressource",
+    "textDescription": "Entrez le texte du média",
+    "mediaMark": "Note du média",
     "cancel": "Annuler",
-    "save": "Ajouter Ressource",
+    "save": "Ajouter un média",
     "typeText": "Texte",
     "typeAudio": "Audio",
     "typeVideo": "Vidéo",
-    "videoDescription": "Vidéo (en format ",
-    "grabOrAddVideo": "Glissez et déposez un fichier vidéo ici ou cliquez pour sélectionner un fichier.",
-    "formatNotSupported": "Format de vidéo non pris en charge"
+    "videoDescription": "Vidéo (au format ",
+    "grabOrAddVideo": "Glissez-déposez un fichier vidéo ici ou cliquez pour en sélectionner un.",
+    "formatNotSupported": "Format vidéo non supporté"
   },
   "MediaDelete": {
-    "title": "Supprimer la ressource",
-    "message": "Vous êtes sur le point de supprimer cette ressource, cette action est irréversible. Êtes-vous sûr(e) de vouloir continuer ?",
+    "title": "Supprimer le média",
+    "message": "Vous êtes sur le point de supprimer ce média, cette action est irréversible. Êtes-vous sûr de vouloir continuer?",
     "cancel": "Annuler",
     "confirm": "Confirmer"
   },
   "PhotosList": {
     "photos": "Photos",
     "photo": "Photo",
-    "addPhoto": "Ajouter photo",
+    "addPhoto": "Ajouter une photo",
     "cancel": "Annuler",
     "save": "Mettre à jour",
     "created": "Créé le",
@@ -109,17 +110,38 @@
     "newPhoto": "Nouvelle photo",
     "grabOrAddPhoto": "Glissez vos photos ici ou cliquez pour les sélectionner"
   },
+  "RoutesList": {
+    "routes": "Itinéraires",
+    "title": "Titre",
+    "description": "Description",
+    "stopsCount": "Arrêts",
+    "createdAt": "Date de création",
+    "updatedAt": "Dernière mise à jour",
+    "actions": "Actions",
+    "addRoute": "Ajouter itinéraire",
+    "searchRoutes": "Rechercher des itinéraires...",
+    "editRoute": "Modifier l'itinéraire",
+    "addOneRoute": "Ajouter un itinéraire"
+  },
+  "RouteDelete": {
+    "title": "Supprimer l'itinéraire",
+    "message": "Vous êtes sur le point de supprimer cet itinéraire, cette action est irréversible. Êtes-vous sûr de vouloir continuer?"
+  },
+  "RouteEditNotFound": {
+    "notFound": "Nous n'avons pas pu trouver l'itinéraire",
+    "goBack": "Retourner"
+  },
   "Settings": {
     "title": "Paramètres",
     "profile": "Profil",
     "updateProfile": "Mettez à jour votre profil",
     "completeName": "Nom complet",
     "username": "Nom d'utilisateur",
-    "email": "Courriel",
+    "email": "Email",
     "createdAt": "Date de création",
     "language": "Langue",
     "save": "Enregistrer les modifications",
-    "logout": "Se déconnecter",
+    "logout": "Déconnexion",
     "noPhoto": "Pas de photo"
   },
   "Languages": {
