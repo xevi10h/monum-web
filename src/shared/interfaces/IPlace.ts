@@ -37,3 +37,19 @@ export interface IPlacesSearchResults {
     totalResults: number;
   };
 }
+
+export interface ICoordinates {
+  lat: number;
+  lng: number;
+}
+export interface IPlaceMap {
+  id: string;
+  name: string;
+  address: {
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+  };
+  importance: number;
+}

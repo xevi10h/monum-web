@@ -5,9 +5,10 @@ import { montserrat } from '@/app/[locale]/ui/fonts';
 import requireAuth from '@/auth';
 import { VariablesOf, graphql } from '@/graphql';
 import { useQuery } from '@apollo/client';
-import { PlaceMap } from '../interfaces';
 import MapboxMap from '@/app/[locale]/ui/places/map/MapboxMap';
 import { useTranslations } from 'next-intl';
+import { useGlobalStore } from '@/zustand/GlobalStore';
+import { IPlaceMap } from '@/shared/interfaces/IPlace';
 
 const getAllMapPlaces = graphql(`
   query Places($textSearch: String, $centerCoordinates: [Float]) {
@@ -32,6 +33,7 @@ function Page({
     query?: string;
   };
 }) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const t = useTranslations('MonumsMap');
   const query = searchParams?.query;
   const variables: VariablesOf<typeof getAllMapPlaces> = {
@@ -41,6 +43,8 @@ function Page({
   const { loading, error, data, refetch } = useQuery(getAllMapPlaces, {
     variables,
   });
+
+  setIsLoading(loading);
 
   const places: {
     id: string;
@@ -52,7 +56,7 @@ function Page({
       };
     };
     importance: number;
-  }[] = (data?.places || []) as PlaceMap[];
+  }[] = (data?.places || []) as IPlaceMap[];
 
   return (
     <div className="w-full">

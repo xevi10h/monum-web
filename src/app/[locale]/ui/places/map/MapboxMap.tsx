@@ -1,9 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import {
-  Coordinates,
-  PlaceMap,
-} from '@/app/[locale]/dashboard/places/interfaces';
+import { IPlaceMap, ICoordinates } from '@/shared/interfaces/IPlace';
 import PopupEditPlace from './PopupEditPlace';
 import PopupAddPlace from './PopupAddPlace';
 import {
@@ -16,14 +13,15 @@ import {
 import Spinner from '@/app/[locale]/ui/spinner';
 import Image from 'next/image';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
-export default function MapboxMap({ places }: { places: PlaceMap[] }) {
+export default function MapboxMap({ places }: { places: IPlaceMap[] }) {
   const mapboxToken =
     'pk.eyJ1IjoibW9udW0iLCJhIjoiY2x1cGNydm4wMDJydzJpcXFzOGV5c2U0NiJ9.uH-MoEW-Nmu5cwRkuqH1sQ';
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedPlace, setSelectedPlace] = useState<PlaceMap | null>(null);
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
+  const [selectedPlace, setSelectedPlace] = useState<IPlaceMap | null>(null);
   const [onAddPlaceCoordinates, setOnAddPlaceCoordinates] =
-    useState<Coordinates | null>(null);
+    useState<ICoordinates | null>(null);
   const [viewState, setViewState] = useState({
     longitude: 2.154007,
     latitude: 41.390205,
@@ -31,6 +29,7 @@ export default function MapboxMap({ places }: { places: PlaceMap[] }) {
   });
 
   useEffect(() => {
+    setIsLoading(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
@@ -57,9 +56,7 @@ export default function MapboxMap({ places }: { places: PlaceMap[] }) {
     setSelectedPlace(null);
   }, [places]);
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  return (
     <Map
       {...viewState}
       mapboxAccessToken={mapboxToken}

@@ -8,10 +8,10 @@ import {
   UpdatePlace,
 } from '@/app/[locale]/ui/places/buttons';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { PlaceMap } from '@/app/[locale]/dashboard/places/interfaces';
+import { IPlaceMap } from '@/shared/interfaces/IPlace';
 
 interface PopupEditPlaceProps {
-  place: PlaceMap;
+  place: IPlaceMap;
   closePopup: () => void;
 }
 

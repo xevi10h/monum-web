@@ -5,14 +5,25 @@ import { montserrat } from '@/app/[locale]/ui/fonts';
 import requireAuth from '@/auth';
 import { VariablesOf, graphql } from '@/graphql';
 import { useQuery } from '@apollo/client';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { IRouteTranslated } from '@/shared/interfaces/IRoute';
 import RoutesTable from '../../ui/routes/table';
 import { CreateRoute } from '../../ui/routes/buttons';
+import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
 
 const getRoutesBySearchAndPagination = graphql(`
-  query RoutesPaginated($textSearch: String, $limit: Int, $offset: Int) {
-    routesPaginated(textSearch: $textSearch, limit: $limit, offset: $offset) {
+  query RoutesPaginated(
+    $textSearch: String
+    $limit: Int
+    $offset: Int
+    $language: Language
+  ) {
+    routesPaginated(
+      textSearch: $textSearch
+      limit: $limit
+      offset: $offset
+      language: $language
+    ) {
       routes {
         createdAt
         description
@@ -43,11 +54,13 @@ function Page({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   const resultsPerPage = 9;
+  const locale = useLocale() as Locale;
 
   const variables: VariablesOf<typeof getRoutesBySearchAndPagination> = {
     textSearch: query,
     limit: resultsPerPage,
     offset: (currentPage - 1) * resultsPerPage,
+    language: LocaleToLanguage[locale],
   };
 
   const { data } = useQuery(getRoutesBySearchAndPagination, {

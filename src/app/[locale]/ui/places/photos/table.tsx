@@ -1,5 +1,5 @@
 'use client';
-import { CSSProperties, useCallback, useEffect, useState } from 'react';
+import { CSSProperties, use, useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   DragDropContext,
@@ -17,6 +17,7 @@ import { montserrat } from '../../fonts';
 import { useLocale, useTranslations } from 'next-intl';
 import { LocaleToDateTimeFormat } from '@/shared/types/DateTimeFormat';
 import { Locale } from '@/shared/types/Locale';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 type OldPhoto = {
   id: string;
@@ -63,6 +64,7 @@ const UpdatePlacePhotosMutation = graphql(`
 `);
 
 export default function PhotosTable({ photos, placeId }: PhotosTableProps) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const locale = useLocale() as Locale;
   const t = useTranslations('PhotosList');
   const router = useRouter();
@@ -95,9 +97,14 @@ export default function PhotosTable({ photos, placeId }: PhotosTableProps) {
       },
     },
   );
+  setIsLoading(loading);
+
   const [provisionalPhotos, setProvisionalPhotos] =
     useState<Array<OldPhoto | NewPhoto>>(photos);
-  console.log('provisionalPhotos', provisionalPhotos);
+
+  useEffect(() => {
+    setProvisionalPhotos(photos);
+  }, [photos]);
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);

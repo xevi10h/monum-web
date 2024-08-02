@@ -19,6 +19,7 @@ import IPermission from '@/shared/interfaces/IPermission';
 import { useTranslations, useLocale } from 'next-intl';
 import { LanguageToLocale } from '@/shared/types/Locale';
 import { useEffect } from 'react';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 const LoginMutation = graphql(`
   mutation Mutation($loginInput: LoginInput!) {
@@ -48,6 +49,7 @@ const LoginMutation = graphql(`
 `);
 
 export default function LoginForm() {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const t = useTranslations('Login');
   const setUser = useUserStore((state) => state.setUser);
   const router = useRouter();
@@ -77,7 +79,8 @@ export default function LoginForm() {
             : new Date(),
         };
         setUser(user);
-        const redirect = searchParams?.get('redirect') || '/dashboard/home';
+        const redirect =
+          searchParams?.get('redirect') || '/dashboard/places/list';
         router.push(redirect, { locale: LanguageToLocale[user.language] });
       } else {
         console.log('Login failed', data);
@@ -98,6 +101,8 @@ export default function LoginForm() {
       console.error('Login error:', error);
     }
   };
+
+  setIsLoading(loading);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3 ">

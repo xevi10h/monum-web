@@ -16,6 +16,7 @@ import Spinner from '@/app/[locale]/ui/spinner';
 import { LanguageToLocale, Locale } from '@/shared/types/Locale';
 import { useLocale, useTranslations } from 'next-intl';
 import { LocaleToDateTimeFormat } from '@/shared/types/DateTimeFormat';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 const UpdateUserMutation = graphql(`
   mutation Mutation($updateUserInput: UpdateUserInput!) {
@@ -45,6 +46,7 @@ const UpdateUserMutation = graphql(`
 `);
 
 function SettingsPage() {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const t = useTranslations('Settings');
   const languages = useTranslations('Languages');
   const locale = useLocale() as Locale;
@@ -95,6 +97,9 @@ function SettingsPage() {
       cache.gc();
     },
   });
+
+  setIsLoading(loading);
+
   const dateFormater = new Intl.DateTimeFormat(LocaleToDateTimeFormat[locale], {
     year: 'numeric',
     month: 'long',
@@ -139,9 +144,7 @@ function SettingsPage() {
 
   const photoToShow = newProvisionalPhoto || user.photo;
 
-  return loading ? (
-    <Spinner />
-  ) : (
+  return (
     <div className={`w-full ${montserrat.className}`}>
       <div className="mb-10 flex w-full">
         <h1 className={`text-2xl`}>{t('title')}</h1>

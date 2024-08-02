@@ -5,24 +5,42 @@ import { Button } from '@/app/[locale]/ui/button';
 import { VariablesOf, graphql } from '@/graphql';
 import { useMutation } from '@apollo/client';
 import { useRouter } from '@/navigation';
-import { Place } from '@/app/[locale]/dashboard/places/interfaces';
 import { useTranslations } from 'next-intl';
+import { useGlobalStore } from '@/zustand/GlobalStore';
+import { useEffect, useState } from 'react';
+import { useUserStore } from '@/zustand/UserStore';
+import { Language } from '@/shared/types/Language';
+import { IPlace } from '@/shared/interfaces/IPlace';
+import { translatePlaces } from '../../dashboard/places/translations';
+import { IAddress } from '@/shared/interfaces/IAddress';
 
 const UpdatePlaceMutation = graphql(`
-  mutation Mutation($updatePlaceId: ID!, $placeUpdate: UpdatePlaceInput!) {
-    updatePlace(id: $updatePlaceId, placeUpdate: $placeUpdate) {
+  mutation UpdatePlaceFull(
+    $updatePlaceFullId: ID!
+    $placeUpdate: UpdatePlaceFullInput!
+  ) {
+    updatePlaceFull(id: $updatePlaceFullId, placeUpdate: $placeUpdate) {
       id
     }
   }
 `);
 
-export default function EditPlaceForm({ place }: { place: Place }) {
-  const t = useTranslations('MonumDetail');
+export default function EditPlaceForm({ place }: { place: IPlace }) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
+  const languages = useTranslations('Languages');
   const router = useRouter();
+  const user = useUserStore((state) => state.user);
+  const [selectedLanguage, setSelectedLanguage] = useState(user.language);
+  const [placeUpdate, setPlaceUpdate] = useState<IPlace>(place);
+  const [addressUpdate, setAddressUpdate] = useState<IAddress>(place.address);
+  useEffect(() => {
+    setPlaceUpdate(place);
+    setAddressUpdate(place.address);
+  }, [place]);
   const [updatePlace, { loading, error }] = useMutation(UpdatePlaceMutation, {
     onError: (error) => console.error('Update place error', error),
     onCompleted: (data) => {
-      if (data.updatePlace?.id) {
+      if (data.updatePlaceFull?.id) {
         const redirect = '/dashboard/places/list';
         router.push(redirect);
       } else {
@@ -31,33 +49,75 @@ export default function EditPlaceForm({ place }: { place: Place }) {
     },
     update: (cache) => {
       cache.evict({
-        id: cache.identify({ __typename: 'Place', id: place.id }),
+        id: cache.identify({ __typename: 'PlaceFull', id: place.id }),
       });
       cache.evict({ fieldName: 'getPlaceBySearchAndPagination' });
       cache.gc();
     },
   });
 
+  setIsLoading(loading);
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLanguage(e.target.value as Language);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    let [key, language] = name.split('-');
+
+    if (
+      key === 'street' ||
+      key === 'city' ||
+      key === 'province' ||
+      key === 'country'
+    ) {
+      setAddressUpdate({
+        ...addressUpdate,
+        [key]: {
+          ...(addressUpdate[key as keyof IAddress] as any),
+          [language]: value,
+        },
+      });
+    } else {
+      setPlaceUpdate({
+        ...placeUpdate,
+        [key]: {
+          ...(placeUpdate[key as keyof IPlace] as any),
+          [language]: value,
+        },
+      });
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    const objectEntriesToArrays = (obj: { [key: string]: string }) =>
+      Object.entries(obj).map(([key, value]) => ({ key, value }));
     try {
       const variables: VariablesOf<typeof UpdatePlaceMutation> = {
-        updatePlaceId: place.id,
+        updatePlaceFullId: place.id,
         placeUpdate: {
-          name: e.target.name.value,
-          description: e.target.description.value,
-          importance: parseInt(e.target.importance.value),
+          nameTranslations: objectEntriesToArrays(placeUpdate.nameTranslations),
           address: {
             coordinates: {
               lat: parseFloat(e.target.lat.value),
               lng: parseFloat(e.target.lng.value),
             },
-            street: e.target.street.value,
-            city: e.target.city.value,
-            country: e.target.country.value,
+            street: addressUpdate.street
+              ? objectEntriesToArrays(addressUpdate.street)
+              : [],
+            city: objectEntriesToArrays(addressUpdate.city),
             postalCode: e.target.postalCode.value,
-            province: e.target.province.value,
+            province: addressUpdate.province
+              ? objectEntriesToArrays(addressUpdate.province)
+              : [],
+            country: objectEntriesToArrays(addressUpdate.country),
           },
+          description: objectEntriesToArrays(placeUpdate.description),
+          importance: Number(e.target.importance.value),
         },
       };
       await updatePlace({ variables });
@@ -70,20 +130,47 @@ export default function EditPlaceForm({ place }: { place: Place }) {
     <form onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <div className="mb-4">
-          <label htmlFor="amount" className="text-m mb-2 block font-medium">
-            {t('basicInfo')}
-          </label>
+          <div className="mb-4 flex flex-row justify-between">
+            <label
+              htmlFor="basicInfo"
+              className="text-m mb-2 block font-medium"
+            >
+              {translatePlaces('basicInfo', selectedLanguage)}
+            </label>
+            <div className="flex flex-row items-center gap-4">
+              <label
+                htmlFor="title"
+                className="font-small block text-sm font-medium"
+              >
+                {translatePlaces('language', selectedLanguage)}:
+              </label>
+              <select
+                id="language"
+                name="language"
+                className="rounded-md border border-gray-200 py-2 pl-3 text-sm text-gray-700"
+                defaultValue={user.language}
+                value={selectedLanguage}
+                onChange={handleLanguageChange}
+              >
+                <option value="ca_ES">{languages('ca_ES')}</option>
+                <option value="es_ES">{languages('es_ES')}</option>
+                <option value="en_US">{languages('en_US')}</option>
+                <option value="fr_FR">{languages('fr_FR')}</option>
+              </select>
+            </div>
+          </div>
           <div className="flex gap-4">
             <div className="flex-1" style={{ flexBasis: '80%' }}>
               <label htmlFor="name" className="font-small mb-2 block text-sm">
-                {t('name')}
+                {translatePlaces('name', selectedLanguage)}
               </label>
               <input
-                id="name"
-                name="name"
+                id={`nameTranslations-${selectedLanguage}`}
+                name={`nameTranslations-${selectedLanguage}`}
                 type="string"
-                defaultValue={place.name}
-                placeholder={t('name')}
+                value={placeUpdate?.nameTranslations?.[selectedLanguage] || ''}
+                onChange={handleInputChange}
+                placeholder={translatePlaces('name', selectedLanguage)}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
@@ -92,7 +179,7 @@ export default function EditPlaceForm({ place }: { place: Place }) {
                 htmlFor="importance"
                 className="font-small mb-2 block text-sm"
               >
-                {t('importance')}
+                {translatePlaces('importance', selectedLanguage)}
               </label>
               <input
                 id="importance"
@@ -101,8 +188,9 @@ export default function EditPlaceForm({ place }: { place: Place }) {
                 min={1}
                 max={3}
                 step={1}
-                placeholder={t('importance')}
-                defaultValue={place.importance}
+                placeholder={translatePlaces('importance', selectedLanguage)}
+                defaultValue={placeUpdate?.importance}
+                onChange={handleInputChange}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
@@ -112,13 +200,14 @@ export default function EditPlaceForm({ place }: { place: Place }) {
               htmlFor="description"
               className="font-small mb-2 block text-sm"
             >
-              {t('description')}
+              {translatePlaces('description', selectedLanguage)}
             </label>
             <textarea
-              id="description"
-              name="description"
-              placeholder={t('description')}
-              defaultValue={place.description}
+              id={`description-${selectedLanguage}`}
+              name={`description-${selectedLanguage}`}
+              placeholder={translatePlaces('description', selectedLanguage)}
+              value={placeUpdate?.description?.[selectedLanguage] || ''}
+              onChange={handleInputChange}
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               aria-describedby="name-error"
               style={{ minHeight: '4em' }} // Ajuste de altura mínima para visualizar al menos dos líneas
@@ -128,19 +217,23 @@ export default function EditPlaceForm({ place }: { place: Place }) {
 
         <div className="mb-4">
           <label htmlFor="amount" className="text-m mb-2 block font-medium">
-            {t('address')}
+            {translatePlaces('address', selectedLanguage)}
           </label>
           <div className="flex gap-4">
             <div className="flex-1" style={{ flexBasis: '75%' }}>
               <label htmlFor="street" className="font-small mb-2 block text-sm">
-                {t('completeAddress')}
+                {translatePlaces('completeAddress', selectedLanguage)}
               </label>
               <input
-                id="street"
-                name="street"
+                id={`street-${selectedLanguage}`}
+                name={`street-${selectedLanguage}`}
                 type="string"
-                placeholder={t('completeAddress')}
-                defaultValue={place.address.street}
+                placeholder={translatePlaces(
+                  'completeAddress',
+                  selectedLanguage,
+                )}
+                value={addressUpdate?.street?.[selectedLanguage] || ''}
+                onChange={handleInputChange}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
@@ -149,14 +242,15 @@ export default function EditPlaceForm({ place }: { place: Place }) {
                 htmlFor="postalCode"
                 className="font-small mb-2 block text-sm"
               >
-                {t('postalCode')}
+                {translatePlaces('postalCode', selectedLanguage)}
               </label>
               <input
                 id="postalCode"
                 name="postalCode"
                 type="string"
-                placeholder={t('postalCode')}
-                defaultValue={place.address.postalCode}
+                placeholder={translatePlaces('postalCode', selectedLanguage)}
+                onChange={handleInputChange}
+                defaultValue={addressUpdate.postalCode}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
@@ -164,14 +258,15 @@ export default function EditPlaceForm({ place }: { place: Place }) {
           <div className="mt-2 flex gap-4">
             <div className="flex-1" style={{ flexBasis: '25%' }}>
               <label htmlFor="city" className="font-small mb-2 block text-sm">
-                {t('city')}
+                {translatePlaces('city', selectedLanguage)}
               </label>
               <input
-                id="city"
-                name="city"
+                id={`city-${selectedLanguage}`}
+                name={`city-${selectedLanguage}`}
                 type="string"
-                placeholder={t('city')}
-                defaultValue={place.address.city}
+                placeholder={translatePlaces('city', selectedLanguage)}
+                value={addressUpdate?.city?.[selectedLanguage] || ''}
+                onChange={handleInputChange}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
@@ -180,14 +275,15 @@ export default function EditPlaceForm({ place }: { place: Place }) {
                 htmlFor="province"
                 className="font-small mb-2 block text-sm"
               >
-                {t('province')}
+                {translatePlaces('province', selectedLanguage)}
               </label>
               <input
-                id="province"
-                name="province"
+                id={`province-${selectedLanguage}`}
+                name={`province-${selectedLanguage}`}
                 type="string"
-                placeholder={t('province')}
-                defaultValue={place.address.province}
+                placeholder={translatePlaces('province', selectedLanguage)}
+                value={addressUpdate?.province?.[selectedLanguage] || ''}
+                onChange={handleInputChange}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
@@ -196,20 +292,21 @@ export default function EditPlaceForm({ place }: { place: Place }) {
                 htmlFor="country"
                 className="font-small mb-2 block text-sm"
               >
-                {t('country')}
+                {translatePlaces('country', selectedLanguage)}
               </label>
               <input
-                id="country"
-                name="country"
+                id={`country-${selectedLanguage}`}
+                name={`country-${selectedLanguage}`}
                 type="string"
-                placeholder={t('country')}
-                defaultValue={place.address.country}
+                placeholder={translatePlaces('country', selectedLanguage)}
+                value={addressUpdate?.country?.[selectedLanguage] || ''}
+                onChange={handleInputChange}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
             <div className="flex-1" style={{ flexBasis: '12.5%' }}>
               <label htmlFor="lat" className="font-small mb-2 block text-sm">
-                {t('latitude')}
+                {translatePlaces('latitude', selectedLanguage)}
               </label>
               <input
                 id="lat"
@@ -217,15 +314,16 @@ export default function EditPlaceForm({ place }: { place: Place }) {
                 type="number"
                 min={-90}
                 max={90}
-                step={0.000000001}
-                placeholder={t('latitude')}
-                defaultValue={place.address.coordinates?.lat}
+                step={0.000000000000000000001}
+                placeholder={translatePlaces('latitude', selectedLanguage)}
+                onChange={handleInputChange}
+                defaultValue={addressUpdate?.coordinates?.lat}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
             <div className="flex-1" style={{ flexBasis: '12.5%' }}>
               <label htmlFor="lng" className="font-small mb-2 block text-sm">
-                {t('longitude')}
+                {translatePlaces('longitude', selectedLanguage)}
               </label>
               <input
                 id="lng"
@@ -233,9 +331,10 @@ export default function EditPlaceForm({ place }: { place: Place }) {
                 type="number"
                 min={-90}
                 max={90}
-                step={0.000000001}
-                placeholder={t('longitude')}
-                defaultValue={place.address.coordinates?.lng}
+                step={0.000000000000000000001}
+                placeholder={translatePlaces('longitude', selectedLanguage)}
+                onChange={handleInputChange}
+                defaultValue={addressUpdate?.coordinates?.lng}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
@@ -251,10 +350,10 @@ export default function EditPlaceForm({ place }: { place: Place }) {
           }}
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          {t('cancel')}
+          {translatePlaces('cancel', selectedLanguage)}
         </Link>
         <Button disabled={loading} aria-disabled={loading}>
-          {t('save')}
+          {translatePlaces('save', selectedLanguage)}
         </Button>
       </div>
     </form>

@@ -8,14 +8,21 @@ import requireAuth from '@/auth';
 import { VariablesOf, graphql } from '@/graphql';
 import { useQuery } from '@apollo/client';
 import { Place } from '../interfaces';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
 
 const getPlaceBySearchAndPagination = graphql(`
-  query Query($textSearch: String!, $pageNumber: Int!, $resultsPerPage: Int!) {
+  query Query(
+    $textSearch: String!
+    $pageNumber: Int!
+    $resultsPerPage: Int!
+    $language: Language
+  ) {
     getPlaceBySearchAndPagination(
       textSearch: $textSearch
       pageNumber: $pageNumber
       resultsPerPage: $resultsPerPage
+      language: $language
     ) {
       places {
         id
@@ -53,11 +60,13 @@ function Page({
   const t = useTranslations('MonumsList');
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
+  const locale = useLocale() as Locale;
 
   const variables: VariablesOf<typeof getPlaceBySearchAndPagination> = {
     textSearch: query,
     pageNumber: currentPage,
     resultsPerPage: 9,
+    language: LocaleToLanguage[locale],
   };
 
   const { data } = useQuery(getPlaceBySearchAndPagination, {
@@ -94,6 +103,8 @@ function Page({
       updatedAt: updatedAt,
     };
   }) as Array<Place>;
+
+  console.log('places', places);
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">

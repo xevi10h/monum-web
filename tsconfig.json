@@ -41,7 +41,7 @@
     "./app/[locale]/lib/placeholder-data.js",
     "scripts/seed.js",
     ".next/types/**/*.ts"
-  ],
+, "src/app/[locale]/ui/spinnerTop.tsx"  ],
   "exclude": [
     "node_modules"
   ]

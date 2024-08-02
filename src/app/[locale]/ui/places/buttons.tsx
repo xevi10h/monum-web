@@ -14,6 +14,7 @@ import { Link, useRouter } from '@/navigation';
 import { useState } from 'react';
 import Modal from '@/app/[locale]/ui/shared/confirmation-modal';
 import { useTranslations } from 'next-intl';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 export function NavigateToPhotos({ id }: { id: string }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -75,6 +76,7 @@ const deletePlaceMutation = graphql(`
 `);
 
 export function DeletePlace({ id }: { id: string }) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const t = useTranslations('MonumDelete');
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
@@ -91,6 +93,7 @@ export function DeletePlace({ id }: { id: string }) {
       cache.gc();
     },
   });
+  setIsLoading(loading);
 
   const handleDelete = async () => {
     try {

@@ -7,7 +7,9 @@ import { useQuery } from '@apollo/client';
 import MediasTable from '@/app/[locale]/ui/places/medias/table';
 import { CreateMedia } from '@/app/[locale]/ui/places/medias/buttons';
 import { useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { useGlobalStore } from '@/zustand/GlobalStore';
+import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
 
 const getPlaceById = graphql(`
   query Query($placeId: ID!) {
@@ -33,8 +35,9 @@ const getMediasOfPlace = graphql(`
 `);
 
 function Page({ params }: { params: { id: string } }) {
+  const locale = useLocale() as Locale;
   const t = useTranslations('MediaList');
-  const generic = useTranslations('Generic');
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const id = params.id;
 
   const variablesPlaces: VariablesOf<typeof getPlaceById> = {
@@ -43,6 +46,7 @@ function Page({ params }: { params: { id: string } }) {
 
   const variablesMediaQuery: VariablesOf<typeof getMediasOfPlace> = {
     placeId: id,
+    language: LocaleToLanguage[locale],
   };
 
   const {
@@ -69,9 +73,7 @@ function Page({ params }: { params: { id: string } }) {
   const place = placeData?.place;
   const medias = mediasData?.medias;
 
-  if (placeLoading || mediasLoading) {
-    return <p>{generic('loading')}</p>;
-  }
+  setIsLoading(placeLoading || mediasLoading);
 
   if (placeError || mediasError) {
     notFound();

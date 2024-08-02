@@ -7,6 +7,7 @@ import { VariablesOf, graphql } from '@/graphql';
 import { useRouter } from '@/navigation';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 const CreateMediaMutation = graphql(`
   mutation Mutation(
@@ -14,7 +15,6 @@ const CreateMediaMutation = graphql(`
     $title: String!
     $text: String
     $type: MediaType!
-    $rating: Float!
     $videoBase64: String
     $videoDurationInSeconds: Int
   ) {
@@ -23,7 +23,6 @@ const CreateMediaMutation = graphql(`
       title: $title
       text: $text
       type: $type
-      rating: $rating
       videoBase64: $videoBase64
       videoDurationInSeconds: $videoDurationInSeconds
     ) {
@@ -33,6 +32,7 @@ const CreateMediaMutation = graphql(`
 `);
 
 export default function Form({ placeId }: { placeId: string }) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const t = useTranslations('MediaCreate');
   const generic = useTranslations('Generic');
   const router = useRouter();
@@ -79,6 +79,8 @@ export default function Form({ placeId }: { placeId: string }) {
       }
     },
   });
+  setIsLoading(loading);
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
@@ -112,7 +114,7 @@ export default function Form({ placeId }: { placeId: string }) {
             placeId,
             title: e.target.title.value,
             type: e.target.type.value,
-            rating: parseFloat(e.target.rating.value),
+
             videoBase64: videoBase64,
             videoDurationInSeconds: Math.round(duration),
           };
@@ -128,7 +130,6 @@ export default function Form({ placeId }: { placeId: string }) {
           title: e.target.title.value,
           text: e.target.text.value,
           type: e.target.type.value,
-          rating: parseFloat(e.target.rating.value),
         };
         await createMedia({ variables });
       }
@@ -175,6 +176,7 @@ export default function Form({ placeId }: { placeId: string }) {
           </label>
           <div className="relative">
             <input
+              required={true}
               id="title"
               name="title"
               type="string"
@@ -193,6 +195,7 @@ export default function Form({ placeId }: { placeId: string }) {
             </label>
             <div className="relative">
               <textarea
+                required={true}
                 id="text"
                 name="text"
                 placeholder={t('textDescription')}
@@ -201,27 +204,6 @@ export default function Form({ placeId }: { placeId: string }) {
             </div>
           </div>
         )}
-        <div className="relative mt-2 rounded-md">
-          <label
-            htmlFor="rating"
-            className="mb-2 block pl-2 text-sm font-medium"
-          >
-            {t('mediaMark')}
-          </label>
-          <div className="relative">
-            <input
-              id="rating"
-              name="rating"
-              type="number"
-              min={0.0}
-              max={10.0}
-              step={0.1}
-              placeholder={t('mediaMark')}
-              className="peer block w-full rounded-md border border-gray-200 py-2 pl-8 text-sm outline-2 placeholder:text-gray-500"
-            />
-            <HashtagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-          </div>
-        </div>
         {resourceType === 'video' && (
           <div className="relative mt-2 rounded-md">
             <label

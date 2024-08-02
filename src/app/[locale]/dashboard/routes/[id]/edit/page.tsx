@@ -9,6 +9,7 @@ import { IRoute } from '@/shared/interfaces/IRoute';
 import { Language } from '@/shared/types/Language';
 import Spinner from '@/app/[locale]/ui/spinner';
 import EditRouteForm from '@/app/[locale]/ui/routes/edit-form';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 const getRouteFullById = graphql(`
   query RouteFull($routeFullId: ID!) {
@@ -22,10 +23,6 @@ const getRouteFullById = graphql(`
         key
         value
       }
-      duration
-      optimizedDuration
-      distance
-      optimizedDistance
       stops {
         place {
           id
@@ -111,7 +108,6 @@ const getRouteFullById = graphql(`
         optimizedOrder
       }
       stopsCount
-      cityId
       createdAt
       updatedAt
     }
@@ -119,6 +115,7 @@ const getRouteFullById = graphql(`
 `);
 
 function EditRoute({ params }: { params: { id: string } }) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const arrayToObjectLanguage = (array: any[]) =>
     array.reduce(
       (obj, item) => {
@@ -139,6 +136,8 @@ function EditRoute({ params }: { params: { id: string } }) {
   const { loading, error, data } = useQuery(getRouteFullById, {
     variables,
   });
+
+  setIsLoading(loading);
 
   const routeRaw = data?.routeFull;
 
@@ -212,9 +211,6 @@ function EditRoute({ params }: { params: { id: string } }) {
 
   if (error || !route) {
     return notFound();
-  }
-  if (loading) {
-    return <Spinner />;
   }
 
   return (

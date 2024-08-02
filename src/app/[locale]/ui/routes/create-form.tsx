@@ -10,6 +10,7 @@ import { AllLanguages, Language } from '@/shared/types/Language';
 import { translateRoutes } from '../../dashboard/routes/translations';
 import PlacePicker from './components/PlacePicker';
 import { IStop } from '@/shared/interfaces/IStop';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 const CreateRouteMutation = graphql(`
   mutation CreateRouteFull($routeFull: CreateRouteFullInput!) {
@@ -43,6 +44,7 @@ const initialKeyValues = () => {
 };
 
 export default function CreateRouteForm() {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const languages = useTranslations('Languages');
   const user = useUserStore((state) => state.user);
   const router = useRouter();
@@ -70,6 +72,8 @@ export default function CreateRouteForm() {
     },
   });
 
+  setIsLoading(loading);
+
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLanguage(e.target.value as Language);
   };
@@ -95,7 +99,12 @@ export default function CreateRouteForm() {
         routeFull: {
           title: objectEntriesToArrays(titles),
           description: objectEntriesToArrays(descriptions),
-          stops: [],
+          stops: stops.map((stop, index) => ({
+            placeId: stop.place.id,
+            mediasIds: stop.medias.map((media) => media && media.id),
+            order: index,
+            optimizedOrder: index,
+          })),
         },
       };
       await createRoute({ variables });
@@ -143,6 +152,7 @@ export default function CreateRouteForm() {
                 {translateRoutes('title', selectedLanguage)}
               </label>
               <input
+                required={true}
                 id="title"
                 name="title"
                 type="string"

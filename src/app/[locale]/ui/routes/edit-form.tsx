@@ -5,12 +5,13 @@ import { VariablesOf, graphql } from '@/graphql';
 import { Link, useRouter } from '@/navigation';
 import { useTranslations } from 'next-intl';
 import { useUserStore } from '@/zustand/UserStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Language } from '@/shared/types/Language';
 import { translateRoutes } from '../../dashboard/routes/translations';
 import { IRoute } from '@/shared/interfaces/IRoute';
 import PlacePicker from './components/PlacePicker';
 import { IStop } from '@/shared/interfaces/IStop';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 const UpdateRouteMutation = graphql(`
   mutation Mutation(
@@ -24,6 +25,7 @@ const UpdateRouteMutation = graphql(`
 `);
 
 export default function EditRouteForm({ route }: { route: IRoute }) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const languages = useTranslations('Languages');
   const user = useUserStore((state) => state.user);
   const router = useRouter();
@@ -34,6 +36,7 @@ export default function EditRouteForm({ route }: { route: IRoute }) {
   const [descriptions, setDescriptions] = useState<{
     [key in Language]: string;
   }>(route.description);
+
   const [stops, setStops] = useState<IStop[]>(route.stops || []);
 
   const [updateRoute, { loading, error }] = useMutation(UpdateRouteMutation, {
@@ -54,6 +57,14 @@ export default function EditRouteForm({ route }: { route: IRoute }) {
       cache.gc();
     },
   });
+
+  setIsLoading(loading);
+
+  useEffect(() => {
+    setTitles(route.title);
+    setDescriptions(route.description);
+    setStops(route.stops || []);
+  }, [route]);
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLanguage(e.target.value as Language);
@@ -138,7 +149,7 @@ export default function EditRouteForm({ route }: { route: IRoute }) {
                 name="title"
                 type="string"
                 placeholder={translateRoutes('title', selectedLanguage)}
-                value={titles[selectedLanguage] || ''}
+                value={titles?.[selectedLanguage] || ''}
                 onChange={handleInputChange}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -155,7 +166,7 @@ export default function EditRouteForm({ route }: { route: IRoute }) {
               id="description"
               name="description"
               placeholder={translateRoutes('description', selectedLanguage)}
-              value={descriptions[selectedLanguage] || ''}
+              value={descriptions?.[selectedLanguage] || ''}
               onChange={handleInputChange}
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
               aria-describedby="name-error"

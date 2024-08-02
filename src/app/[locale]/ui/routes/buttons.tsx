@@ -10,6 +10,7 @@ import { Link, useRouter } from '@/navigation';
 import { useState } from 'react';
 import Modal from '@/app/[locale]/ui/shared/confirmation-modal';
 import { useTranslations } from 'next-intl';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 export function CreateRoute() {
   const t = useTranslations('RoutesList');
@@ -53,6 +54,7 @@ const deleteRouteMutation = graphql(`
 `);
 
 export function DeleteRoute({ id }: { id: string }) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const t = useTranslations('RouteDelete');
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
@@ -64,10 +66,11 @@ export function DeleteRoute({ id }: { id: string }) {
       console.error('Delete route error:', error);
     },
     update: (cache) => {
-      cache.evict({ fieldName: 'getRoutesBySearchAndPagination' });
+      cache.evict({ fieldName: 'routesPaginated' });
       cache.gc();
     },
   });
+  setIsLoading(loading);
 
   const handleDelete = async () => {
     try {

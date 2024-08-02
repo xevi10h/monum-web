@@ -1,6 +1,6 @@
 'use client';
 
-import { HomeIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
+import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { Link, usePathname } from '@/navigation';
 import MonumMap from '../monum-map';
@@ -10,12 +10,6 @@ import { useTranslations } from 'next-intl';
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  {
-    name: 'home',
-    href: '/dashboard/home',
-    path: '/dashboard/home',
-    icon: HomeIcon,
-  },
   {
     name: 'monums',
     href: '/dashboard/places/list',

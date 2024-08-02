@@ -6,6 +6,7 @@ import { useRouter } from '@/navigation';
 import { useState } from 'react';
 import Modal from '@/app/[locale]/ui/shared/confirmation-modal';
 import { useTranslations } from 'next-intl';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 export function CreateMedia({ placeId }: { placeId: string }) {
   const t = useTranslations('MediaList');
@@ -31,18 +32,20 @@ const deleteMediaMutation = graphql(`
 `);
 
 export function DeleteMedia({ id, placeId }: { id: string; placeId: string }) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const t = useTranslations('MediaDelete');
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
   const [deleteMedia, { loading, error }] = useMutation(deleteMediaMutation, {
     onCompleted: () => {
-      console.log('Media deleted');
       router.push(`/dashboard/places/${placeId}/medias`);
     },
     onError: (error) => {
       console.error('Delete media error:', error);
     },
   });
+
+  setIsLoading(loading);
 
   const handleDelete = async () => {
     try {

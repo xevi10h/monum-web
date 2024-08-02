@@ -1,11 +1,10 @@
 'use client';
 import Breadcrumbs from '@/app/[locale]/ui/shared/breadcrumbs';
-import { notFound } from 'next/navigation';
 import requireAuth from '@/auth';
 import { VariablesOf, graphql } from '@/graphql';
 import { useQuery } from '@apollo/client';
 import PhotosTable from '@/app/[locale]/ui/places/photos/table';
-import { useTranslations } from 'next-intl';
+import { useGlobalStore } from '@/zustand/GlobalStore';
 
 const getPlaceById = graphql(`
   query Query($placeId: ID!) {
@@ -34,7 +33,7 @@ const getPlaceById = graphql(`
 `);
 
 function Page({ params }: { params: { id: string } }) {
-  const generic = useTranslations('Generic');
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const id = params.id;
 
   const variablesPlaces: VariablesOf<typeof getPlaceById> = {
@@ -51,18 +50,8 @@ function Page({ params }: { params: { id: string } }) {
 
   const place = placeData?.place;
 
-  if (placeLoading) {
-    return <p>{generic('loading')}</p>;
-  }
-  if (
-    placeError ||
-    !place ||
-    !place.name ||
-    !place?.photos ||
-    place?.photos === null
-  ) {
-    notFound();
-  }
+  setIsLoading(placeLoading);
+
   const placePhotos = Array.isArray(place?.photos)
     ? place.photos.map((photo) => ({
         id: photo.id,
@@ -85,7 +74,7 @@ function Page({ params }: { params: { id: string } }) {
           { label: 'Monums', href: '/dashboard/places/list' },
           {
             label: `Fotos`,
-            href: `/dashboard/places/${place.id}/photos`,
+            href: `/dashboard/places/${place?.id}/photos`,
             active: true,
           },
         ]}
