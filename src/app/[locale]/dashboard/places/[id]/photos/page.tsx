@@ -52,20 +52,21 @@ function Page({ params }: { params: { id: string } }) {
 
   setIsLoading(placeLoading);
 
-  const placePhotos = Array.isArray(place?.photos)
-    ? place.photos.map((photo) => ({
-        id: photo.id,
-        url: photo.url,
-        sizes: photo.sizes,
-        createdAt: new Date(photo.createdAt || 0),
-        updatedAt: new Date(photo.updatedAt || 0),
-        order: photo.order,
-        name: photo?.name || undefined,
-        createdBy: {
-          username: photo.createdBy?.username || null,
-        },
-      }))
-    : [];
+  const placePhotos =
+    place && Array.isArray(place?.photos)
+      ? place.photos.map((photo) => ({
+          id: photo.id,
+          url: photo.url,
+          sizes: photo.sizes,
+          createdAt: new Date(photo.createdAt || 0),
+          updatedAt: new Date(photo.updatedAt || 0),
+          order: photo.order,
+          name: photo?.name || undefined,
+          createdBy: {
+            username: photo.createdBy?.username || null,
+          },
+        }))
+      : [];
 
   return (
     <main>
