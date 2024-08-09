@@ -91,7 +91,7 @@ export default function PlacesTable({ places }: { places: Array<Place> }) {
                   </td>
                   <td className="py-3 pl-6 pr-3">
                     <div className="flex justify-center gap-3">
-                      <TranslatePlace id={place?.id} />
+                      {/* <TranslatePlace id={place?.id} /> */}
                       <NavigateToPhotos id={place?.id} />
                       <NavigateToMedias id={place?.id} />
                       <UpdatePlace id={place?.id} />
