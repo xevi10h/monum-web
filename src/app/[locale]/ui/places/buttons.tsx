@@ -9,19 +9,21 @@ import {
   PhotoIcon,
   ListBulletIcon,
   MapIcon,
+  LanguageIcon,
 } from '@heroicons/react/24/outline';
 import { Link, useRouter } from '@/navigation';
 import { useState } from 'react';
 import Modal from '@/app/[locale]/ui/shared/confirmation-modal';
 import { useTranslations } from 'next-intl';
 import { useGlobalStore } from '@/zustand/GlobalStore';
+import TranslationModal from '../shared/translation-modal';
 
 export function NavigateToPhotos({ id }: { id: string }) {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <Link
       href={`/dashboard/places/${id}/photos`}
-      className="relative rounded-md border bg-monum-green-light p-2 hover:bg-monum-green-hover"
+      className="relative rounded-md border bg-green-300 p-2 hover:bg-green-500"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -168,3 +170,67 @@ export const TogglePlaceView: React.FC<TogglePlaceViewProps> = ({
     </div>
   );
 };
+
+export function TranslatePlace({ id }: { id: string }) {
+  const setIsLoading = useGlobalStore((state) => state.setIsLoading);
+  const t = useTranslations('MonumDelete');
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
+  const [deletePlace, { loading, error }] = useMutation(deletePlaceMutation, {
+    onCompleted: () => {
+      console.log('Place deleted');
+      router.push('/dashboard/places/list');
+    },
+    onError: (error) => {
+      console.error('Delete place error:', error);
+    },
+    update: (cache) => {
+      cache.evict({ fieldName: 'getPlaceBySearchAndPagination' });
+      cache.gc();
+    },
+  });
+  setIsLoading(loading);
+
+  const handleDelete = async () => {
+    try {
+      const variables: VariablesOf<typeof deletePlaceMutation> = {
+        deletePlaceId: id,
+      };
+      await deletePlace({ variables });
+      console.log('Place deleted');
+    } catch (error) {
+      console.error('Place delete error:', error);
+    }
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    setShowModal(true);
+  };
+
+  const handleConfirmation = () => {
+    setShowModal(false);
+    handleDelete();
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <button className="rounded-md border bg-amber-300 p-2 hover:bg-amber-500">
+          <span className="sr-only">Delete</span>
+          <LanguageIcon className="w-5" />
+        </button>
+      </form>
+      {showModal && (
+        <TranslationModal
+          onClose={handleCloseModal}
+          onConfirm={handleConfirmation}
+        />
+      )}
+    </>
+  );
+}

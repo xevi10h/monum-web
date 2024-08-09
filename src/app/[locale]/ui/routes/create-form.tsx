@@ -3,14 +3,14 @@ import { Button } from '@/app/[locale]/ui/button';
 import { useMutation } from '@apollo/client';
 import { VariablesOf, graphql } from '@/graphql';
 import { Link, useRouter } from '@/navigation';
-import { useTranslations } from 'next-intl';
-import { useUserStore } from '@/zustand/UserStore';
+import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { AllLanguages, Language } from '@/shared/types/Language';
 import { translateRoutes } from '../../dashboard/routes/translations';
 import PlacePicker from './components/PlacePicker';
 import { IStop } from '@/shared/interfaces/IStop';
 import { useGlobalStore } from '@/zustand/GlobalStore';
+import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
 
 const CreateRouteMutation = graphql(`
   mutation CreateRouteFull($routeFull: CreateRouteFullInput!) {
@@ -46,9 +46,11 @@ const initialKeyValues = () => {
 export default function CreateRouteForm() {
   const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const languages = useTranslations('Languages');
-  const user = useUserStore((state) => state.user);
+  const locale = useLocale() as Locale;
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    LocaleToLanguage[locale],
+  );
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] = useState(user.language);
   const [titles, setTitles] =
     useState<{ [key in Language]: string }>(initialKeyValues);
   const [descriptions, setDescriptions] = useState<{
@@ -135,7 +137,6 @@ export default function CreateRouteForm() {
                 id="language"
                 name="language"
                 className="rounded-md border border-gray-200 py-2 pl-3 text-sm text-gray-700"
-                defaultValue={user.language}
                 value={selectedLanguage}
                 onChange={handleLanguageChange}
               >

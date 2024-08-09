@@ -3,7 +3,10 @@ import {
   SpeakerWaveIcon,
   VideoCameraIcon,
 } from '@heroicons/react/24/outline';
-import { DeleteMedia } from '@/app/[locale]/ui/places/medias/buttons';
+import {
+  DeleteMedia,
+  UpdateMedia,
+} from '@/app/[locale]/ui/places/medias/buttons';
 import { useLocale, useTranslations } from 'next-intl';
 import { Locale } from '@/shared/types/Locale';
 import { LocaleToDateTimeFormat } from '@/shared/types/DateTimeFormat';
@@ -72,23 +75,6 @@ export default function MediasTable({
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <div className="md:hidden">
-            {medias?.map((media) => (
-              <div
-                key={media?.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
-              >
-                <div className="flex items-center justify-between border-b pb-4">
-                  <p className="text-sm text-gray-500">{media?.title}</p>
-                </div>
-                <div className="flex w-full items-center justify-between pt-4">
-                  <div className="flex justify-end gap-2">
-                    <DeleteMedia id={media?.id} placeId={placeId} />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
           <table className="hidden w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
@@ -116,6 +102,12 @@ export default function MediasTable({
                 <th scope="col" className=" px-3 py-5 text-center font-medium">
                   {t('content')}
                 </th>
+                <th
+                  scope="col"
+                  className="px-5 py-5 text-center font-medium sm:pl-6"
+                >
+                  {t('actions')}
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -133,7 +125,7 @@ export default function MediasTable({
                   <td className=" px-3 py-3 text-center">
                     {dateFormater.format(media?.createdAt)}
                   </td>
-                  <td className=" px-3 py-3 text-center">
+                  <td className="px-3 py-3 text-center">
                     {dateFormater.format(media?.updatedAt)}
                   </td>
                   <td className="h-36 w-96 overflow-hidden">
@@ -141,10 +133,10 @@ export default function MediasTable({
                       {renderContent(media)}
                     </div>
                   </td>
-
-                  <td className="py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
-                      <DeleteMedia id={media?.id} placeId={placeId} />
+                  <td>
+                    <div className="flex justify-center gap-3">
+                      <UpdateMedia placeId={placeId} id={media.id} />
+                      <DeleteMedia placeId={placeId} id={media.id} />
                     </div>
                   </td>
                 </tr>

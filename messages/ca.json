@@ -32,32 +32,15 @@
     "updatedAt": "Última actualització",
     "actions": "Accions",
     "addMonum": "Afegir monum",
-    "searchMonums": "Busca monums..."
+    "searchMonums": "Busca monums...",
+    "editMonum": "Edita el monum",
+    "saveNew": "Afegir Monum"
   },
   "MonumsMap": {
     "whatDoYouWant": "Què vols fer?",
     "addMonum": "Afegir monum",
     "cancel": "Cancel·lar",
     "searchMonums": "Busca monums..."
-  },
-  "MonumDetail": {
-    "editMonum": "Edita el monum",
-    "addMonum": "Afegir un monum",
-    "basicInfo": "Informació bàsica",
-    "name": "Nom",
-    "description": "Descripció",
-    "importance": "Importància",
-    "address": "Adreça",
-    "completeAddress": "Adreça completa",
-    "city": "Ciutat",
-    "country": "País",
-    "postalCode": "Codi postal",
-    "province": "Província",
-    "latitude": "Latitud",
-    "longitude": "Longitud",
-    "cancel": "Cancel·lar",
-    "save": "Guardar els canvis",
-    "saveNew": "Afegir Monum"
   },
   "MonumEditNotFound": {
     "notFound": "No hem pogut trobar el monum",
@@ -74,11 +57,13 @@
     "createdAt": "Data de creació",
     "updatedAt": "Última actualització",
     "content": "Contingut",
-    "addMedia": "Afegir recurs"
+    "addMedia": "Afegir recurs",
+    "actions": "Accions",
+    "addNewMedia": "Afegir un nou recurs",
+    "editMedia": "Edita el recurs"
   },
   "MediaCreate": {
     "medias": "Recursos",
-    "addNewMedia": "Afegir un nou recurs",
     "title": "Títol",
     "type": "Tipus de recurs",
     "text": "Text",
@@ -153,5 +138,14 @@
   "Generic": {
     "loading": "Carregant...",
     "error": "Error"
+  },
+  "TranslationModal": {
+    "title": "Traducció automàtica",
+    "message": "Selecciona l'idioma d'origen i els idiomes de destí",
+    "originLanguage": "Idioma d'origen",
+    "destinationLanguages": "Idiomes de destí",
+    "overwrite": "Vols sobreescriure les traduccions existents dels idiomes de destí seleccionats?",
+    "cancel": "Cancel·lar",
+    "confirm": "Confirmar"
   }
 }

@@ -32,32 +32,15 @@
     "updatedAt": "Última actualización",
     "actions": "Acciones",
     "addMonum": "Agregar monum",
-    "searchMonums": "Buscar monums..."
+    "searchMonums": "Buscar monums...",
+    "editMonum": "Editar el monum",
+    "saveNew": "Agregar Monum"
   },
   "MonumsMap": {
     "whatDoYouWant": "¿Qué quieres hacer?",
     "addMonum": "Agregar monum",
     "cancel": "Cancelar",
     "searchMonums": "Buscar monums..."
-  },
-  "MonumDetail": {
-    "editMonum": "Editar el monum",
-    "addMonum": "Agregar un monum",
-    "basicInfo": "Información básica",
-    "name": "Nombre",
-    "description": "Descripción",
-    "importance": "Importancia",
-    "address": "Dirección",
-    "completeAddress": "Dirección completa",
-    "city": "Ciudad",
-    "country": "País",
-    "postalCode": "Código postal",
-    "province": "Provincia",
-    "latitude": "Latitud",
-    "longitude": "Longitud",
-    "cancel": "Cancelar",
-    "save": "Guardar los cambios",
-    "saveNew": "Agregar Monum"
   },
   "MonumEditNotFound": {
     "notFound": "No pudimos encontrar el monum",
@@ -74,18 +57,20 @@
     "createdAt": "Fecha de creación",
     "updatedAt": "Última actualización",
     "content": "Contenido",
-    "addMedia": "Agregar recurso"
+    "addMedia": "Agregar recurso",
+    "actions": "Acciones",
+    "addNewMedia": "Agregar un nuevo recurso",
+    "editMedia": "Editar el recurso"
   },
   "MediaCreate": {
     "medias": "Recursos",
-    "addNewMedia": "Agregar un nuevo recurso",
     "title": "Título",
     "type": "Tipo de recurso",
     "text": "Texto",
     "textDescription": "Introduce el texto del recurso",
     "mediaMark": "Calificación del recurso",
     "cancel": "Cancelar",
-    "save": "Agregar recurso",
+    "save": "Agregar Recurso",
     "typeText": "Texto",
     "typeAudio": "Audio",
     "typeVideo": "Vídeo",
@@ -153,5 +138,14 @@
   "Generic": {
     "loading": "Cargando...",
     "error": "Error"
+  },
+  "TranslationModal": {
+    "title": "Traducción automática",
+    "message": "Selecciona el idioma de origen y los idiomas de destino",
+    "originLanguage": "Idioma de origen",
+    "destinationLanguages": "Idiomas de destino",
+    "overwrite": "¿Deseas sobrescribir las traducciones existentes en los idiomas de destino seleccionados?",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   }
 }

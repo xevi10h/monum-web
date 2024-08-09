@@ -55,7 +55,7 @@ const getPlaceFullById = graphql(`
 
 function Page({ params }: { params: { id: string } }) {
   const setIsLoading = useGlobalStore((state) => state.setIsLoading);
-  const t = useTranslations('MonumDetail');
+  const t = useTranslations('MonumsList');
   const arrayToObjectLanguage = (array: any[]) =>
     array.reduce(
       (obj, item) => {

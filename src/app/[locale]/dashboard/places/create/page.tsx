@@ -5,7 +5,7 @@ import requireAuth from '@/auth';
 import { useTranslations } from 'next-intl';
 
 async function Page() {
-  const t = useTranslations('MonumDetail');
+  const t = useTranslations('MonumsList');
   return (
     <main>
       <Breadcrumbs

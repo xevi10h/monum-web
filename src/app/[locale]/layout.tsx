@@ -28,7 +28,7 @@ export default async function RootLayout({
   const messages = await getMessages();
   return (
     <html lang={locale}>
-      <body className={`${montserrat.className} antialiased`}>
+      <body className={`${montserrat.className} antialiased `}>
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>

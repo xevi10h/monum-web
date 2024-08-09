@@ -1,6 +1,6 @@
 import { VariablesOf, graphql } from '@/graphql';
 import { useMutation } from '@apollo/client';
-import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Link } from '@/navigation';
 import { useRouter } from '@/navigation';
 import { useState } from 'react';
@@ -42,6 +42,10 @@ export function DeleteMedia({ id, placeId }: { id: string; placeId: string }) {
     },
     onError: (error) => {
       console.error('Delete media error:', error);
+    },
+    update: (cache) => {
+      cache.evict({ fieldName: 'medias' });
+      cache.gc();
     },
   });
 
@@ -92,5 +96,16 @@ export function DeleteMedia({ id, placeId }: { id: string; placeId: string }) {
         />
       )}
     </>
+  );
+}
+
+export function UpdateMedia({ id, placeId }: { id: string; placeId: string }) {
+  return (
+    <Link
+      href={`/dashboard/places/${placeId}/medias/${id}/edit`}
+      className="rounded-md border bg-blue-300 p-2 hover:bg-blue-500"
+    >
+      <PencilIcon className="w-5" />
+    </Link>
   );
 }

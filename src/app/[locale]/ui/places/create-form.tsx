@@ -4,15 +4,15 @@ import { useMutation } from '@apollo/client';
 import { VariablesOf, graphql } from '@/graphql';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/navigation';
-import { MouseEventHandler, useState } from 'react';
+import { useState } from 'react';
 import { useGlobalStore } from '@/zustand/GlobalStore';
-import { useUserStore } from '@/zustand/UserStore';
 import { Language } from '@/shared/types/Language';
 import { IAddress } from '@/shared/interfaces/IAddress';
 import { IPlace } from '@/shared/interfaces/IPlace';
 import { translatePlaces } from '../../dashboard/places/translations';
+import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
 
 const CreatePlaceFullMutation = graphql(`
   mutation CreatePlaceFull($place: CreatePlaceFullInput!) {
@@ -24,14 +24,15 @@ const CreatePlaceFullMutation = graphql(`
 
 export default function Form() {
   const setIsLoading = useGlobalStore((state) => state.setIsLoading);
-  const t = useTranslations('MonumDetail');
   const languages = useTranslations('Languages');
   const router = useRouter();
   const searchParams = useSearchParams();
   const defaultLat = searchParams.get('defaultLat');
   const defaultLng = searchParams.get('defaultLng');
-  const user = useUserStore((state) => state.user);
-  const [selectedLanguage, setSelectedLanguage] = useState(user.language);
+  const locale = useLocale() as Locale;
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    LocaleToLanguage[locale],
+  );
   const [placeCreate, setPlaceCreate] = useState<Partial<IPlace>>({});
   const [addressCreate, setAddressCreate] = useState<Partial<IAddress>>({});
 
@@ -156,7 +157,6 @@ export default function Form() {
                 id="language"
                 name="language"
                 className="rounded-md border border-gray-200 py-2 pl-3 text-sm text-gray-700"
-                defaultValue={user.language}
                 value={selectedLanguage}
                 onChange={handleLanguageChange}
               >
@@ -170,7 +170,7 @@ export default function Form() {
           <div className="flex gap-4">
             <div className="flex-1" style={{ flexBasis: '80%' }}>
               <label htmlFor="name" className="font-small mb-2 block text-sm">
-                {t('name')}
+                {translatePlaces('name', selectedLanguage)}
               </label>
               <input
                 required={true}
@@ -370,10 +370,10 @@ export default function Form() {
           }}
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          {t('cancel')}
+          {translatePlaces('cancel', selectedLanguage)}
         </Link>
         <Button disabled={loading} aria-disabled={loading}>
-          {t('saveNew')}
+          {translatePlaces('saveNew', selectedLanguage)}
         </Button>
       </div>
     </form>

@@ -5,7 +5,7 @@ import requireAuth from '@/auth';
 import { useTranslations } from 'next-intl';
 
 function Page({ params }: { params: { id: string } }) {
-  const t = useTranslations('MediaCreate');
+  const t = useTranslations('MediaList');
   const id = params.id;
   return (
     <main>

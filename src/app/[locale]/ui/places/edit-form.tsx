@@ -5,14 +5,14 @@ import { Button } from '@/app/[locale]/ui/button';
 import { VariablesOf, graphql } from '@/graphql';
 import { useMutation } from '@apollo/client';
 import { useRouter } from '@/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useGlobalStore } from '@/zustand/GlobalStore';
 import { useEffect, useState } from 'react';
-import { useUserStore } from '@/zustand/UserStore';
 import { Language } from '@/shared/types/Language';
 import { IPlace } from '@/shared/interfaces/IPlace';
 import { translatePlaces } from '../../dashboard/places/translations';
 import { IAddress } from '@/shared/interfaces/IAddress';
+import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
 
 const UpdatePlaceMutation = graphql(`
   mutation UpdatePlaceFull(
@@ -29,8 +29,10 @@ export default function EditPlaceForm({ place }: { place: IPlace }) {
   const setIsLoading = useGlobalStore((state) => state.setIsLoading);
   const languages = useTranslations('Languages');
   const router = useRouter();
-  const user = useUserStore((state) => state.user);
-  const [selectedLanguage, setSelectedLanguage] = useState(user.language);
+  const locale = useLocale() as Locale;
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    LocaleToLanguage[locale],
+  );
   const [placeUpdate, setPlaceUpdate] = useState<IPlace>(place);
   const [addressUpdate, setAddressUpdate] = useState<IAddress>(place.address);
   useEffect(() => {
@@ -148,7 +150,6 @@ export default function EditPlaceForm({ place }: { place: IPlace }) {
                 id="language"
                 name="language"
                 className="rounded-md border border-gray-200 py-2 pl-3 text-sm text-gray-700"
-                defaultValue={user.language}
                 value={selectedLanguage}
                 onChange={handleLanguageChange}
               >
