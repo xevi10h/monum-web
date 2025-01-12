@@ -10,10 +10,13 @@ import { useQuery } from '@apollo/client';
 import { Place } from '../interfaces';
 import { useLocale, useTranslations } from 'next-intl';
 import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
+import Filters from '@/app/[locale]/ui/filters';
 
 const getPlaceBySearchAndPagination = graphql(`
   query Query(
     $textSearch: String!
+    $cities: [String!]
+    $hasPhotos: Boolean
     $pageNumber: Int!
     $resultsPerPage: Int!
     $language: Language
@@ -23,6 +26,8 @@ const getPlaceBySearchAndPagination = graphql(`
       pageNumber: $pageNumber
       resultsPerPage: $resultsPerPage
       language: $language
+      cities: $cities
+      hasPhotos: $hasPhotos
     ) {
       places {
         id
@@ -55,15 +60,21 @@ function Page({
   searchParams?: {
     query?: string;
     page?: string;
+    cities?: string;
+    hasPhotos?: string;
   };
 }) {
   const t = useTranslations('MonumsList');
   const query = searchParams?.query || '';
+  const cities = searchParams?.cities || '';
+  const hasPhotos = searchParams?.hasPhotos || '';
   const currentPage = Number(searchParams?.page) || 1;
   const locale = useLocale() as Locale;
 
   const variables: VariablesOf<typeof getPlaceBySearchAndPagination> = {
     textSearch: query,
+    cities: cities ? cities.split(',') : [],
+    hasPhotos: hasPhotos === 'true',
     pageNumber: currentPage,
     resultsPerPage: 9,
     language: LocaleToLanguage[locale],
@@ -112,6 +123,7 @@ function Page({
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder={t('searchMonums')} />
+        <Filters />
         <TogglePlaceView view="list" />
         <CreatePlace />
       </div>
