@@ -13,7 +13,10 @@ import { Place } from '../interfaces';
 import { useLocale, useTranslations } from 'next-intl';
 import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
 import Filters from '@/app/[locale]/ui/filters';
-import { loadFiltersFromLocalStorage } from '@/utils/localStorage'; // Importa tus funciones
+import {
+  loadFiltersFromLocalStorage,
+  saveFiltersToLocalStorage,
+} from '@/utils/localStorage';
 
 const getPlaceBySearchAndPagination = graphql(`
   query Query(
@@ -68,8 +71,7 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
   const t = useTranslations('MonumsList');
   const locale = useLocale() as Locale;
 
-  // Estado local que contendrá los "filtros aplicados" de verdad
-  // (combinando searchParams con localStorage en el primer render).
+  // Estado que contendrá los filtros aplicados (combinando URL y/o localStorage)
   const [appliedFilters, setAppliedFilters] = useState<{
     query: string;
     page: number;
@@ -82,35 +84,24 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
     hasPhotos: null,
   });
 
-  // Este estado nos ayuda a saber si ya hicimos la lectura de localStorage.
-  // De lo contrario, el primer render podría disparar la query con datos vacíos.
+  // Estado para controlar que ya se haya leído la información (URL o localStorage)
   const [initialized, setInitialized] = useState(false);
 
-  // Efecto para inicializar (solo la primera vez).
   useEffect(() => {
-    // 1. Obtenemos filtros del localStorage, si existen
-    const stored = loadFiltersFromLocalStorage(); // { hasPhotos: string|null, cities: string[] }
+    // Primero se revisa la URL
+    const urlHasPhotos = searchParams?.hasPhotos;
+    const urlCities = searchParams?.cities;
+    const hasUrlFilter =
+      urlHasPhotos === 'true' || urlHasPhotos === 'false' || urlCities;
 
-    // 2. Tomamos los parámetros de la URL
-    const urlQuery = searchParams?.query ?? '';
-    const urlPage = searchParams?.page ?? '1';
-    const urlCities = searchParams?.cities ?? '';
-    const urlHasPhotos = searchParams?.hasPhotos ?? '';
-
-    // 3. Decidimos la prioridad
-    //    - Si la URL está "vacía" (ni query, ni cities, ni hasPhotos),
-    //      usamos lo de localStorage.
-    //    - Si la URL trae algo, lo usamos.
-    const isUrlEmpty =
-      !urlQuery && !urlCities && !urlHasPhotos && (urlPage === '1' || !urlPage);
-
-    console.log('stored', stored);
-
-    if (!isUrlEmpty) {
+    if (hasUrlFilter) {
+      const urlQuery = searchParams?.query ?? '';
+      const urlPage = searchParams?.page ?? '1';
+      const citiesArray = urlCities ? urlCities.split(',') : [];
       setAppliedFilters({
         query: urlQuery,
         page: Number(urlPage) || 1,
-        cities: urlCities ? urlCities.split(',') : [],
+        cities: citiesArray,
         hasPhotos:
           urlHasPhotos === 'true'
             ? true
@@ -118,26 +109,35 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
               ? false
               : null,
       });
-    } else if (stored) {
-      // Preferimos lo que haya en localStorage
-      setAppliedFilters({
-        query: '', // Aquí decides si guardas query en localStorage o no
-        page: 1,
-        cities: stored.cities || [],
+      // Actualizamos localStorage con lo de la URL (nota: query no se guarda)
+      saveFiltersToLocalStorage({
         hasPhotos:
-          stored.hasPhotos === 'true'
-            ? true
-            : stored.hasPhotos === 'false'
-              ? false
-              : null,
+          urlHasPhotos === 'true' || urlHasPhotos === 'false'
+            ? urlHasPhotos
+            : null,
+        cities: citiesArray,
       });
+    } else {
+      // Si no hay filtros en la URL, se mira el localStorage
+      const stored = loadFiltersFromLocalStorage();
+      if (stored) {
+        setAppliedFilters({
+          query: '',
+          page: 1,
+          cities: stored.cities || [],
+          hasPhotos:
+            stored.hasPhotos === 'true'
+              ? true
+              : stored.hasPhotos === 'false'
+                ? false
+                : null,
+        });
+      }
     }
-
     setInitialized(true);
   }, [searchParams]);
 
-  // Variables para el useQuery
-  // Fíjate que usamos `appliedFilters` en vez de leer directo de searchParams.
+  // Variables para la query (usando los filtros aplicados)
   const variables: VariablesOf<typeof getPlaceBySearchAndPagination> = {
     textSearch: appliedFilters.query,
     cities: appliedFilters.cities,
@@ -147,8 +147,7 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
     language: LocaleToLanguage[locale],
   };
 
-  // Para evitar la query con datos vacíos antes de terminar el useEffect,
-  // puedes hacer skip del query si `!initialized`.
+  // Para evitar lanzar la query antes de inicializar
   const { data, loading, error } = useQuery(getPlaceBySearchAndPagination, {
     variables,
     skip: !initialized,
@@ -158,7 +157,6 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
     data?.getPlaceBySearchAndPagination?.pageInfo?.totalPages || 1;
 
   const places = data?.getPlaceBySearchAndPagination?.places?.map((place) => {
-    // Convertimos a Date, etc.
     const rawCreatedAt = place?.createdAt;
     const rawUpdatedAt = place?.updatedAt;
     const createdAt =

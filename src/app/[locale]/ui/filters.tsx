@@ -17,7 +17,6 @@ import {
   loadFiltersFromLocalStorage,
 } from '@/utils/localStorage';
 
-// Tipos para filtros
 type FilterKey = 'hasPhotos' | 'cities';
 interface Filter {
   key: FilterKey;
@@ -32,14 +31,14 @@ export default function Filters() {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 
-  // Llamada GraphQL para obtener ciudades
-  const { data: citiesData, loading, error } = useQuery(getUniqueCities);
+  // Llamada para obtener ciudades
+  const { data: citiesData } = useQuery(getUniqueCities);
 
   // Lista de filtros
   const [filtersList, setFiltersList] = useState<Filter[]>([
     {
       key: 'hasPhotos',
-      label: 'Tiene fotos?',
+      label: '¿Tiene fotos?',
       icon: <PhotoIcon className="h-4 w-4" />,
       possibleValues: ['true', 'false'],
     },
@@ -52,7 +51,7 @@ export default function Filters() {
     },
   ]);
 
-  // Filtro activo
+  // Filtro activo (para mostrar el submenú)
   const [activeFilterKey, setActiveFilterKey] = useState<FilterKey | null>(
     null,
   );
@@ -61,13 +60,13 @@ export default function Filters() {
   const [tempHasPhotos, setTempHasPhotos] = useState<string | null>(null);
   const [tempCities, setTempCities] = useState<string[]>([]);
 
-  // Estados confirmados (los que sí se aplican en la URL)
+  // Estados confirmados (los que se aplican en la URL)
   const [committedHasPhotos, setCommittedHasPhotos] = useState<string | null>(
     null,
   );
   const [committedCities, setCommittedCities] = useState<string[]>([]);
 
-  // Cuando `citiesData` llega, rellenamos `possibleValues` de "cities"
+  // Cuando llega la data de ciudades, se actualiza la lista
   useEffect(() => {
     if (citiesData?.uniqueCities) {
       const uniqueCities: string[] = citiesData.uniqueCities.filter(
@@ -81,47 +80,51 @@ export default function Filters() {
     }
   }, [citiesData]);
 
-  // Inicializar desde `localStorage` o URL
+  // Inicializar filtros: se prioriza la URL sobre el localStorage.
   useEffect(() => {
-    const storedFilters = loadFiltersFromLocalStorage();
-    if (storedFilters) {
-      setTempHasPhotos(storedFilters.hasPhotos);
-      setCommittedHasPhotos(storedFilters.hasPhotos);
-      setTempCities(storedFilters.cities);
-      setCommittedCities(storedFilters.cities);
-    } else {
-      const hasPhotosParam = searchParams.get('hasPhotos');
-      if (hasPhotosParam === 'true' || hasPhotosParam === 'false') {
-        setTempHasPhotos(hasPhotosParam);
-        setCommittedHasPhotos(hasPhotosParam);
-      }
+    const urlHasPhotos = searchParams.get('hasPhotos');
+    const urlCities = searchParams.get('cities');
 
-      const citiesParam = searchParams.get('cities');
-      if (citiesParam) {
-        const arr = citiesParam.split(',');
-        setTempCities(arr);
-        setCommittedCities(arr);
+    if (urlHasPhotos === 'true' || urlHasPhotos === 'false' || urlCities) {
+      // Si la URL trae filtros, los usamos
+      const hasPhotosValue =
+        urlHasPhotos === 'true' || urlHasPhotos === 'false'
+          ? urlHasPhotos
+          : null;
+      const citiesValue = urlCities ? urlCities.split(',') : [];
+
+      setTempHasPhotos(hasPhotosValue);
+      setCommittedHasPhotos(hasPhotosValue);
+      setTempCities(citiesValue);
+      setCommittedCities(citiesValue);
+
+      // Actualizamos el localStorage con lo de la URL
+      saveFiltersToLocalStorage({
+        hasPhotos: hasPhotosValue,
+        cities: citiesValue,
+      });
+    } else {
+      // Si la URL no trae filtros, usamos los que estén en localStorage (si existen)
+      const storedFilters = loadFiltersFromLocalStorage();
+      if (storedFilters) {
+        setTempHasPhotos(storedFilters.hasPhotos);
+        setCommittedHasPhotos(storedFilters.hasPhotos);
+        setTempCities(storedFilters.cities);
+        setCommittedCities(storedFilters.cities);
       }
     }
   }, [searchParams]);
 
-  // Guardar filtros confirmados en `localStorage` cada vez que cambian
-  useEffect(() => {
-    saveFiltersToLocalStorage({
-      hasPhotos: committedHasPhotos,
-      cities: committedCities,
-    });
-  }, [committedHasPhotos, committedCities]);
-
-  // Manejo de filtro activo
+  // Manejo de selección del filtro activo
   function handleFilterSelect(key: FilterKey) {
     setActiveFilterKey((prev) => (prev === key ? null : key));
   }
 
-  // Seleccionar valor (temporal)
+  // Cambiar el valor temporal de "hasPhotos"
   function handleTempHasPhotos(value: string) {
     setTempHasPhotos((prev) => (prev === value ? null : value));
   }
+  // Alternar selección de ciudad
   function handleTempCityToggle(city: string) {
     setTempCities((prev) => {
       if (prev.includes(city)) return prev.filter((c) => c !== city);
@@ -129,24 +132,22 @@ export default function Filters() {
     });
   }
 
-  // “Aplicar” => confirmamos + actualizamos URL y cerramos popover
+  // Al pulsar "Aceptar": se actualiza la URL y el localStorage
   function handleApply(closePopover: () => void) {
-    // Pasamos temporales a confirmados
+    // Actualizamos los filtros confirmados
     setCommittedHasPhotos(tempHasPhotos);
     setCommittedCities(tempCities);
 
-    // Actualizamos la URL
+    // Creamos y actualizamos la URL
     const params = new URLSearchParams(searchParams);
-    // Reseteamos paginación
-    params.set('page', '1');
+    params.set('page', '1'); // reseteamos la paginación
 
-    // hasPhotos
     if (tempHasPhotos) {
       params.set('hasPhotos', tempHasPhotos);
     } else {
       params.delete('hasPhotos');
     }
-    // cities
+
     if (tempCities.length > 0) {
       params.set('cities', tempCities.join(','));
     } else {
@@ -154,17 +155,22 @@ export default function Filters() {
     }
 
     replace(`${pathname}?${params.toString()}`);
+
+    // Guardamos en localStorage
+    saveFiltersToLocalStorage({
+      hasPhotos: tempHasPhotos,
+      cities: tempCities,
+    });
     closePopover();
   }
 
-  // “Cancelar” => deshacemos cambios y cerramos
+  // Al pulsar "Cancelar": se deshacen los cambios temporales
   function handleCancel(closePopover: () => void) {
     setTempHasPhotos(committedHasPhotos);
     setTempCities(committedCities);
     closePopover();
   }
 
-  // Render
   return (
     <Popover className="relative">
       {({ open, close }: any) => (
@@ -197,7 +203,7 @@ export default function Filters() {
                 ring-opacity-5
               "
             >
-              {/* Columna Izquierda: filtros */}
+              {/* Columna izquierda: lista de filtros */}
               <div className="p-2">
                 <p className="mb-2 text-sm font-semibold text-gray-500">
                   Selecciona un filtro
@@ -226,7 +232,7 @@ export default function Filters() {
                 })}
               </div>
 
-              {/* Columna Derecha: opciones del filtro activo (posicionadas como sub-dropdown) */}
+              {/* Columna derecha: opciones según filtro activo */}
               {activeFilterKey && (
                 <div
                   className="
@@ -298,7 +304,7 @@ export default function Filters() {
                 </div>
               )}
 
-              {/* Footer: botones Aceptar/Cancelar */}
+              {/* Footer con botones Aceptar y Cancelar */}
               <div className="mt-2 flex justify-end gap-2 border-t border-gray-200 px-2 py-2">
                 <Popover.Button
                   as="button"
