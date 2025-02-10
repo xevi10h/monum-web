@@ -21,6 +21,9 @@ const translationsData: TranslationsMap = {
     searchMonums: 'Busca monums...',
     searchMedias: 'Busca recursos...',
     createRoute: 'Crear ruta',
+    city: 'Ciutat',
+    searchCity: 'Cerca una ciutat',
+    selectCity: 'Selecciona una ciutat',
     monumsAndMediasSelected({
       monumsSelected,
       mediasSelected,
@@ -45,6 +48,9 @@ const translationsData: TranslationsMap = {
     searchMedias: 'Buscar recursos...',
     chooseMultipleStops: 'Elige qué paradas deseas agregar a la ruta',
     createRoute: 'Crear ruta',
+    city: 'Ciudad',
+    searchCity: 'Buscar una ciudad',
+    selectCity: 'Selecciona una ciudad',
     monumsAndMediasSelected({
       monumsSelected,
       mediasSelected,
@@ -69,6 +75,9 @@ const translationsData: TranslationsMap = {
     searchMedias: 'Search media...',
     chooseMultipleStops: 'Choose which stops you want to add to the route',
     createRoute: 'Create route',
+    city: 'City',
+    searchCity: 'Search a city',
+    selectCity: 'Select a city',
     monumsAndMediasSelected({
       monumsSelected,
       mediasSelected,
@@ -94,6 +103,9 @@ const translationsData: TranslationsMap = {
     chooseMultipleStops:
       "Choisissez les arrêts que vous souhaitez ajouter à l'itinéraire",
     createRoute: 'Créer un itinéraire',
+    city: 'Ville',
+    searchCity: 'Rechercher une ville',
+    selectCity: 'Sélectionnez une ville',
     monumsAndMediasSelected({
       monumsSelected,
       mediasSelected,

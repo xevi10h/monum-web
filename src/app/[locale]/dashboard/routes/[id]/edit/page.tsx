@@ -7,7 +7,6 @@ import { useTranslations } from 'next-intl';
 import notFound from './not-found';
 import { IRoute } from '@/shared/interfaces/IRoute';
 import { Language } from '@/shared/types/Language';
-import Spinner from '@/app/[locale]/ui/spinner';
 import EditRouteForm from '@/app/[locale]/ui/routes/edit-form';
 import { useGlobalStore } from '@/zustand/GlobalStore';
 
@@ -15,6 +14,14 @@ const getRouteFullById = graphql(`
   query RouteFull($routeFullId: ID!) {
     routeFull(id: $routeFullId) {
       id
+      city {
+        name {
+          key
+          value
+        }
+        id
+        imageUrl
+      }
       title {
         key
         value
@@ -141,6 +148,14 @@ function EditRoute({ params }: { params: { id: string } }) {
 
   const routeRaw = data?.routeFull;
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error || !routeRaw) {
+    return notFound();
+  }
+
   const rawCreatedAt = routeRaw?.createdAt;
   const rawUpdatedAt = routeRaw?.updatedAt;
   const createdAt =
@@ -154,6 +169,10 @@ function EditRoute({ params }: { params: { id: string } }) {
   const route: IRoute = {
     id: routeRaw?.id as string,
     title: routeRaw?.title && arrayToObjectLanguage(routeRaw?.title as any[]),
+    city: {
+      id: routeRaw?.city.id,
+      name: arrayToObjectLanguage(routeRaw?.city.name as any[]),
+    },
     description:
       routeRaw?.description &&
       arrayToObjectLanguage(routeRaw?.description as any[]),
@@ -208,10 +227,6 @@ function EditRoute({ params }: { params: { id: string } }) {
     createdAt: new Date(createdAt),
     updatedAt: new Date(updatedAt),
   };
-
-  if (error || !route) {
-    return notFound();
-  }
 
   return (
     <main>

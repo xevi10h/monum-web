@@ -13,10 +13,7 @@ import { Place } from '../interfaces';
 import { useLocale, useTranslations } from 'next-intl';
 import { Locale, LocaleToLanguage } from '@/shared/types/Locale';
 import Filters from '@/app/[locale]/ui/filters';
-import {
-  loadFiltersFromLocalStorage,
-  saveFiltersToLocalStorage,
-} from '@/utils/localStorage'; // Importa tus funciones
+import { loadFiltersFromLocalStorage } from '@/utils/localStorage'; // Importa tus funciones
 
 const getPlaceBySearchAndPagination = graphql(`
   query Query(
@@ -105,9 +102,23 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
     //      usamos lo de localStorage.
     //    - Si la URL trae algo, lo usamos.
     const isUrlEmpty =
-      !urlQuery && !urlCities && !urlHasPhotos && urlPage === '1';
+      !urlQuery && !urlCities && !urlHasPhotos && (urlPage === '1' || !urlPage);
 
-    if (isUrlEmpty && stored) {
+    console.log('stored', stored);
+
+    if (!isUrlEmpty) {
+      setAppliedFilters({
+        query: urlQuery,
+        page: Number(urlPage) || 1,
+        cities: urlCities ? urlCities.split(',') : [],
+        hasPhotos:
+          urlHasPhotos === 'true'
+            ? true
+            : urlHasPhotos === 'false'
+              ? false
+              : null,
+      });
+    } else if (stored) {
       // Preferimos lo que haya en localStorage
       setAppliedFilters({
         query: '', // Aquí decides si guardas query en localStorage o no
@@ -120,39 +131,10 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
               ? false
               : null,
       });
-    } else {
-      // Preferimos lo que dice la URL
-      setAppliedFilters({
-        query: urlQuery,
-        page: Number(urlPage) || 1,
-        cities: urlCities ? urlCities.split(',') : [],
-        hasPhotos:
-          urlHasPhotos === 'true'
-            ? true
-            : urlHasPhotos === 'false'
-              ? false
-              : null,
-      });
     }
 
     setInitialized(true);
   }, [searchParams]);
-
-  // Cada vez que cambien los filtros aplicados, podemos guardar en localStorage
-  // (si así lo deseas).
-  useEffect(() => {
-    if (initialized) {
-      saveFiltersToLocalStorage({
-        hasPhotos:
-          appliedFilters.hasPhotos === true
-            ? 'true'
-            : appliedFilters.hasPhotos === false
-              ? 'false'
-              : null,
-        cities: appliedFilters.cities,
-      });
-    }
-  }, [appliedFilters, initialized]);
 
   // Variables para el useQuery
   // Fíjate que usamos `appliedFilters` en vez de leer directo de searchParams.
