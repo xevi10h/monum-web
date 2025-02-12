@@ -16,4 +16,5 @@ export default interface IUser {
   hasPassword?: boolean;
   permissions?: IPermission[];
   deviceId?: string;
+  websiteUrl?: string;
 }

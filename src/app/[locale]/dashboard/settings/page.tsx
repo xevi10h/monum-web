@@ -33,6 +33,7 @@ const UpdateUserMutation = graphql(`
       photo
       hasPassword
       roleId
+      websiteUrl
       permissions {
         action
         entity
@@ -81,6 +82,7 @@ function SettingsPage() {
           updatedAt: userData.updatedAt
             ? new Date(userData.updatedAt)
             : new Date(),
+          websiteUrl: userData.websiteUrl || undefined,
         };
 
         setUser(user);
@@ -134,6 +136,7 @@ function SettingsPage() {
           photoBase64: newProvisionalPhoto,
           name: formData.get('name') as string,
           username: formData.get('username') as string,
+          websiteUrl: formData.get('websiteUrl') as string,
         },
       };
       await updatePlace({ variables });
@@ -153,10 +156,10 @@ function SettingsPage() {
         <h2 className="block text-xl font-semibold">{t('profile')}</h2>
         <h3 className="mb-8 text-sm ">{t('updateProfile')}</h3>
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-row">
-            <div className="h-48 w-2/3">
+          <div className="flex flex-row py-6">
+            <div className="w-2/3">
               <div className="space-between  flex h-10 w-full flex-row items-center">
-                <label htmlFor="name" className="mr-6 w-1/6 text-right text-sm">
+                <label htmlFor="name" className="mr-6 w-2/6 text-right text-sm">
                   {t('completeName')}
                 </label>
                 <input
@@ -165,11 +168,11 @@ function SettingsPage() {
                   type="string"
                   defaultValue={user.name}
                   placeholder={t('completeName')}
-                  className="w-5/6 rounded-md border border-gray-200 py-2 pl-3 text-sm placeholder:text-gray-500"
+                  className="w-4/6 rounded-md border border-gray-200 py-2 pl-3 text-sm placeholder:text-gray-500"
                 />
               </div>
               <div className="space-between flex h-10 w-full flex-row items-center">
-                <label htmlFor="name" className="mr-6 w-1/6 text-right text-sm">
+                <label htmlFor="name" className="mr-6 w-2/6 text-right text-sm">
                   {t('username')}
                 </label>
                 <input
@@ -178,11 +181,11 @@ function SettingsPage() {
                   type="string"
                   defaultValue={user.username}
                   placeholder={t('username')}
-                  className="w-5/6 rounded-md border border-gray-200 py-2 pl-3 text-sm placeholder:text-gray-500"
+                  className="w-4/6 rounded-md border border-gray-200 py-2 pl-3 text-sm placeholder:text-gray-500"
                 />
               </div>
               <div className="space-between flex h-10 w-full flex-row items-center">
-                <label htmlFor="name" className="mr-6 w-1/6 text-right text-sm">
+                <label htmlFor="name" className="mr-6 w-2/6 text-right text-sm">
                   {t('email')}
                 </label>
                 <input
@@ -191,11 +194,24 @@ function SettingsPage() {
                   type="string"
                   defaultValue={user.email}
                   placeholder={t('email')}
-                  className="w-5/6 rounded-md border border-gray-200 py-2 pl-3 text-sm placeholder:text-gray-500"
+                  className="w-4/6 rounded-md border border-gray-200 py-2 pl-3 text-sm placeholder:text-gray-500"
                 />
               </div>
               <div className="space-between flex h-10 w-full flex-row items-center">
-                <label htmlFor="name" className="mr-6 w-1/6 text-right text-sm">
+                <label htmlFor="name" className="mr-6 w-2/6 text-right text-sm">
+                  {t('websiteUrl')}
+                </label>
+                <input
+                  id="websiteUrl"
+                  name="websiteUrl"
+                  type="string"
+                  defaultValue={user.websiteUrl}
+                  placeholder={t('websiteUrl')}
+                  className="w-4/6 rounded-md border border-gray-200 py-2 pl-3 text-sm placeholder:text-gray-500"
+                />
+              </div>
+              <div className="space-between flex h-10 w-full flex-row items-center">
+                <label htmlFor="name" className="mr-6 w-2/6 text-right text-sm">
                   {t('createdAt')}
                 </label>
                 <div className="py-2 text-sm ">
@@ -205,13 +221,13 @@ function SettingsPage() {
                 </div>
               </div>
               <div className="space-between flex h-10 w-full flex-row items-center">
-                <label htmlFor="name" className="mr-6 w-1/6 text-right text-sm">
+                <label htmlFor="name" className="mr-6 w-2/6 text-right text-sm">
                   {t('language')}
                 </label>
                 <select
                   id="language"
                   name="language"
-                  className="w-5/6 rounded-md border border-gray-200 py-2 pl-3 text-sm text-gray-700"
+                  className="w-4/6 rounded-md border border-gray-200 py-2 pl-3 text-sm text-gray-700"
                   defaultValue={user.language}
                 >
                   <option value="ca_ES">{languages('ca_ES')}</option>
@@ -221,7 +237,7 @@ function SettingsPage() {
                 </select>
               </div>
             </div>
-            <div className="flex w-1/3 flex-col items-center gap-4">
+            <div className="flex w-1/3 items-center justify-center gap-4">
               <div className="group relative">
                 {photoToShow ? (
                   <div className="flex h-44 w-44 items-center justify-center overflow-hidden rounded-full bg-gray-200 text-gray-500">
@@ -258,8 +274,8 @@ function SettingsPage() {
               </div>
             </div>
           </div>
-          <div className="-mx-4 my-6 md:-mx-6">
-            <div className="border-t border-gray-300"></div>
+          <div className="-mx-4 my-4 md:-mx-6">
+            <div className="border-t border-gray-300" />
           </div>
           <div className="mt-6 flex justify-between gap-4">
             <button className="flex h-10 items-center rounded-lg bg-monum-green-default px-4 text-sm font-medium text-white">

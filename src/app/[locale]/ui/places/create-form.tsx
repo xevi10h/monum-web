@@ -49,7 +49,7 @@ export default function Form() {
         }
       },
       update: (cache) => {
-        cache.evict({ fieldName: 'getPlaceBySearchAndPagination' });
+        cache.evict({ fieldName: 'getRoutesBySearchAndPagination' });
         cache.gc();
       },
     },

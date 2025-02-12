@@ -127,7 +127,8 @@
     "language": "Language",
     "save": "Save Changes",
     "logout": "Log Out",
-    "noPhoto": "No Photo"
+    "noPhoto": "No Photo",
+    "websiteUrl": "Website URL"
   },
   "Languages": {
     "es_ES": "Spanish",

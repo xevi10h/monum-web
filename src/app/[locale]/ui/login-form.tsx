@@ -36,6 +36,7 @@ const LoginMutation = graphql(`
       photo
       hasPassword
       roleId
+      websiteUrl
       permissions {
         action
         entity
@@ -77,6 +78,7 @@ export default function LoginForm() {
           updatedAt: userData.updatedAt
             ? new Date(userData.updatedAt)
             : new Date(),
+          websiteUrl: userData.websiteUrl || undefined,
         };
         setUser(user);
         const redirect =

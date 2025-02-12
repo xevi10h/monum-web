@@ -127,7 +127,8 @@
     "language": "Idioma",
     "save": "Guardar els canvis",
     "logout": "Tancar la sessió",
-    "noPhoto": "Sense foto"
+    "noPhoto": "Sense foto",
+    "websiteUrl": "URL del lloc web"
   },
   "Languages": {
     "es_ES": "Espanyol",
