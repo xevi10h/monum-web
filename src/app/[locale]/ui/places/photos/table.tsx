@@ -188,7 +188,8 @@ export default function PhotosTable({ photos, placeId }: PhotosTableProps) {
         if (
           file.type === 'image/jpeg' ||
           file.type === 'image/png' ||
-          file.type === 'image/jpg'
+          file.type === 'image/jpg' ||
+          file.type === 'image/webp'
         ) {
           setProvisionalPhotos((prev) => {
             let newName = file.name;
