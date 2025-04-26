@@ -93,10 +93,10 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
     const urlCities = searchParams?.cities;
     const hasUrlFilter =
       urlHasPhotos === 'true' || urlHasPhotos === 'false' || urlCities;
+    const urlQuery = searchParams?.query ?? '';
+    const urlPage = searchParams?.page ?? '1';
 
     if (hasUrlFilter) {
-      const urlQuery = searchParams?.query ?? '';
-      const urlPage = searchParams?.page ?? '1';
       const citiesArray = urlCities ? urlCities.split(',') : [];
       setAppliedFilters({
         query: urlQuery,
@@ -109,8 +109,9 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
               ? false
               : null,
       });
-      // Actualizamos localStorage con lo de la URL (nota: query no se guarda)
       saveFiltersToLocalStorage({
+        query: urlQuery,
+        page: Number(urlPage) || 1,
         hasPhotos:
           urlHasPhotos === 'true' || urlHasPhotos === 'false'
             ? urlHasPhotos
@@ -122,8 +123,8 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
       const stored = loadFiltersFromLocalStorage();
       if (stored) {
         setAppliedFilters({
-          query: '',
-          page: 1,
+          query: stored.query || urlQuery || '',
+          page: stored.page || 1,
           cities: stored.cities || [],
           hasPhotos:
             stored.hasPhotos === 'true'
@@ -152,6 +153,8 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
     variables,
     skip: !initialized,
   });
+
+  console.log('variables', variables);
 
   const totalPages =
     data?.getPlaceBySearchAndPagination?.pageInfo?.totalPages || 1;

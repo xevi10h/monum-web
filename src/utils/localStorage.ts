@@ -1,4 +1,6 @@
 export const saveFiltersToLocalStorage = (filters: {
+  query: string;
+  page: number;
   hasPhotos: string | null;
   cities: string[];
 }) => {
@@ -11,6 +13,8 @@ export const saveFiltersToLocalStorage = (filters: {
 };
 
 export const loadFiltersFromLocalStorage = (): {
+  query: string;
+  page: number;
   hasPhotos: string | null;
   cities: string[];
 } | null => {

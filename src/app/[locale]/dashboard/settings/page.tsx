@@ -59,7 +59,7 @@ function SettingsPage() {
   const [newProvisionalPhoto, setNewProvisionalPhoto] = useState<string | null>(
     null,
   );
-  const [updatePlace, { loading, error }] = useMutation(UpdateUserMutation, {
+  const [updateUser, { loading, error }] = useMutation(UpdateUserMutation, {
     onError: (error) => console.error('Update place error', error),
     onCompleted: (data) => {
       const userData = data.updateUser;
@@ -139,7 +139,7 @@ function SettingsPage() {
           websiteUrl: formData.get('websiteUrl') as string,
         },
       };
-      await updatePlace({ variables });
+      await updateUser({ variables });
     } catch (error) {
       console.error('Update place error', error);
     }

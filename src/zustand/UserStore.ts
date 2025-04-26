@@ -23,6 +23,7 @@ export const undefinedUser: IUser = {
   hasPassword: false,
   language: 'en_US',
   permissions: [],
+  websiteUrl: '',
 };
 
 export const useUserStore = create<UserState>()(
