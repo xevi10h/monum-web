@@ -82,10 +82,19 @@ export default function Filters() {
 
   // Inicializar filtros: se prioriza la URL sobre el localStorage.
   useEffect(() => {
+    const params = new URLSearchParams(searchParams);
     const urlHasPhotos = searchParams.get('hasPhotos');
     const urlCities = searchParams.get('cities');
+    const urlPage = searchParams.get('page');
+    const urlQuery = searchParams.get('query');
 
-    if (urlHasPhotos === 'true' || urlHasPhotos === 'false' || urlCities) {
+    if (
+      urlHasPhotos === 'true' ||
+      urlHasPhotos === 'false' ||
+      urlCities ||
+      urlQuery ||
+      Number(urlPage)
+    ) {
       // Si la URL trae filtros, los usamos
       const hasPhotosValue =
         urlHasPhotos === 'true' || urlHasPhotos === 'false'
@@ -102,11 +111,17 @@ export default function Filters() {
       saveFiltersToLocalStorage({
         hasPhotos: hasPhotosValue,
         cities: citiesValue,
+        query: urlQuery || '',
+        page: Number(urlPage) || 1,
       });
     } else {
       // Si la URL no trae filtros, usamos los que estén en localStorage (si existen)
       const storedFilters = loadFiltersFromLocalStorage();
+
       if (storedFilters) {
+        if (storedFilters?.cities && storedFilters?.cities?.length > 0) {
+          params.set('cities', storedFilters?.cities?.join(','));
+        }
         setTempHasPhotos(storedFilters.hasPhotos);
         setCommittedHasPhotos(storedFilters.hasPhotos);
         setTempCities(storedFilters.cities);
@@ -160,6 +175,8 @@ export default function Filters() {
     saveFiltersToLocalStorage({
       hasPhotos: tempHasPhotos,
       cities: tempCities,
+      query: '',
+      page: 1,
     });
     closePopover();
   }

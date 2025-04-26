@@ -154,8 +154,6 @@ function Page({ searchParams }: { searchParams?: SearchParams }) {
     skip: !initialized,
   });
 
-  console.log('variables', variables);
-
   const totalPages =
     data?.getPlaceBySearchAndPagination?.pageInfo?.totalPages || 1;
 
